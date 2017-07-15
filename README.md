@@ -1,17 +1,24 @@
-## Styling
+## Button Component
 
-using [https://styled-components.com/](styled-components) and [https://polished.js.org/](polished)
+we use `...others` syntax so we need `babel-preset-stage-2` and set this as `presets`
 
-great video [https://www.youtube.com/watch?v=19gqsBc_Cx0](ReactNL 2016 Max Stoiber - Styling React.JS applications)
-
-1.add `styled-components` package
+1.add `babel-preset-stage-2` package
 
 ```
-yarn add styled-components@^2.1.0
+yarn add babel-preset-stage-2@^6.22.0 --dev
 ```
 
-2.add `polished` package
+2.add `stage-2` as presets in `.babelrc`
 
 ```
-yarn add polished@^1.2.1
+{
+  "presets": [
+    ["es2015", {"modules": false}],
+    "stage-2",
+    "react"
+  ],
+  "plugins": [
+    "react-hot-loader/babel"
+  ]
+}
 ```

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Button from '../Button';
 
 const Wrapper = styled.div `
   display: flex;
@@ -20,6 +21,7 @@ const NotFound = () => (
     <Message>
       not found any things :(
     </Message>
+    <Button label="Back to Home" primary href="/" />
   </Wrapper>
 );
 

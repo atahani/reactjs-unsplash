@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Button from '../Button';
 
 const Wrapper = styled.div `
   padding: 10px;
@@ -30,6 +31,10 @@ const Login = ({}) => (
   <Wrapper>
     <Content>
       <AppTitle>Unsplash Clone App</AppTitle>
+      <Button
+        primary
+        label="Login"
+      />
     </Content>
   </Wrapper>
 );
