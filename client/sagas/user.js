@@ -1,7 +1,8 @@
 /*eslint-disable no-constant-condition*/
-import {take, put, call, fork, all} from 'redux-saga/effects';
+import {take, put, call} from 'redux-saga/effects';
 import {push} from 'react-router-redux';
 import {GE_ACCESS_TOKEN} from '../constants/action-types';
+import {getAccessToken} from '../api/user';
 
 /**
  * get access token flow
@@ -14,6 +15,14 @@ export function* getAccessTokenF() {
       yield put(push('/auth'));
       return;
     }
-    console.warn('Code',code);
+    const {response, error} = yield call(getAccessToken, code);
+    if (response) {
+      console.warn('response ', response);
+    } else if (error.code === 401) {
+      // handle it when token is invalid
+      yield put(push('/auth'));
+    } else {
+      //TODO: handle common errors
+    }
   }
 }
