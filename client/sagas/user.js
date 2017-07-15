@@ -1,10 +1,11 @@
 /*eslint-disable no-constant-condition*/
-import {take, put, call, all} from 'redux-saga/effects';
+import {take, put, call, all, fork} from 'redux-saga/effects';
 import {push} from 'react-router-redux';
 import {GE_ACCESS_TOKEN, LOGOUT, GE_USER_PROFILE} from '../constants/action-types';
 import {getAccessToken, getUserProfile} from '../api/user';
 import {setAccessToken, getProfile, setProfile} from '../actions/user';
 import {clearStore, jobStatus} from '../actions/app';
+import {handleCommonErr} from './app';
 
 /**
  * get access token flow
@@ -28,7 +29,7 @@ export function* getAccessTokenF() {
       // handle it when token is invalid
       yield put(push('/auth'));
     } else {
-      //TODO: handle common errors
+      yield fork(handleCommonErr, error);
     }
   }
 }
@@ -58,7 +59,7 @@ export function* getMyProfileF() {
     if (response) {
       yield put(setProfile(response));
     } else {
-      //TODO: handle common errors
+      yield fork(handleCommonErr, error, GE_USER_PROFILE);
     }
   }
 }
