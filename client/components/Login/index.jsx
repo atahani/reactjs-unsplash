@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from '../Button';
+import Camera from '../svg-images/camera';
+import ExtLink from '../ExtLink';
 
 const Wrapper = styled.div `
   padding: 10px;
@@ -27,14 +29,24 @@ const AppTitle = styled.h1 `
   line-height: 1.2;
 `;
 
+const Note = styled.div `
+  text-align: center;
+`;
+
 const Login = ({}) => (
   <Wrapper>
     <Content>
+      <Camera size={110} />
       <AppTitle>Unsplash Clone App</AppTitle>
-      <Button
-        primary
-        label="Login"
-      />
+      <Button primary label="Authorize by unsplash.com" />
+      <Note>this project made by
+        <ExtLink target="blank" href="https://twitter.com/atahani">@atahani</ExtLink>
+        for Reactjs + Redux tutorial that recorded for
+        <ExtLink target="blank" href="https://faranesh.com">Faraneshcom</ExtLink>
+        <br />
+        source on
+        <ExtLink target="blank" href="https://github.com/atahani">github</ExtLink>
+      </Note>
     </Content>
   </Wrapper>
 );
