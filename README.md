@@ -1,29 +1,13 @@
-## Add env-cmd to set unsplash client information
+## configure Redux
 
-1.create [https://unsplash.com/oauth/applications/new](new application)
-
-NOTE: check these permissions
-```
-public
-read_photos
-write_likes
-read_collections
-write_collections
-```
-
-NOTE: in development mode the Redirect URL is http://localhost:3030/auth/callback
-
-### [https://unsplash.com/documentation](API Documentation)
-
-2.add `env-cmd` to set environment variables via file
+1.add these packages
 
 ```
-yarn add env-cmd --dev
+yarn add redux@^3.6.0 react-redux@^5.0.3 react-router-redux@next history@^4.6.3 babel-polyfill@^6.23.0
 ```
 
-3.put client information in `.env` file like `.env_sample`
-
-NOTE: don't commit `.env` file
+2.add these packages as dev dependencies 
 
 ```
+yarn add redux-logger@^3.0.6 redux-devtools-extension@^2.13.2 --dev
 ```
