@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
+import PrivateRoute from '../PrivateRoute';
 import App from '../App';
 import Login from '../Login';
 import Logout from '../Logout';
@@ -20,7 +21,7 @@ const MainApp = ({className}) => (
       <title>Unsplash clone app</title>
     </Helmet>
     <Switch>
-      <Route exact path="/" component={App} />
+      <PrivateRoute exact path="/" component={App} />
       <Route exact path="/auth/callback" component={Authorize} />
       <Route path="/auth" component={Login} />
       <Route path="/logout" component={Logout} />
