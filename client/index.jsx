@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
@@ -12,7 +11,7 @@ import './style/global';
  * main func to initial react
  * NOTE: we use await for configureStore so this is async function
  */
-async function run() {
+const run = () => {
   // history
   const history = getHistory();
   // config windows variable
@@ -22,7 +21,7 @@ async function run() {
   if (getStore() === null) {
     // config redux store get store in --app-initial (this is for server side
     // rendering)
-    const store = await configureStore(window['--app-initial']);
+    const store = configureStore(window['--app-initial']);
     // set this store as current store to afterwards getting store
     setAsCurrentStore(store);
   }
@@ -45,7 +44,7 @@ async function run() {
         </ConnectedRouter>
       </Provider>, document.getElementById('app'));
   }
-}
+};
 
 run();
 
