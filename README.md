@@ -1,13 +1,9 @@
-## configure Redux
+## add redux-saga middleware
 
-1.add these packages
+we using `redux-saga` middleware to manage actions flow
 
-```
-yarn add redux@^3.6.0 react-redux@^5.0.3 react-router-redux@next history@^4.6.3 babel-polyfill@^6.23.0
-```
-
-2.add these packages as dev dependencies 
+add these packages
 
 ```
-yarn add redux-logger@^3.0.6 redux-devtools-extension@^2.13.2 --dev
+yarn add redux-saga@^0.15.4
 ```
