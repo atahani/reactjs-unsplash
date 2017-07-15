@@ -7,3 +7,5 @@ export const secondaryColor2 = darken(0.04, secondaryColor1);
 export const white = '#FFFFFF';
 export const borderInAvtiveColor = '#ddd';
 export const borderAvtiveColor = '#999';
+export const linkColor = '#737373';
+export const activeLinkColor = '#191919';

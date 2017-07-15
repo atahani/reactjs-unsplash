@@ -20,3 +20,5 @@ export const media = Object.keys(sizes).reduce((accumulator, label) => {
   `;
   return accumulator;
 }, {});
+
+export const maxWidthContent = sizes.desktop;
