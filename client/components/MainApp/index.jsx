@@ -9,6 +9,7 @@ import Login from '../Login';
 import Logout from '../Logout';
 import NotFound from '../NotFound';
 import Authorize from '../Authorize';
+import Progress from '../Progress';
 
 const Wrapper = styled.div `
   height: 100%;
@@ -27,6 +28,7 @@ const MainApp = ({className}) => (
       <Route path="/logout" component={Logout} />
       <Route component={NotFound} />
     </Switch>
+    <Progress />
   </Wrapper>
 );
 
