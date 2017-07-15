@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'react-router-redux';
+import createSagaMiddleware, { END } from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
@@ -12,6 +13,9 @@ const middlewares = [];
 
 // create history for routeMiddleware
 const history = createBrowserHistory();
+
+// create saga middleware to handle async flow
+const sagaMiddleware = createSagaMiddleware();
 
 /**
  * START
@@ -26,6 +30,8 @@ export const locationChangeMiddleware = () => next => action => {
   }
   next(action);
 };
+
+middlewares.push(sagaMiddleware);
 
 // simple middleware to store handle LOCATION_CHANGE action and change last_pathname in app state
 middlewares.push(locationChangeMiddleware);
@@ -82,6 +88,8 @@ export const configureStore = initialState => new Promise((resolve, reject) => {
       initialState,
       customCompose,
     );
+    currentStore.runSaga = sagaMiddleware.run;
+    currentStore.close = () => currentStore.dispatch(END);
     resolve(currentStore);
   } catch (e) {
     reject(e);

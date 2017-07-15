@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'react-router-redux';
 import {configureStore, getHistory, setAsCurrentStore, getStore} from './store';
 import MainApp from './components/MainApp';
+import rootSaga from './sagas';
 import './style/global';
 
 /**
@@ -23,6 +24,8 @@ async function run() {
     // config redux store get store in --app-initial (this is for server side
     // rendering)
     const store = await configureStore(window['--app-initial']);
+    // set rootSaga in store to handle async flow
+    store.runSaga(rootSaga);
     // set this store as current store to afterwards getting store
     setAsCurrentStore(store);
   }
