@@ -1,0 +1,1 @@
+export const UN_AVAILABLE = 14;
