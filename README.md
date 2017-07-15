@@ -1,9 +1,16 @@
-## add redux-saga middleware
+## REST API
 
-we using `redux-saga` middleware to manage actions flow
+we using [https://github.com/github/fetch](fetch polyfill)
+[https://unsplash.com/documentation](unsplash API Documentation)
 
-add `redux-saga` package
+add `whatwg-fetch` package as polyfill
 
 ```
-yarn add redux-saga@^0.15.4
+yarn add whatwg-fetch@^2.0.3
+```
+
+add `url-search-params-polyfill` to get query strings from URL
+
+```
+yarn add url-search-params-polyfill@^2.0.0
 ```

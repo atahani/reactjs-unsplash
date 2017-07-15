@@ -1,4 +1,6 @@
 import 'babel-polyfill';
+import 'whatwg-fetch';
+import 'url-search-params-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
