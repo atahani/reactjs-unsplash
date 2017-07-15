@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import {Component} from 'react';
+import {getStore} from '../../store';
+import {logout} from '../../actions/user';
 
 class Logout extends Component {
+  componentDidMount() {
+    // dispatch logout action
+    getStore().dispatch(logout());
+  }
   render() {
-    return (
-      <div>
-        user should logout
-      </div>
-    );
+    return null;
   }
 }
 

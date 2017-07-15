@@ -1,9 +1,10 @@
 /*eslint-disable no-constant-condition*/
 import {take, put, call, all} from 'redux-saga/effects';
 import {push} from 'react-router-redux';
-import {GE_ACCESS_TOKEN} from '../constants/action-types';
+import {GE_ACCESS_TOKEN, LOGOUT} from '../constants/action-types';
 import {getAccessToken} from '../api/user';
 import {setAccessToken} from '../actions/user';
+import {clearStore} from '../actions/app';
 
 /**
  * get access token flow
@@ -28,5 +29,18 @@ export function* getAccessTokenF() {
     } else {
       //TODO: handle common errors
     }
+  }
+}
+
+/**
+ * log out flow
+ */
+export function* logOutF() {
+  while (true) {
+    yield take(LOGOUT);
+    yield all([
+      put(push('/auth')),
+      put(clearStore())
+    ]);
   }
 }

@@ -1,7 +1,9 @@
 import {fork, all} from 'redux-saga/effects';
-import {getAccessTokenF} from './user';
+import {getAccessTokenF, logOutF} from './user';
 
 export default function* root() {
-  yield all([// user saga flows
-    fork(getAccessTokenF)]);
+  yield all([ // user saga flows
+    fork(getAccessTokenF),
+    fork(logOutF)
+  ]);
 }
