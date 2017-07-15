@@ -1,11 +1,12 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import { createBrowserHistory } from 'history';
-import { routerMiddleware } from 'react-router-redux';
-import createSagaMiddleware, { END } from 'redux-saga';
-import { createLogger } from 'redux-logger';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {createStore, applyMiddleware, compose} from 'redux';
+import {createBrowserHistory} from 'history';
+import {routerMiddleware} from 'react-router-redux';
+import createSagaMiddleware, {END} from 'redux-saga';
+import {persistStore, autoRehydrate} from 'redux-persist';
+import {createLogger} from 'redux-logger';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import reducers from './reducers';
-import { setLastPathName } from './actions/app';
+import {setLastPathName} from './actions/app';
 
 // define it as gloabl variable
 let currentStore = null;
@@ -19,7 +20,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 /**
  * START
- * middlewares config 
+ * middlewares config
  */
 
 export const locationChangeMiddleware = () => next => action => {
@@ -33,7 +34,8 @@ export const locationChangeMiddleware = () => next => action => {
 
 middlewares.push(sagaMiddleware);
 
-// simple middleware to store handle LOCATION_CHANGE action and change last_pathname in app state
+// simple middleware to store handle LOCATION_CHANGE action and change
+// last_pathname in app state
 middlewares.push(locationChangeMiddleware);
 
 // build the middleware for intercepting and dispatching navigation actions
@@ -47,9 +49,8 @@ if (process.env.NODE_ENV === 'development') {
 
 /**
  * END
- * middlewares config 
+ * middlewares config
  */
-
 
 /**
  * config compose
@@ -58,14 +59,17 @@ if (process.env.NODE_ENV === 'development') {
 
 /**
  * config compose with middlewares
+ * autoRehydrate for redux-persist store state in localStorage
  */
-let customCompose = compose(applyMiddleware(...middlewares));
+let customCompose = compose(applyMiddleware(...middlewares), autoRehydrate());
 
-// wrap customCompose by composeWithDevTools with configs to enable redux dev tools
+// wrap customCompose by composeWithDevTools with configs to enable redux dev
+// tools
 if (process.env.NODE_ENV === 'development') {
   // this is for redux dev tools
   const composeEnhancers = composeWithDevTools({
-    // specify here name, actionsBlacklist, actionsCreators and other options if needed
+    // specify here name, actionsBlacklist, actionsCreators and other options if
+    // needed
   });
   customCompose = composeEnhancers(customCompose);
 }
@@ -83,14 +87,13 @@ if (process.env.NODE_ENV === 'development') {
 export const configureStore = initialState => new Promise((resolve, reject) => {
   try {
     // create store
-    currentStore = createStore(
-      reducers,
-      initialState,
-      customCompose,
-    );
+    currentStore = createStore(reducers, initialState, customCompose,);
     currentStore.runSaga = sagaMiddleware.run;
     currentStore.close = () => currentStore.dispatch(END);
-    resolve(currentStore);
+    persistStore(currentStore, {
+      // since use from whitelist other ignored blacklist: ['app'],
+      whitelist: ['user']
+    }, () => resolve(currentStore));
   } catch (e) {
     reject(e);
   }
@@ -108,7 +111,7 @@ export const setAsCurrentStore = store => {
 };
 
 /**
- * get current store 
+ * get current store
  * can use for dispatch action
  * getStore().dispatch()
  */
