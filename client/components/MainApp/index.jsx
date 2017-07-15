@@ -7,6 +7,7 @@ import App from '../App';
 import Login from '../Login';
 import Logout from '../Logout';
 import NotFound from '../NotFound';
+import Authorize from '../Authorize';
 
 const Wrapper = styled.div `
   height: 100%;
@@ -20,6 +21,7 @@ const MainApp = ({className}) => (
     </Helmet>
     <Switch>
       <Route exact path="/" component={App} />
+      <Route exact path="/auth/callback" component={Authorize} />
       <Route path="/auth" component={Login} />
       <Route path="/logout" component={Logout} />
       <Route component={NotFound} />
