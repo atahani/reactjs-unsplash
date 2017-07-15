@@ -1,16 +1,9 @@
-## REST API
+## persist and rehydrate a redux store
 
-we using [https://github.com/github/fetch](fetch polyfill)
-[https://unsplash.com/documentation](unsplash API Documentation)
+we using [https://github.com/rt2zz/redux-persist](redux-persist)
 
-add `whatwg-fetch` package as polyfill
-
-```
-yarn add whatwg-fetch@^2.0.3
-```
-
-add `url-search-params-polyfill` to get query strings from URL
+add `redux-persist` package
 
 ```
-yarn add url-search-params-polyfill@^2.0.0
+yarn add redux-persist@^4.8.1
 ```
