@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {BrowserRouter} from 'react-router-dom';
 import MainApp from './components/MainApp';
+import './style/global';
 
 const run = Component => {
   // check env

@@ -1,15 +1,17 @@
-## React Router
+## Styling
 
-using [https://reacttraining.com/react-router/](React Router v4)
+using [https://styled-components.com/](styled-components) and [https://polished.js.org/](polished)
 
-1.add `react-router-dom` package
+great video [https://www.youtube.com/watch?v=19gqsBc_Cx0](ReactNL 2016 Max Stoiber - Styling React.JS applications)
 
-```
-yarn add react-router-dom@^4.1.1
-```
-
-2.add `react-helmet` package to handle title
+1.add `styled-components` package
 
 ```
-yarn add react-helmet@^5.1.3
+yarn add styled-components@^2.1.0
+```
+
+2.add `polished` package
+
+```
+yarn add polished@^1.2.1
 ```
