@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server",
+    "start": "env-cmd .env webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ahmad Tahani <ahmad.tahani@gmail.com>",
@@ -15,6 +15,7 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-2": "^6.22.0",
+    "env-cmd": "^5.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-config-eslint": "^4.0.0",

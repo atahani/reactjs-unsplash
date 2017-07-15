@@ -186,3 +186,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/osx,node,windows,intellij,visualstudiocode
+
+# since we put client information on environment variables file
+.env

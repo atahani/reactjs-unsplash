@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Button from '../Button';
 import Camera from '../svg-images/camera';
 import ExtLink from '../ExtLink';
+import {OAUTH_PATH} from '../../constants/service-info';
 
 const Wrapper = styled.div `
   padding: 10px;
@@ -38,7 +39,9 @@ const Login = ({}) => (
     <Content>
       <Camera size={110} />
       <AppTitle>Unsplash Clone App</AppTitle>
-      <Button primary label="Authorize by unsplash.com" />
+      <a href={OAUTH_PATH}>
+        <Button primary label="Authorize by unsplash.com" />
+      </a>
       <Note>this project made by
         <ExtLink target="blank" href="https://twitter.com/atahani">@atahani</ExtLink>
         for Reactjs + Redux tutorial that recorded for
