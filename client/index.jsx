@@ -1,28 +1,53 @@
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
-import {BrowserRouter} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import {ConnectedRouter} from 'react-router-redux';
+import {configureStore, getHistory, setAsCurrentStore, getStore} from './store';
 import MainApp from './components/MainApp';
 import './style/global';
 
-const run = Component => {
+/**
+ * main func to initial react
+ * NOTE: we use await for configureStore so this is async function
+ */
+async function run() {
+  // history
+  const history = getHistory();
+  // config windows variable
+  window.Promise = window.Promise || Promise;
+  window.self = window;
+  // since we call run also in module.hot check if store already config leave it
+  if (getStore() === null) {
+    // config redux store get store in --app-initial (this is for server side
+    // rendering)
+    const store = await configureStore(window['--app-initial']);
+    // set this store as current store to afterwards getting store
+    setAsCurrentStore(store);
+  }
+
   // check env
   if (process.env.NODE_ENV === 'development') {
     ReactDOM.render(
       <AppContainer>
-        <BrowserRouter>
-          <Component />
-        </BrowserRouter>
+        <Provider store={getStore()}>
+          <ConnectedRouter history={history}>
+            <MainApp />
+          </ConnectedRouter>
+        </Provider>
       </AppContainer>, document.getElementById('app'));
   } else {
     ReactDOM.render(
-      <BrowserRouter>
-        <Component />
-      </BrowserRouter>, document.getElementById('app'));
+      <Provider store={getStore()}>
+        <ConnectedRouter history={history}>
+          <MainApp />
+        </ConnectedRouter>
+      </Provider>, document.getElementById('app'));
   }
-};
+}
 
-run(MainApp);
+run();
 
 /**
  * hot module replacement in development
@@ -32,6 +57,13 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   module
     .hot
     .accept('./components/App', () => {
-      run(MainApp);
+      run();
+    });
+  // Enable Webpack hot module replacement for reducers
+  module
+    .hot
+    .accept('./reducers', () => {
+      const nextRootReducer = require('./reducers').defualt;
+      getStore().replaceReducer(nextRootReducer);
     });
 }
