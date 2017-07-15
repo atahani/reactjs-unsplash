@@ -1,5 +1,5 @@
-import {postReq, getHeaders} from './rest-helper';
-import {ROOT_URL, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI} from '../constants/service-info';
+import {postReq, getHeaders, getReq} from './rest-helper';
+import {ROOT_URL, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, API_ROOT} from '../constants/service-info';
 
 /**
  * get access token from authorization code
@@ -12,3 +12,9 @@ export const getAccessToken = code => postReq(`${ROOT_URL}/oauth/token`, {
   code,
   grant_type: 'authorization_code'
 }, getHeaders());
+
+/**
+ * get the logged in user
+ * MORE INFO: https://unsplash.com/documentation#get-the-users-profile
+ */
+export const getUserProfile = () => getReq(`${API_ROOT}/me`);
