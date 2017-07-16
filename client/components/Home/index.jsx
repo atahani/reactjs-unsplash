@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Photos from '../Photos';
+import AddToCollectionDialog from '../AddToCollectionDialog';
 import {getPhotos} from '../../actions/photo';
 import {clearItems} from '../../actions/items';
 import {API_ROOT} from '../../constants/service-info';
@@ -24,6 +25,7 @@ class Home extends Component {
     return (
       <div>
         {main()}
+        <AddToCollectionDialog />
       </div>
     );
   }

@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {withRouter, NavLink} from 'react-router-dom';
 import styled from 'styled-components';
 import {lighten} from 'polished';
+import AddToCollectionDialog from '../AddToCollectionDialog';
 import CollectionsSView from '../CollectionsSView';
 import Photos from '../Photos';
 import Collections from '../Collections';
@@ -162,6 +163,7 @@ class Search extends Component {
             />
             : null}
         </Results>
+        <AddToCollectionDialog />
       </div>
     );
   }

@@ -8,6 +8,7 @@ import Photos from '../Photos';
 import Avatar from '../Avatar';
 import Button from '../Button';
 import AddOrEditCollectionDialog from '../AddOrEditCollectionDialog';
+import AddToCollectionDialog from '../AddToCollectionDialog';
 import {getCollection, getCollectionPhotos} from '../../actions/collection';
 import {clearItems} from '../../actions/items';
 import {API_ROOT} from '../../constants/service-info';
@@ -90,6 +91,7 @@ class PhotosByCollection extends Component {
           : {}} 
         />
         <AddOrEditCollectionDialog />
+        <AddToCollectionDialog />
       </div>
     );
   }

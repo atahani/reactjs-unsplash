@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import pickBy from 'lodash/pickBy';
 import Photos from '../Photos';
+import AddToCollectionDialog from '../AddToCollectionDialog';
 import {clearItems} from '../../actions/items';
 import {getPhotos} from '../../actions/photo';
 
@@ -27,6 +28,7 @@ class LikedPhotos extends Component {
     return (
       <div>
         {main()}
+        <AddToCollectionDialog />
       </div>
     );
   }
