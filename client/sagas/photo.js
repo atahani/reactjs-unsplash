@@ -2,8 +2,9 @@
 import {take, put, call, fork, all} from 'redux-saga/effects';
 import {handleCommonErr} from './app';
 import {jobStatus} from '../actions/app';
-import {GE_PHOTOS, LIKE_PHOTO, UNLIKE_PHOTO} from '../constants/action-types';
+import {GE_PHOTOS, LIKE_PHOTO, UNLIKE_PHOTO, SEARCH_PHOTOS} from '../constants/action-types';
 import {getPhotos, likePhoto, unLikePhoto} from '../api/photo';
+import {getReq} from '../api/rest-helper';
 import {setItems, setItemsAttr, updateFieldsOfItem} from '../actions/items';
 
 /**
@@ -57,6 +58,33 @@ export function* unLikePhotoF() {
       yield put(updateFieldsOfItem('photos', id, response.photo));
     } else {
       yield fork(handleCommonErr, error, UNLIKE_PHOTO, {id});
+    }
+  }
+}
+
+/**
+ * search in photos flow
+ */
+export function* searchInPhotosF() {
+  while (true) {
+    const {url} = yield take(SEARCH_PHOTOS);
+    yield put(jobStatus(true));
+    const {response, error, attr} = yield call(getReq, url);
+    yield put(jobStatus(false));
+    if (response) {
+      // https://unsplash.com/documentation#search-photos
+      const {total, total_pages, results} = response;
+      yield all([
+        put(setItems('photos', results)),
+        put(setItemsAttr('photos', {
+          last: attr.last,
+          next: attr.next,
+          total,
+          total_pages
+        }))
+      ]);
+    } else {
+      yield fork(handleCommonErr, error, SEARCH_PHOTOS, {url});
     }
   }
 }

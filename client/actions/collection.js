@@ -1,4 +1,4 @@
-import {GE_USER_COLLECTIONS, GE_COLLECTION, GE_COLLECTION_PHOTOS} from '../constants/action-types';
+import {GE_USER_COLLECTIONS, GE_COLLECTION, GE_COLLECTION_PHOTOS, SEARCH_COLLECTIONS} from '../constants/action-types';
 
 /**
  * get user collections
@@ -17,3 +17,9 @@ export const getCollection = (url, loadPhotos = false) => ({type: GE_COLLECTION,
  * @param {string} url url request
  */
 export const getCollectionPhotos = url => ({type: GE_COLLECTION_PHOTOS, url});
+
+/**
+ * search in collections
+ * @param {string} url url for search request
+ */
+export const searchInCollections = url => ({type: SEARCH_COLLECTIONS, url});

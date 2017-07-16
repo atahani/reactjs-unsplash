@@ -15,6 +15,7 @@ export const SE_USER_PROFILE = 'SE_USER_PROFILE';
 export const GE_PHOTOS = 'GE_PHOTOS';
 export const LIKE_PHOTO = 'LIKE_PHOTO';
 export const UNLIKE_PHOTO = 'UNLIKE_PHOTO';
+export const SEARCH_PHOTOS = 'SEARCH_PHOTOS';
 
 // items actions
 export const SE_ITEM = 'SE_ITEM';
@@ -29,3 +30,4 @@ export const SE_ITEMS_ATTR = 'SE_ITEMS_ATTR';
 export const GE_USER_COLLECTIONS = 'GE_USER_COLLECTIONS';
 export const GE_COLLECTION = 'GE_COLLECTION';
 export const GE_COLLECTION_PHOTOS = 'GE_COLLECTION_PHOTOS';
+export const SEARCH_COLLECTIONS = 'SEARCH_COLLECTIONS';

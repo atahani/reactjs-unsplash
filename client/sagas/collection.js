@@ -5,7 +5,7 @@ import {jobStatus} from '../actions/app';
 import {getReq} from '../api/rest-helper';
 import {setItems, setItemsAttr, setItem} from '../actions/items';
 import {getCollectionPhotos} from '../actions/collection';
-import {GE_USER_COLLECTIONS, GE_COLLECTION, GE_COLLECTION_PHOTOS} from '../constants/action-types';
+import {GE_USER_COLLECTIONS, GE_COLLECTION, GE_COLLECTION_PHOTOS, SEARCH_COLLECTIONS} from '../constants/action-types';
 import {getState} from '../store';
 
 /**
@@ -72,6 +72,33 @@ export function* getCollectionPhotosF() {
       ]);
     } else {
       yield fork(handleCommonErr, error, GE_COLLECTION_PHOTOS, {url});
+    }
+  }
+}
+
+/**
+ * search in collection flow
+ */
+export function* searchInCollectionsF() {
+  while (true) {
+    const {url} = yield take(SEARCH_COLLECTIONS);
+    yield put(jobStatus(true));
+    const {response, error, attr} = yield call(getReq, url);
+    yield put(jobStatus(false));
+    if (response) {
+      // https://unsplash.com/documentation#search-collections
+      const {total, total_pages, results} = response;
+      yield all([
+        put(setItems('collections', results)),
+        put(setItemsAttr('collections', {
+          last: attr.last,
+          next: attr.next,
+          total,
+          total_pages
+        }))
+      ]);
+    } else {
+      yield fork(handleCommonErr, error, SEARCH_COLLECTIONS, {url});
     }
   }
 }
