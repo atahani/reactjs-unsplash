@@ -1,16 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import ContainerDimensions from 'react-container-dimensions';
 import Header from '../Header';
 import Home from '../Home';
+import Search from '../Search';
+import UserCollections from '../UserCollections';
+import LikedPhotos from '../LikedPhotos';
+import NotFound from '../NotFound';
 import {maxWidthContent} from '../../style/util';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div `
   height: 100%;
 `;
 
-const Main = styled.div`
+const Main = styled.div `
   max-width: ${`${maxWidthContent}px`};
   margin: 0 auto;
   width: 100%;
@@ -18,7 +22,7 @@ const Main = styled.div`
   top: 0;
 `;
 
-const Content = styled.div`
+const Content = styled.div `
   margin-top: 15px;
   padding: 0px 16px;
 `;
@@ -32,6 +36,12 @@ const App = () => (
       <Content>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/search/:query" component={Search} />
+          <Route exact path="/search/:type/:query" component={Search} />
+          <Route exact path="/collections" component={UserCollections} />
+          <Route path="/liked-photos" component={LikedPhotos} />
+          <Route path="/404" component={NotFound} />
+          <Redirect to="/404" />
         </Switch>
       </Content>
     </Main>
