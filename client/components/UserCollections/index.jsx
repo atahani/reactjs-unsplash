@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
 import Button from '../Button';
+import Collections from '../Collections';
 import {getUserCollections} from '../../actions/collection';
 import {clearItems} from '../../actions/items';
 import {API_ROOT} from '../../constants/service-info';
@@ -36,8 +37,7 @@ class UserCollections extends Component {
   }
 
   render() {
-    const {collections} = this.props;
-    console.warn('the collections', collections);
+    const {collections, loggedInUserId, nextCollectionsLink, onGetUserCollections} = this.props;
     return (
       <div>
         <Title>
@@ -46,12 +46,22 @@ class UserCollections extends Component {
         <Action>
           <Button label="New Collection" primary href="/collections/new" />
         </Action>
+        {collections
+          ? <Collections
+            loggedInUserId={loggedInUserId}
+            items={collections}
+            onScrollToLoad={() => nextCollectionsLink
+              ? onGetUserCollections(nextCollectionsLink)
+              : {}} 
+          />
+          : null}
       </div>
     );
   }
 }
 
 UserCollections.propTypes = {
+  loggedInUserId: PropTypes.string,
   collections: PropTypes.object,
   username: PropTypes.string,
   nextCollectionsLink: PropTypes.string,

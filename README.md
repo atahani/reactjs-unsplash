@@ -1,1 +1,1 @@
-## get user collections
+## collection and collections component
