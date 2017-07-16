@@ -13,6 +13,8 @@ export const SE_USER_PROFILE = 'SE_USER_PROFILE';
 
 // photo action
 export const GE_PHOTOS = 'GE_PHOTOS';
+export const LIKE_PHOTO = 'LIKE_PHOTO';
+export const UNLIKE_PHOTO = 'UNLIKE_PHOTO';
 
 // items actions
 export const SE_ITEM = 'SE_ITEM';
