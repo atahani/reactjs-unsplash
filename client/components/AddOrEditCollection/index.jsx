@@ -8,7 +8,9 @@ import styled from 'styled-components';
 import _RInput from '../RTextInput';
 import Button from '../Button';
 import CloseIcon from '../svg-icons/close';
-import {updateCollection, createCollection} from '../../actions/collection';
+import {updateCollection, deleteCollection, createCollection} from '../../actions/collection';
+import {setActionData} from '../../actions/app';
+import {CONFIRM_DELETE_COLLECTION} from '../../constants/action-types';
 import {media} from '../../style/util';
 import {errorColor} from '../../style/colors';
 
@@ -90,10 +92,6 @@ const Note = styled.div `
   justify-content: space-between;
 `;
 
-const nameReq = value => (value
-  ? void 0
-  : 'please enter name');
-
 let MainForm = ({
   handleSubmit,
   submitting,
@@ -102,6 +100,9 @@ let MainForm = ({
   onRequestClose,
   onChangeForm,
   isPrivate,
+  onSetActionData,
+  confirmDeleteAction,
+  onDeleteCollection,
   collectionId
 }) => (
   <Form onSubmit={handleSubmit}>
@@ -109,14 +110,7 @@ let MainForm = ({
       <ConHeader>
         Title
       </ConHeader>
-      <Field
-        name="title"
-        label="Title"
-        component={RInput}
-        type="text"
-        fullWidth
-        validate={[nameReq]} 
-      />
+      <Field name="title" label="Title" component={RInput} type="text" fullWidth />
     </Controller>
     <Controller>
       <ConHeader>
@@ -141,16 +135,32 @@ let MainForm = ({
     </Controller>
     <Actions>
       {editMode
-        ? <DeleteBtn>Delete Collection</DeleteBtn>
+        ? confirmDeleteAction
+          ? <Note>Are you sure ?
+              <CancelBtn
+                onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), false)}
+              >Cancel</CancelBtn>
+          </Note>
+          : <DeleteBtn
+            onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), true)}
+          >Delete Collection</DeleteBtn>
         : <CancelBtn onClick={e => onRequestClose(e)}>Cancel</CancelBtn>}
-      <Button
-        disabled={pristine || submitting}
-        type="submit"
-        primary
-        label={editMode
-        ? 'Save'
-        : 'Create Collection'} 
-      />
+      {confirmDeleteAction
+        ? <Button
+          primary
+          label="Delete"
+          primaryColor={errorColor}
+          onClick={() => onDeleteCollection(collectionId)}
+          type="button" 
+        />
+        : <Button
+          disabled={pristine || submitting}
+          type="submit"
+          primary
+          label={editMode
+          ? 'Save'
+          : 'Create Collection'} 
+        />}
     </Actions>
   </Form>
 );
@@ -158,6 +168,11 @@ let MainForm = ({
 MainForm = reduxForm({form: 'add_or_edit_collection', enableReinitialize: true})(MainForm);
 
 class AddOrEditCollection extends Component {
+  componentDidMount() {
+    this
+      .props
+      .onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase());
+  }
 
   render() {
     const {
@@ -168,8 +183,11 @@ class AddOrEditCollection extends Component {
       onChangeForm,
       isPrivate,
       initialValues,
+      confirmDeleteAction,
       onCreateCollection,
-      onUpdateCollection
+      onUpdateCollection,
+      onDeleteCollection,
+      onSetActionData
     } = this.props;
 
     return (
@@ -184,12 +202,15 @@ class AddOrEditCollection extends Component {
           onChangeForm={onChangeForm}
           editMode={editMode}
           onRequestClose={onRequestClose}
+          onSetActionData={onSetActionData}
+          onDeleteCollection={onDeleteCollection}
           isPrivate={isPrivate}
           initialValues={initialValues}
           collectionId={collectionId}
           onSubmit={values => editMode
           ? onUpdateCollection(collectionId, values)
-          : onCreateCollection(values)} 
+          : onCreateCollection(values)}
+          confirmDeleteAction={confirmDeleteAction} 
         />
       </Wrapper>
     );
@@ -204,8 +225,14 @@ AddOrEditCollection.propTypes = {
   initialValues: PropTypes.object,
   onRequestClose: PropTypes.func,
   onUpdateCollection: PropTypes.func,
+  onDeleteCollection: PropTypes.func,
   onCreateCollection: PropTypes.func,
+  onSetActionData: PropTypes.func,
   onChangeForm: PropTypes.func
+};
+
+AddOrEditCollection.defaultProps = {
+  confirmDeleteAction: false
 };
 
 /**
@@ -233,11 +260,14 @@ const mapStateToProps = (state, props) => {
       }
       : {},
     isPrivate: selector(state, 'private'),
-    editMode
+    editMode,
+    confirmDeleteAction: state.app.action_data[CONFIRM_DELETE_COLLECTION.toLowerCase()]
   };
 };
 export default withRouter(connect(mapStateToProps, dispatch => bindActionCreators({
   onUpdateCollection: updateCollection,
+  onDeleteCollection: deleteCollection,
   onCreateCollection: createCollection,
-  onChangeForm: changeForm
+  onChangeForm: changeForm,
+  onSetActionData: setActionData
 }, dispatch))(AddOrEditCollection));
