@@ -1,1 +1,1 @@
-## photos by collections
+## search in photos and collections
