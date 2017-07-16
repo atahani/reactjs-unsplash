@@ -32,6 +32,7 @@
     "react-hot-loader": "next",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
+    "redux-mock-store": "^1.2.3",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
   },
