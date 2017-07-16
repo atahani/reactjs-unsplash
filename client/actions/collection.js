@@ -5,7 +5,7 @@ import {
   SEARCH_COLLECTIONS,
   CREATE_COLLECTION,
   UPDATE_COLLECTION,
-  DELETE_COLLECTION
+  DELETE_COLLECTION,
 } from '../constants/action-types';
 
 /**
@@ -44,3 +44,9 @@ export const createCollection = values => ({type: CREATE_COLLECTION, values});
  * @param {*} values object of collection from form
  */
 export const updateCollection = (id, values) => ({type: UPDATE_COLLECTION, id, values});
+
+/**
+ * delete collection
+ * @param {string} id collection id
+ */
+export const deleteCollection = id => ({type: DELETE_COLLECTION, id});

@@ -5,8 +5,8 @@ import {push} from 'react-router-redux';
 import {handleCommonErr} from './app';
 import {jobStatus} from '../actions/app';
 import {getReq} from '../api/rest-helper';
-import {createCollection, updateCollection} from '../api/collection';
-import {setItems, setItemsAttr, setItem, updateItem} from '../actions/items';
+import {createCollection, updateCollection, deleteCollection} from '../api/collection';
+import {setItems, setItemsAttr, setItem, updateItem, removeItem} from '../actions/items';
 import {getCollectionPhotos} from '../actions/collection';
 import {
   GE_USER_COLLECTIONS,
@@ -14,7 +14,8 @@ import {
   GE_COLLECTION_PHOTOS,
   SEARCH_COLLECTIONS,
   CREATE_COLLECTION,
-  UPDATE_COLLECTION
+  UPDATE_COLLECTION,
+  DELETE_COLLECTION
 } from '../constants/action-types';
 import {getState, getHistory} from '../store';
 
@@ -172,6 +173,28 @@ export function* updateCollectionF() {
       ]);
     } else {
       yield fork(handleCommonErr, error, UPDATE_COLLECTION, {id, values});
+    }
+  }
+}
+
+/**
+ * delete collection flow
+ */
+export function* deleteCollectionF() {
+  while (true) {
+    const {id} = yield take(DELETE_COLLECTION);
+    yield put(jobStatus(true));
+    const {response, error} = yield call(deleteCollection, id);
+    yield put(jobStatus(false));
+    if (response) {
+      // update the entity
+      // NOTE: the user collection locate in user_collections
+      yield all([
+        put(removeItem('user_collections', id)),
+        put(push('/collections/'))
+      ]);
+    } else {
+      yield fork(handleCommonErr, error, DELETE_COLLECTION, {id});
     }
   }
 }
