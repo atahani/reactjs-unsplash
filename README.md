@@ -1,1 +1,1 @@
-## delete collection
+## add photo to collection

@@ -5,7 +5,7 @@ import {push} from 'react-router-redux';
 import {handleCommonErr} from './app';
 import {jobStatus} from '../actions/app';
 import {getReq} from '../api/rest-helper';
-import {createCollection, updateCollection, deleteCollection} from '../api/collection';
+import {createCollection, updateCollection, deleteCollection, addPhotoToCollection, removePhotoFromCollection} from '../api/collection';
 import {setItems, setItemsAttr, setItem, updateItem, removeItem} from '../actions/items';
 import {getCollectionPhotos} from '../actions/collection';
 import {
@@ -15,7 +15,9 @@ import {
   SEARCH_COLLECTIONS,
   CREATE_COLLECTION,
   UPDATE_COLLECTION,
-  DELETE_COLLECTION
+  DELETE_COLLECTION,
+  ADD_PHOTO_TO_COLLECTION,
+  REMOVE_PHOTO_FROM_COLLECTION
 } from '../constants/action-types';
 import {getState, getHistory} from '../store';
 
@@ -195,6 +197,50 @@ export function* deleteCollectionF() {
       ]);
     } else {
       yield fork(handleCommonErr, error, DELETE_COLLECTION, {id});
+    }
+  }
+}
+
+/**
+ * add photo to collection flow
+ */
+export function* addPhotoToCollectionF() {
+  while (true) {
+    const {photoId, collectionId} = yield take(ADD_PHOTO_TO_COLLECTION);
+    yield put(jobStatus(true));
+    const {response, error} = yield call(addPhotoToCollection, photoId, collectionId);
+    yield put(jobStatus(false));
+    if (response) {
+      // INFO: https://unsplash.com/documentation#add-a-photo-to-a-collection response
+      // have photo and collection object update state for two items
+      yield all([
+        put(updateItem('user_collections', response.collection)),
+        put(updateItem('photos', response.photo))
+      ]);
+    } else {
+      yield fork(handleCommonErr, error, ADD_PHOTO_TO_COLLECTION, {photoId, collectionId});
+    }
+  }
+}
+
+/**
+ * remove photo from collection flow
+ */
+export function* removePhotoFromCollectionF() {
+  while (true) {
+    const {photoId, collectionId} = yield take(REMOVE_PHOTO_FROM_COLLECTION);
+    yield put(jobStatus(true));
+    const {response, error} = yield call(removePhotoFromCollection, photoId, collectionId);
+    yield put(jobStatus(false));
+    if (response) {
+      // INFO: https://unsplash.com/documentation#remove-a-photo-from-a-collection
+      // response have photo and collection object update state for two items
+      yield all([
+        put(updateItem('user_collections', response.collection)),
+        put(updateItem('photos', response.photo))
+      ]);
+    } else {
+      yield fork(handleCommonErr, error, ADD_PHOTO_TO_COLLECTION, {photoId, collectionId});
     }
   }
 }

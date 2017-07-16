@@ -8,7 +8,9 @@ import {
   searchInCollectionsF,
   createCollectionF,
   updateCollectionF,
-  deleteCollectionF
+  deleteCollectionF,
+  addPhotoToCollectionF,
+  removePhotoFromCollectionF
 } from './collection';
 
 export default function* root() {
@@ -28,6 +30,8 @@ export default function* root() {
     fork(searchInCollectionsF),
     fork(createCollectionF),
     fork(updateCollectionF),
-    fork(deleteCollectionF)
+    fork(deleteCollectionF),
+    fork(addPhotoToCollectionF),
+    fork(removePhotoFromCollectionF)
   ]);
 }

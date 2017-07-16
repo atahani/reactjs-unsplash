@@ -1,5 +1,5 @@
 import {getReq, postReq, deleteReq} from './rest-helper';
-import { API_ROOT } from '../constants/service-info';
+import {API_ROOT} from '../constants/service-info';
 
 /**
  * get photos
@@ -18,3 +18,9 @@ export const likePhoto = id => postReq(`${API_ROOT}/photos/${id}/like`);
  * @param {string} id photo id
  */
 export const unLikePhoto = id => deleteReq(`${API_ROOT}/photos/${id}/like`);
+
+/**
+ * get photo by id
+ * @param {string} id photo it
+ */
+export const getPhoto = id => getReq(`${API_ROOT}/photos/${id}`);

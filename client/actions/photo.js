@@ -1,4 +1,4 @@
-import {GE_PHOTOS, LIKE_PHOTO, UNLIKE_PHOTO, SEARCH_PHOTOS} from '../constants/action-types';
+import {GE_PHOTOS, LIKE_PHOTO, UNLIKE_PHOTO, SEARCH_PHOTOS, GE_PHOTO} from '../constants/action-types';
 
 /**
  * url request for photos
@@ -23,3 +23,9 @@ export const unLikePhoto = id => ({type: UNLIKE_PHOTO, id});
  * @param {string} url request url for search in photos
  */
 export const searchInPhotos = url => ({type: SEARCH_PHOTOS, url});
+
+/**
+ * get photo by id
+ * @param {strin} id get photo
+ */
+export const getPhoto = id => ({type: GE_PHOTO, id});

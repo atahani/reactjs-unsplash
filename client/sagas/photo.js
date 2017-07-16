@@ -2,10 +2,10 @@
 import {take, put, call, fork, all} from 'redux-saga/effects';
 import {handleCommonErr} from './app';
 import {jobStatus} from '../actions/app';
-import {GE_PHOTOS, LIKE_PHOTO, UNLIKE_PHOTO, SEARCH_PHOTOS} from '../constants/action-types';
-import {getPhotos, likePhoto, unLikePhoto} from '../api/photo';
+import {GE_PHOTOS, LIKE_PHOTO, UNLIKE_PHOTO, SEARCH_PHOTOS, GE_PHOTO} from '../constants/action-types';
+import {getPhotos, likePhoto, unLikePhoto, getPhoto} from '../api/photo';
 import {getReq} from '../api/rest-helper';
-import {setItems, setItemsAttr, updateFieldsOfItem} from '../actions/items';
+import {setItems, setItemsAttr, updateFieldsOfItem, setItem} from '../actions/items';
 
 /**
  * get photos flow
@@ -85,6 +85,23 @@ export function* searchInPhotosF() {
       ]);
     } else {
       yield fork(handleCommonErr, error, SEARCH_PHOTOS, {url});
+    }
+  }
+}
+
+/**
+ * get photo by id flow
+ */
+export function* getPhotoF() {
+  while (true) {
+    const {id} = yield take(GE_PHOTO);
+    yield put(jobStatus(true));
+    const {response, error} = yield call(getPhoto, id);
+    yield put(jobStatus(false));
+    if (response) {
+      yield put(setItem('photos', response));
+    } else {
+      yield fork(handleCommonErr, error, GE_PHOTO, {id});
     }
   }
 }

@@ -6,6 +6,8 @@ import {
   CREATE_COLLECTION,
   UPDATE_COLLECTION,
   DELETE_COLLECTION,
+  ADD_PHOTO_TO_COLLECTION,
+  REMOVE_PHOTO_FROM_COLLECTION
 } from '../constants/action-types';
 
 /**
@@ -50,3 +52,17 @@ export const updateCollection = (id, values) => ({type: UPDATE_COLLECTION, id, v
  * @param {string} id collection id
  */
 export const deleteCollection = id => ({type: DELETE_COLLECTION, id});
+
+/**
+ * add photo to collection
+ * @param {number} collectionId collection id
+ * @param {string} photoId photo id
+ */
+export const addPhotoToCollection = (collectionId, photoId) => ({type: ADD_PHOTO_TO_COLLECTION, collectionId, photoId});
+
+/**
+ * remove photo from collection
+ * @param {number} collectionId collection id
+ * @param {string} photoId photo id
+ */
+export const removePhotoFromCollection = (collectionId, photoId) => ({type: REMOVE_PHOTO_FROM_COLLECTION, collectionId, photoId});
