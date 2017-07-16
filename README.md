@@ -1,9 +1,9 @@
-## Avatar and Popover for user image profile
+## Text_input and Header component
 
-for popover we use two package
+using `react-container-dimensions` to get container width, height
 
-add these package
+add `react-container-dimensions` package
 
 ```
-yarn add react-onclickoutside@^6.1.1 react-event-listener@^0.4.5
+yarn add react-container-dimensions@^1.3.2
 ```

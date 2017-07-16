@@ -1,19 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import Popover from '../Popover';
-import Avatar from '../Avatar';
-import NavOnAvatar from '../NavOnAvatar';
+import { Route, Switch } from 'react-router-dom';
+import ContainerDimensions from 'react-container-dimensions';
+import Header from '../Header';
+import Home from '../Home';
 import {maxWidthContent} from '../../style/util';
 
-const AButton = styled.button `
-  cursor: pointer;
-`;
-
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   height: 100%;
 `;
 
-const Main = styled.div `
+const Main = styled.div`
   max-width: ${`${maxWidthContent}px`};
   margin: 0 auto;
   width: 100%;
@@ -21,20 +18,22 @@ const Main = styled.div `
   top: 0;
 `;
 
+const Content = styled.div`
+  margin-top: 15px;
+  padding: 0px 16px;
+`;
+
 const App = () => (
   <Wrapper>
+    <ContainerDimensions>
+      {({width}) => <Header width={width} />}
+    </ContainerDimensions>
     <Main>
-      <Popover
-        arrowSide="center"
-        autoCloseWhenOffScreen
-        width={200}
-        target={<AButton > <Avatar
-          imagePath="https://images.unsplash.com/profile-1498917968264-0e0fe010f2ba?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&fit=crop&h=64&w=64&s=7965a9591c873dd581e33bd94f59da24"
-          name="Ahmad tahani" 
-        /> </AButton>}
-      >
-        <NavOnAvatar />
-      </Popover>
+      <Content>
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
+      </Content>
     </Main>
   </Wrapper>
 );
