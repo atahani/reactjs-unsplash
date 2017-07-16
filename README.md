@@ -1,1 +1,1 @@
-## photos component and use it inside Home
+## liked photos component
