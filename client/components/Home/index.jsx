@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Photo from '../Photo';
+import Photos from '../Photos';
 import {getPhotos} from '../../actions/photo';
 import {clearItems} from '../../actions/items';
 import {API_ROOT} from '../../constants/service-info';
@@ -17,31 +17,10 @@ class Home extends Component {
   }
 
   render() {
-    const {photos} = this.props;
-    const photo = photos
-      ? photos[Object.keys(photos)[0]]
-      : void 0;
-    const main = () => {
-      if (photo) {
-        return (<Photo
-          id={photo.id}
-          urls={photo.urls}
-          links={photo.links}
-          likes={photo.likes}
-          likeByUser={photo.liked_by_user}
-          color={photo.color}
-          imgHeight={photo.height}
-          imgWidth={photo.width}
-          byUser={photo.user}
-          width={500}
-          isRow={false}
-          belongsToCollections={photo.current_user_collections} 
-        />);
-      }
-      return (
-        <h2>don't have any photo</h2>
-      );
-    };
+    const {photos, nextPhotosLink, onGetPhotos} = this.props;
+    const main = () => (photos
+      ? <Photos items={photos} onScrollToLoad={() => onGetPhotos(nextPhotosLink)} />
+      : null);
     return (
       <div>
         {main()}
