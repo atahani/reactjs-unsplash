@@ -7,7 +7,8 @@
   ],
   "parser": "babel-eslint",
   "env": {
-    "browser": true
+    "browser": true,
+    "jest/globals": true
   },
   "ecmaFeatures": {
     "classes": true,
@@ -16,7 +17,8 @@
   "plugins": [
     "react",
     "jsx-a11y",
-    "import"
+    "import",
+    "jest"
   ],
   "parserOptions": {
     "ecmaVersion": 7,
