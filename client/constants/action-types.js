@@ -13,4 +13,12 @@ export const SE_USER_PROFILE = 'SE_USER_PROFILE';
 
 // photo action
 export const GE_PHOTOS = 'GE_PHOTOS';
-export const SE_PHOTOS = 'SE_PHOTOS';
+
+// items actions
+export const SE_ITEM = 'SE_ITEM';
+export const SE_ITEMS = 'SE_ITEMS';
+export const CL_ITEMS = 'CL_ITEMS';
+export const UP_ITEM = 'UP_ITEM';
+export const UP_FIELD_OF_ITEM = 'UP_FIELD_OF_ITEM';
+export const RM_ITEM = 'RM_ITEM';
+export const SE_ITEMS_ATTR = 'SE_ITEMS_ATTR';
