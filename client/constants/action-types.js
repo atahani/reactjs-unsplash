@@ -24,3 +24,6 @@ export const UP_ITEM = 'UP_ITEM';
 export const UP_FIELD_OF_ITEM = 'UP_FIELD_OF_ITEM';
 export const RM_ITEM = 'RM_ITEM';
 export const SE_ITEMS_ATTR = 'SE_ITEMS_ATTR';
+
+// collection actions
+export const GE_USER_COLLECTIONS = 'GE_USER_COLLECTIONS';
