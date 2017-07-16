@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
 import Button from '../Button';
 import Collections from '../Collections';
+import AddOrEditCollectionDialog from '../AddOrEditCollectionDialog';
 import {getUserCollections} from '../../actions/collection';
 import {clearItems} from '../../actions/items';
 import {API_ROOT} from '../../constants/service-info';
@@ -55,6 +56,7 @@ class UserCollections extends Component {
               : {}} 
           />
           : null}
+        <AddOrEditCollectionDialog />
       </div>
     );
   }

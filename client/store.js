@@ -25,7 +25,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 export const locationChangeMiddleware = () => next => action => {
   // handle change location action
-  if (action.type === '@@router/LOCATION_CHANGE') {
+  if (action.type === '@@router/LOCATION_CHANGE' && !action.payload.pathname.startsWith('/collections/new') && !action.payload.pathname.startsWith('/collections/edit')) {
     // dispatch action to change in last_pathname in app state
     currentStore.dispatch(setLastPathName(action.payload.pathname));
   }
