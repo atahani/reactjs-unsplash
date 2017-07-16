@@ -10,3 +10,7 @@ export const SE_ACCESS_TOKEN = 'SE_ACCESS_TOKEN';
 export const LOGOUT = 'LOGOUT';
 export const GE_USER_PROFILE = 'GE_USER_PROFILE';
 export const SE_USER_PROFILE = 'SE_USER_PROFILE';
+
+// photo action
+export const GE_PHOTOS = 'GE_PHOTOS';
+export const SE_PHOTOS = 'SE_PHOTOS';

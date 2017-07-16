@@ -32,6 +32,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "history": "^4.6.3",
+    "lodash": "^4.17.4",
     "polished": "^1.2.1",
     "prop-types": "^15.5.10",
     "react": "^15.4.2",
