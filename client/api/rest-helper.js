@@ -5,7 +5,34 @@ import {UN_AVAILABLE} from '../constants/api-error-codes';
 function checkStatus(json, res) {
   // check response in ok 200 or not
   if (res.ok) {
-    return {response: json};
+    // get link header from response
+    /**
+     * 200 OK
+     * Link: <https://api.unsplash.com/users/ashbot/likes>; rel="first", <https://api.unsplash.com/photos/users/ashbot/likes?page=1>; rel="prev", <https://api.unsplash.com/photos/users/ashbot/likes?page=5>; rel="last", <https://api.unsplash.com/photos/users/ashbot/likes?page=3>; rel="next"
+     * X-Ratelimit-Limit: 1000
+     * X-Ratelimit-Remaining: 999
+     */
+    const attr = {};
+    let linkHeader = res
+      .headers
+      .get('link');
+    if (linkHeader) {
+      linkHeader = linkHeader
+        .replace(/[<|>|"| ]/g, '')
+        .replace(/rel=/g, '');
+      const links = linkHeader.split(',');
+      links.forEach(item => {
+        const part = item.split(';');
+        if (part.length === 2) {
+          Object.defineProperty(attr, part[1].trim(), {
+            value: part[0].trim(),
+            writable: false,
+            enumerable: false
+          });
+        }
+      });
+    }
+    return {response: json, attr};
   }
   // create error with status text, message, code
   const error = new Error(res.status);
