@@ -1,1 +1,1 @@
-## test app reducer
+## test photo saga
