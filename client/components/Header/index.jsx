@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import EventListener from 'react-event-listener';
 import styled from 'styled-components';
 import _Logo from '../svg-images/camera';
+import _Nav from '../Navigation';
 import TextInput from '../TextInput';
 import Popover from '../Popover';
 import Avatar from '../Avatar';
@@ -60,6 +61,12 @@ const Controller = styled.div `
 
 const AButton = styled.button `
   cursor: pointer;
+`;
+
+const Nav = styled(_Nav)`
+  max-width: ${`${maxWidthContent}px`};
+  width: 100%;
+  margin: 0 auto;
 `;
 
 class Header extends Component {
@@ -125,6 +132,7 @@ class Header extends Component {
             </Controller>
           </TopBar>
         </TopBarWrapper>
+        <Nav />
       </Wrapper>
     );
   }
@@ -132,7 +140,7 @@ class Header extends Component {
 
 Header.propTypes = {
   userImageProfile: PropTypes.string,
-  width: PropTypes.number,
+  width: PropTypes.number
 };
 
 /**
