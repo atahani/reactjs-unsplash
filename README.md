@@ -1,1 +1,1 @@
-## liked photos component
+## like or unLiked photo
