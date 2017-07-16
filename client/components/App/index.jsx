@@ -42,6 +42,7 @@ const App = () => (
           <Route exact path="/collections" component={UserCollections} />
           <Route exact path="/collections/new" component={UserCollections} />
           <Route exact path="/collections/:id" component={PhotosByCollection} />
+          <Route path="/collections/edit/:id" component={PhotosByCollection} />
           <Route path="/liked-photos" component={LikedPhotos} />
           <Route path="/404" component={NotFound} />
           <Redirect to="/404" />
