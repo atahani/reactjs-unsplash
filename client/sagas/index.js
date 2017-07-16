@@ -1,7 +1,14 @@
 import {fork, all} from 'redux-saga/effects';
 import {getAccessTokenF, logOutF, getMyProfileF} from './user';
 import {getPhotosF, likePhotoF, unLikePhotoF, searchInPhotosF} from './photo';
-import {getUserCollectionsF, getCollectionF, getCollectionPhotosF, searchInCollectionsF} from './collection';
+import {
+  getUserCollectionsF,
+  getCollectionF,
+  getCollectionPhotosF,
+  searchInCollectionsF,
+  createCollectionF,
+  updateCollectionF
+} from './collection';
 
 export default function* root() {
   yield all([ // user saga flows
@@ -17,6 +24,8 @@ export default function* root() {
     fork(getUserCollectionsF),
     fork(getCollectionF),
     fork(getCollectionPhotosF),
-    fork(searchInCollectionsF)
+    fork(searchInCollectionsF),
+    fork(createCollectionF),
+    fork(updateCollectionF)
   ]);
 }

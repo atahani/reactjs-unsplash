@@ -1,12 +1,22 @@
 /*eslint-disable no-constant-condition*/
 import {take, put, call, fork, all} from 'redux-saga/effects';
+import {startSubmit, stopSubmit} from 'redux-form';
+import {push} from 'react-router-redux';
 import {handleCommonErr} from './app';
 import {jobStatus} from '../actions/app';
 import {getReq} from '../api/rest-helper';
-import {setItems, setItemsAttr, setItem} from '../actions/items';
+import {createCollection, updateCollection} from '../api/collection';
+import {setItems, setItemsAttr, setItem, updateItem} from '../actions/items';
 import {getCollectionPhotos} from '../actions/collection';
-import {GE_USER_COLLECTIONS, GE_COLLECTION, GE_COLLECTION_PHOTOS, SEARCH_COLLECTIONS} from '../constants/action-types';
-import {getState} from '../store';
+import {
+  GE_USER_COLLECTIONS,
+  GE_COLLECTION,
+  GE_COLLECTION_PHOTOS,
+  SEARCH_COLLECTIONS,
+  CREATE_COLLECTION,
+  UPDATE_COLLECTION
+} from '../constants/action-types';
+import {getState, getHistory} from '../store';
 
 /**
  * get user collections flow
@@ -99,6 +109,69 @@ export function* searchInCollectionsF() {
       ]);
     } else {
       yield fork(handleCommonErr, error, SEARCH_COLLECTIONS, {url});
+    }
+  }
+}
+
+/**
+ * create collection flow
+ */
+export function* createCollectionF() {
+  while (true) {
+    const {values} = yield take(CREATE_COLLECTION);
+    yield all([
+      put(jobStatus(true)),
+      put(startSubmit('add_or_edit_collection'))
+    ]);
+    const {response, error} = yield call(createCollection, values);
+    yield all([
+      put(jobStatus(false)),
+      put(stopSubmit('add_or_edit_collection'))
+    ]);
+    if (response) {
+      // update the entity
+      // NOTE: the user collection locate in user_collections
+      yield put(setItem('user_collections', response));
+      // get current search path in url if startsWith ?add_to_collection&id=
+      const {search} = getHistory().location;
+      const searchParams = new URLSearchParams(search);
+      if (searchParams.has('step') && searchParams.has('id')) {
+        // get id from url
+        yield put(push(`?add_to_collection&id=${searchParams.get('id')}`));
+      } else {
+        yield put(push(`/collections/${response.id}`));
+      }
+    } else {
+      yield fork(handleCommonErr, error, CREATE_COLLECTION, {values});
+    }
+  }
+}
+
+/**
+ * update collection flow
+ */
+export function* updateCollectionF() {
+  while (true) {
+    const {id, values} = yield take(UPDATE_COLLECTION);
+    yield all([
+      put(jobStatus(true)),
+      put(startSubmit('add_or_edit_collection'))
+    ]);
+    yield;
+    const {response, error} = yield call(updateCollection, id, values);
+    yield all([
+      put(jobStatus(false)),
+      put(stopSubmit('add_or_edit_collection'))
+    ]);
+    if (response) {
+      // update the entity
+      // NOTE: the user collection locate in user_collections
+      yield all([
+        put(updateItem('user_collections', response)),
+        put(push(`/collections/${response.id}`))
+      ]);
+    } else {
+      yield fork(handleCommonErr, error, UPDATE_COLLECTION, {id, values});
     }
   }
 }
