@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import EventListener from 'react-event-listener';
+import {bindActionCreators} from 'redux';
+import {push} from 'react-router-redux';
+import debounce from 'lodash/debounce';
 import styled from 'styled-components';
 import _Logo from '../svg-images/camera';
 import _Nav from '../Navigation';
@@ -79,6 +82,30 @@ class Header extends Component {
     this.handleScroll = this
       .handleScroll
       .bind(this);
+    this.onSearchTxChange = this
+      .onSearchTxChange
+      .bind(this);
+  }
+
+  componentWillMount() {
+    this.delayedCallback = debounce(e => {
+      // `event.target` is accessible now
+      const val = e
+        .target
+        .value
+        .replace(' ', '-');
+      if (val.trim().length > 0) {
+        // push it to search
+        this
+          .props
+          .onPush(`/search/${val}`);
+      } else {
+        // return to home
+        this
+          .props
+          .onPush('/');
+      }
+    }, 700);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -87,6 +114,11 @@ class Header extends Component {
       return false;
     }
     return true;
+  }
+
+  onSearchTxChange(e) {
+    e.persist();
+    this.delayedCallback(e);
   }
 
   handleScroll(e) {
@@ -128,7 +160,7 @@ class Header extends Component {
           <TopBar>
             <Logo />
             <Controller>
-              <SearchTx hintText="Search photos" rounded /> {avatar()}
+              <SearchTx onChange={this.onSearchTxChange} hintText="Search photos" rounded /> {avatar()}
             </Controller>
           </TopBar>
         </TopBarWrapper>
@@ -140,7 +172,8 @@ class Header extends Component {
 
 Header.propTypes = {
   userImageProfile: PropTypes.string,
-  width: PropTypes.number
+  width: PropTypes.number,
+  onPush: PropTypes.func
 };
 
 /**
@@ -155,4 +188,6 @@ export default withRouter(connect(state => ({
   userImageProfile: state.user.user_profile.profile_image
     ? state.user.user_profile.profile_image.medium
     : void 0
-}))(Header));
+}), dispatch => bindActionCreators({
+  onPush: push
+}, dispatch))(Header));
