@@ -8,6 +8,7 @@ import Search from '../Search';
 import UserCollections from '../UserCollections';
 import LikedPhotos from '../LikedPhotos';
 import NotFound from '../NotFound';
+import PhotosByCollection from '../PhotosByCollection';
 import {maxWidthContent} from '../../style/util';
 
 const Wrapper = styled.div `
@@ -39,6 +40,7 @@ const App = () => (
           <Route exact path="/search/:query" component={Search} />
           <Route exact path="/search/:type/:query" component={Search} />
           <Route exact path="/collections" component={UserCollections} />
+          <Route exact path="/collections/:id" component={PhotosByCollection} />
           <Route path="/liked-photos" component={LikedPhotos} />
           <Route path="/404" component={NotFound} />
           <Redirect to="/404" />
