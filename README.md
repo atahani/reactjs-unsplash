@@ -1,7 +1,35 @@
-## production stage
+## final
 
-add `express` package
+start app in development mode
+```
+yarn run start
+```
+test app 
 
 ```
-yarn add express@^4.15.3
+yarn run test
+```
+
+run test in watch mode
+
+```
+yarn run test-w
+```
+
+build project in production mode
+
+```
+yarn run build
+```
+
+build and run server
+
+```
+yarn run build-and-run-server
+```
+
+run server only
+
+```
+yarn run run-server
 ```
