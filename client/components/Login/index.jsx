@@ -34,7 +34,7 @@ const Note = styled.div `
   text-align: center;
 `;
 
-const Login = ({}) => (
+export const Login = ({}) => (
   <Wrapper>
     <Content>
       <Camera size={110} />
