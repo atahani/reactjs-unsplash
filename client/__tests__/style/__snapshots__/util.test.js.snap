@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test style Util media function to generate CSS media query should generate the media query base on phone size 1`] = `
+@media (max-width: 73.125em) {
+  .fpdmRR {
+    width: 1170px;
+  }
+}
+
+@media (max-width: 62em) {
+  .fpdmRR {
+    width: 992px;
+  }
+}
+
+@media (max-width: 48em) {
+  .fpdmRR {
+    width: 768px;
+  }
+}
+
+@media (max-width: 23.5em) {
+  .fpdmRR {
+    width: 376px;
+  }
+}
+
+<div
+  className="sc-bdVaJa fpdmRR"
+/>
+`;
