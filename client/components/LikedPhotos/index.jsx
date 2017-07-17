@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import pickBy from 'lodash/pickBy';
@@ -27,6 +28,9 @@ class LikedPhotos extends Component {
       : null);
     return (
       <div>
+        <Helmet>
+          <title>Liked Photos - unsplash clone</title>
+        </Helmet>
         {main()}
         <AddToCollectionDialog />
       </div>

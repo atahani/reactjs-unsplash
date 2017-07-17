@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import styled from 'styled-components';
 import Button from '../Button';
 import Camera from '../svg-images/camera';
@@ -36,6 +37,9 @@ const Note = styled.div `
 
 export const Login = ({}) => (
   <Wrapper>
+    <Helmet>
+      <title>Authorize by unsplash.com</title>
+    </Helmet>
     <Content>
       <Camera size={110} />
       <AppTitle>Unsplash Clone App</AppTitle>

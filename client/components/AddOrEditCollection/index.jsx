@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reduxForm, Field, change as changeForm, formValueSelector} from 'redux-form';
@@ -192,6 +193,11 @@ class AddOrEditCollection extends Component {
 
     return (
       <Wrapper className={className}>
+        <Helmet>
+          <title>{editMode
+              ? 'Edit Collection - unsplash clone'
+              : 'Add New Collection - unsplash clone'}</title>
+        </Helmet>
         <CloseBtn onClick={e => onRequestClose(e)}>
           <CloseIcon />
         </CloseBtn>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
@@ -41,6 +42,9 @@ class UserCollections extends Component {
     const {collections, loggedInUserId, nextCollectionsLink, onGetUserCollections} = this.props;
     return (
       <div>
+        <Helmet>
+          <title>Your Collections - unsplash clone</title>
+        </Helmet>
         <Title>
           Your Collections
         </Title>
@@ -71,15 +75,7 @@ UserCollections.propTypes = {
   onClearItems: PropTypes.func
 };
 
-export default connect(
-  state => ({
-    loggedInUserId: state.user.user_profile.id,
-    collections: state.items.user_collections,
-    username: state.user.user_profile.username,
-    nextCollectionsLink: state.items.user_collections_attr.next,
-  }),
-  dispatch => bindActionCreators({
-    onGetUserCollections: getUserCollections,
-    onClearItems: clearItems,
-  }, dispatch)
-)(UserCollections);
+export default connect(state => ({loggedInUserId: state.user.user_profile.id, collections: state.items.user_collections, username: state.user.user_profile.username, nextCollectionsLink: state.items.user_collections_attr.next}), dispatch => bindActionCreators({
+  onGetUserCollections: getUserCollections,
+  onClearItems: clearItems
+}, dispatch))(UserCollections);

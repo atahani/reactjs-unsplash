@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
@@ -64,6 +65,9 @@ class PhotosByCollection extends Component {
       if (collection) {
         return (
           <Header>
+            <Helmet>
+              <title>{`${collection.title} Collection - unsplash clone`}</title>
+            </Helmet>
             <Title>
               {collection.title}
               {loggedInUserId === collection.user.username

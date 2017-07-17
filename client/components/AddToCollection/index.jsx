@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
@@ -161,6 +162,9 @@ class AddToCollection extends Component {
       if (photo) {
         return (
           <Wrapper>
+            <Helmet>
+              <title>Add To Collection - unsplash clone</title>
+            </Helmet>
             <CloseBtn onClick={e => onRequestClose(e)}>
               <CloseIcon />
             </CloseBtn>

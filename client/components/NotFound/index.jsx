@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import styled from 'styled-components';
 import Button from '../Button';
 
@@ -18,6 +19,9 @@ const Message = styled.h1 `
 `;
 const NotFound = () => (
   <Wrapper>
+    <Helmet>
+      <title>Not Found - unsplash clone</title>
+    </Helmet>
     <Message>
       not found any things :(
     </Message>

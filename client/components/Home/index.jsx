@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Photos from '../Photos';
@@ -24,6 +25,9 @@ class Home extends Component {
       : null);
     return (
       <div>
+        <Helmet>
+          <title>Home - unsplash clone</title>
+        </Helmet>
         {main()}
         <AddToCollectionDialog />
       </div>
