@@ -3,7 +3,6 @@ import 'whatwg-fetch';
 import 'url-search-params-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppContainer} from 'react-hot-loader';
 import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'react-router-redux';
 import {configureStore, getHistory, setAsCurrentStore, getStore} from './store';
@@ -34,6 +33,7 @@ async function run() {
 
   // check env
   if (process.env.NODE_ENV === 'development') {
+    const AppContainer = require('react-hot-loader').AppContainer;
     ReactDOM.render(
       <AppContainer>
         <Provider store={getStore()}>

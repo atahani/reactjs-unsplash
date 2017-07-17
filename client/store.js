@@ -3,8 +3,6 @@ import {createBrowserHistory} from 'history';
 import {routerMiddleware} from 'react-router-redux';
 import createSagaMiddleware, {END} from 'redux-saga';
 import {persistStore, autoRehydrate} from 'redux-persist';
-import {createLogger} from 'redux-logger';
-import {composeWithDevTools} from 'redux-devtools-extension';
 import reducers from './reducers';
 import {setLastPathName} from './actions/app';
 
@@ -44,7 +42,8 @@ middlewares.push(routerMiddleware(history));
 // add middlewares only in development mode
 if (process.env.NODE_ENV === 'development') {
   // add redux-logger to middlewares
-  middlewares.push(createLogger());
+  const reduxLogger = require('redux-logger');
+  middlewares.push(reduxLogger.createLogger());
 }
 
 /**
@@ -66,8 +65,9 @@ let customCompose = compose(applyMiddleware(...middlewares), autoRehydrate());
 // wrap customCompose by composeWithDevTools with configs to enable redux dev
 // tools
 if (process.env.NODE_ENV === 'development') {
+  const reduxDevTool = require('redux-devtools-extension');
   // this is for redux dev tools
-  const composeEnhancers = composeWithDevTools({
+  const composeEnhancers = reduxDevTool.composeWithDevTools({
     // specify here name, actionsBlacklist, actionsCreators and other options if
     // needed
   });

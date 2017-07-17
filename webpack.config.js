@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const sourcePath = path.join(__dirname, './client');
-const destinationPath = path.join(__dirname, './dist');
+const destinationPath = path.join(__dirname, './public/');
 
 const isInProduction = process.env.NODE_ENV === 'production';
 
@@ -58,9 +58,7 @@ module.exports = {
   context: sourcePath,
   entry,
   output: {
-    filename: isInProduction
-      ? 'bundle.min.js'
-      : 'bundle.js',
+    filename: 'bundle.js',
     path: destinationPath,
     publicPath: './'
   },
@@ -95,7 +93,7 @@ module.exports = {
   plugins,
 
   devServer: {
-    contentBase: './',
+    contentBase: './public',
     historyApiFallback: true,
     port: 3030,
     hot: true,

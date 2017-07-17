@@ -39,6 +39,10 @@
         "ignoreRegExpLiterals": true
       }
     ],
+    "import/no-extraneous-dependencies":[
+      "error",
+      {"devDependencies": true}
+    ],
     "arrow-body-style": "error",
     "arrow-parens": "error",
     "arrow-spacing": "error",
