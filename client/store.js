@@ -1,4 +1,6 @@
-import {createStore} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
+import {createLogger} from 'redux-logger';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 // action type as constants
 export const INCREMENT = 'INCREMENT';
@@ -22,14 +24,52 @@ const reducer = (state = initialState, action) => {
 
 // define it as gloabl variable
 let currentStore = null;
+const middlewares = [];
+
+/**
+ * START
+ * middlewares config
+ */
+
+// add middlewares only in development mode
+if (process.env.NODE_ENV === 'development') {
+  // add redux-logger to middlewares
+  middlewares.push(createLogger());
+}
+
+/**
+ * END
+ * middlewares config
+ */
+
+/**
+ * config compose with middlewares
+ */
+let customCompose = compose(applyMiddleware(...middlewares));
+
+// wrap customCompose by composeWithDevTools with configs to enable redux dev
+// tools
+if (process.env.NODE_ENV === 'development') {
+  // this is for redux dev tools
+  const composeEnhancers = composeWithDevTools({
+    // specify here name, actionsBlacklist, actionsCreators and other options if
+    // needed
+  });
+  customCompose = composeEnhancers(customCompose);
+}
+
+/**
+ * config compose
+ * END
+ */
 
 /**
  * configure store with initial state
  * NOTE: since the persist store take for a while use from Promise to configureStore
  * @param {object} initialState initial state can set by windows --app-initial
  */
-export const configureStore = () => {
-  currentStore = createStore(reducer);
+export const configureStore = (initialState = {count:0}) => {
+  currentStore = createStore(reducer, initialState, customCompose);
   return currentStore;
 };
 

@@ -3,13 +3,10 @@ import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {BrowserRouter} from 'react-router-dom';
 import MainApp from './components/MainApp';
-import {configureStore, getState,INCREMENT} from './store';
+import {configureStore,INCREMENT} from './store';
 import './style/global';
 
 const store = configureStore();
-store.subscribe(() => {
-  console.warn('state changed',getState());
-});
 
 store.dispatch({type:INCREMENT});
 store.dispatch({type:INCREMENT});

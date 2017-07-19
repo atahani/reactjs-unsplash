@@ -1,7 +1,7 @@
-## configure Redux
+## redux dev middlewares 
 
-1.add `redux` package
+1.add these packages as dev dependencies
 
 ```
-yarn add redux@^3.6.0
+yarn add redux-logger@^3.0.6 redux-devtools-extension@^2.13.2 --dev
 ```
