@@ -4,7 +4,6 @@ import { routerMiddleware } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
-import { setLastPathName } from './actions/app';
 
 // define it as gloabl variable
 let currentStore = null;
@@ -17,18 +16,6 @@ const history = createBrowserHistory();
  * START
  * middlewares config 
  */
-
-export const locationChangeMiddleware = () => next => action => {
-  // handle change location action
-  if (action.type === '@@router/LOCATION_CHANGE') {
-    // dispatch action to change in last_pathname in app state
-    currentStore.dispatch(setLastPathName(action.payload.pathname));
-  }
-  next(action);
-};
-
-// simple middleware to store handle LOCATION_CHANGE action and change last_pathname in app state
-middlewares.push(locationChangeMiddleware);
 
 // build the middleware for intercepting and dispatching navigation actions
 middlewares.push(routerMiddleware(history));
@@ -74,19 +61,14 @@ if (process.env.NODE_ENV === 'development') {
  * NOTE: since the persist store take for a while use from Promise to configureStore
  * @param {object} initialState initial state can set by windows --app-initial
  */
-export const configureStore = initialState => new Promise((resolve, reject) => {
-  try {
-    // create store
-    currentStore = createStore(
+export const configureStore = initialState => {
+  currentStore = createStore(
       reducers,
       initialState,
       customCompose,
     );
-    resolve(currentStore);
-  } catch (e) {
-    reject(e);
-  }
-});
+  return currentStore;
+};
 
 /**
  * set current store

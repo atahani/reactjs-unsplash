@@ -30,7 +30,6 @@
     "webpack-dev-server": "^2.4.1"
   },
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
     "history": "^4.6.3",
     "polished": "^1.2.1",
     "prop-types": "^15.5.10",
