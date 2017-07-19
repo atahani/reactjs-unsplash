@@ -2,8 +2,8 @@
 
 we using `redux-saga` middleware to manage actions flow
 
-add these packages
+add theses packages
 
 ```
-yarn add redux-saga@^0.15.4
+yarn add redux-saga@^0.15.4 babel-polyfill@^6.23.0
 ```
