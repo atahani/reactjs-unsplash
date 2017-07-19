@@ -1,53 +1,37 @@
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
-import {Provider} from 'react-redux';
-import {ConnectedRouter} from 'react-router-redux';
-import {configureStore, getHistory, setAsCurrentStore, getStore} from './store';
+import {BrowserRouter} from 'react-router-dom';
 import MainApp from './components/MainApp';
+import {configureStore, getState,INCREMENT} from './store';
 import './style/global';
 
-/**
- * main func to initial react
- * NOTE: we use await for configureStore so this is async function
- */
-async function run() {
-  // history
-  const history = getHistory();
-  // config windows variable
-  window.Promise = window.Promise || Promise;
-  window.self = window;
-  // since we call run also in module.hot check if store already config leave it
-  if (getStore() === null) {
-    // config redux store get store in --app-initial (this is for server side
-    // rendering)
-    const store = await configureStore(window['--app-initial']);
-    // set this store as current store to afterwards getting store
-    setAsCurrentStore(store);
-  }
+const store = configureStore();
+store.subscribe(() => {
+  console.warn('state changed',getState());
+});
 
+store.dispatch({type:INCREMENT});
+store.dispatch({type:INCREMENT});
+
+const run = Component => {
   // check env
   if (process.env.NODE_ENV === 'development') {
     ReactDOM.render(
       <AppContainer>
-        <Provider store={getStore()}>
-          <ConnectedRouter history={history}>
-            <MainApp />
-          </ConnectedRouter>
-        </Provider>
+        <BrowserRouter>
+          <Component />
+        </BrowserRouter>
       </AppContainer>, document.getElementById('app'));
   } else {
     ReactDOM.render(
-      <Provider store={getStore()}>
-        <ConnectedRouter history={history}>
-          <MainApp />
-        </ConnectedRouter>
-      </Provider>, document.getElementById('app'));
+      <BrowserRouter>
+        <Component />
+      </BrowserRouter>, document.getElementById('app'));
   }
-}
+};
 
-run();
+run(MainApp);
 
 /**
  * hot module replacement in development
@@ -57,13 +41,6 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   module
     .hot
     .accept('./components/App', () => {
-      run();
-    });
-  // Enable Webpack hot module replacement for reducers
-  module
-    .hot
-    .accept('./reducers', () => {
-      const nextRootReducer = require('./reducers').defualt;
-      getStore().replaceReducer(nextRootReducer);
+      run(MainApp);
     });
 }
