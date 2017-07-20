@@ -80,9 +80,8 @@ if (process.env.NODE_ENV === 'development') {
  * NOTE: since the persist store take for a while use from Promise to configureStore
  * @param {object} initialState initial state can set by windows --app-initial
  */
-export const configureStore = initialState => new Promise((resolve, reject) => {
-  try {
-    // create store
+export const configureStore = initialState => {
+  // create store
     currentStore = createStore(
       reducers,
       initialState,
@@ -90,11 +89,8 @@ export const configureStore = initialState => new Promise((resolve, reject) => {
     );
     currentStore.runSaga = sagaMiddleware.run;
     currentStore.close = () => currentStore.dispatch(END);
-    resolve(currentStore);
-  } catch (e) {
-    reject(e);
-  }
-});
+    return currentStore;
+};
 
 /**
  * set current store
