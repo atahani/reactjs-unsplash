@@ -2,6 +2,7 @@
 export const SE_LAST_PATH_NAME = 'SE_LAST_PATH_NAME';
 export const CL_STORE = 'CL_STORE';
 export const CH_JOB_ST = 'CH_JOB_ST';
+export const NOTHING = 'NOTHING';
 
 // user action
 export const GE_ACCESS_TOKEN = 'GE_ACCESS_TOKEN';

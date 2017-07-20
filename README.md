@@ -1,1 +1,1 @@
-## get and set user profile
+## handle common error via fork in [https://redux-saga.js.org](redux-saga)
