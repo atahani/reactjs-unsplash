@@ -1,5 +1,6 @@
 /*eslint-disable no-constant-condition*/
 import {take, put, call, all, fork} from 'redux-saga/effects';
+import {delay} from 'redux-saga';
 import {push} from 'react-router-redux';
 import {GE_ACCESS_TOKEN, LOGOUT, GE_USER_PROFILE} from '../constants/action-types';
 import {getAccessToken, getUserProfile} from '../api/user';
@@ -55,6 +56,7 @@ export function* getMyProfileF() {
     yield take(GE_USER_PROFILE);
     yield put(jobStatus(true));
     const {response, error} = yield call(getUserProfile);
+    yield call(delay, 4000);
     yield put(jobStatus(false));
     if (response) {
       yield put(setProfile(response));
