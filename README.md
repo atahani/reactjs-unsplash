@@ -1,1 +1,1 @@
-## search in photos and collections
+## Dialog

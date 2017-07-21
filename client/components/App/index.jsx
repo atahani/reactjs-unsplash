@@ -40,6 +40,7 @@ const App = () => (
           <Route exact path="/search/:query" component={Search} />
           <Route exact path="/search/:type/:query" component={Search} />
           <Route exact path="/collections" component={UserCollections} />
+          <Route exact path="/collections/new" component={UserCollections} />
           <Route exact path="/collections/:id" component={PhotosByCollection} />
           <Route path="/liked-photos" component={LikedPhotos} />
           <Route path="/404" component={NotFound} />

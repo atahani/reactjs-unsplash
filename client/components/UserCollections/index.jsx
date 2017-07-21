@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import styled from 'styled-components';
 import Button from '../Button';
 import Collections from '../Collections';
+import AddOrEditCollectionDialog from '../AddOrEditCollectionDialog';
 import {getUserCollections} from '../../actions/collection';
 import {clearItems} from '../../actions/items';
 import {API_ROOT} from '../../constants/service-info';
@@ -55,6 +56,7 @@ class UserCollections extends Component {
               : {}} 
           />
           : null}
+        <AddOrEditCollectionDialog />
       </div>
     );
   }
@@ -69,7 +71,7 @@ UserCollections.propTypes = {
   onClearItems: PropTypes.func
 };
 
-export default connect(state => ({collections: state.items.user_collections, username: state.user.user_profile.username, nextCollectionsLink: state.items.user_collections_attr.next}), dispatch => bindActionCreators({
+export default connect(state => ({collections: state.items.user_collections,loggedInUserId: state.user.user_profile.id ,username: state.user.user_profile.username, nextCollectionsLink: state.items.user_collections_attr.next}), dispatch => bindActionCreators({
   onGetUserCollections: getUserCollections,
   onClearItems: clearItems
 }, dispatch))(UserCollections);
