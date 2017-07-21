@@ -27,3 +27,5 @@ export const SE_ITEMS_ATTR = 'SE_ITEMS_ATTR';
 
 // collection actions
 export const GE_USER_COLLECTIONS = 'GE_USER_COLLECTIONS';
+export const GE_COLLECTION = 'GE_COLLECTION';
+export const GE_COLLECTION_PHOTOS = 'GE_COLLECTION_PHOTOS';

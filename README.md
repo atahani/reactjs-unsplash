@@ -1,1 +1,1 @@
-## collection and collections component
+## photos by collections
