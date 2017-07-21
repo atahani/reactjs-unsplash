@@ -1,1 +1,1 @@
-## photo component
+## photos component and use it inside Home
