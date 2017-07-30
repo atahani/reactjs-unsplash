@@ -152,16 +152,16 @@ exports[`<Login /> render it 1`] = `
       for Reactjs + Redux tutorial that recorded for
       <a
         className="sc-htpNat bZPcXB"
-        href="https://faranesh.com"
+        href="https://faranesh.com/web/16454-clone-unsplashcom-with-reactjs--redux"
         target="blank"
       >
-        Faraneshcom
+        Faranesh
       </a>
       <br />
       source on
       <a
         className="sc-htpNat bZPcXB"
-        href="https://github.com/atahani"
+        href="https://github.com/atahani/reactjs-unsplash"
         target="blank"
       >
         github
