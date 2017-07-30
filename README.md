@@ -1,6 +1,6 @@
 # unsplash clone project just for education
 
-this project made for Reactjs + Redux tutorial that recorded for [Faranesh.com](https://faranesh.com/web/15903-reactjs-plus-redux-introduction)
+this project made for Reactjs + Redux tutorial that recorded for [Faranesh.com](https://faranesh.com/web/16454-clone-unsplashcom-with-reactjs--redux)
 
 ## pre requirements
 
