@@ -67,7 +67,7 @@ export const getHeaders = (jsonContentType = true) => {
   }
   headers.append('Accept', 'application/json');
   if (getState().user.is_authorized) {
-    headers.append('Authorization', `bearer ${getState().user.token.access_token}`);
+    headers.append('Authorization', `Bearer ${getState().user.token.access_token}`);
   }
   return headers;
 };
