@@ -7,8 +7,8 @@
     "test": "NODE_ENV=test jest",
     "test-w": "NODE_ENV=test jest --watch --no-cache",
     "build": "rm -f ./public/bundle.js && env-cmd .env_production webpack --progress",
-    "build-and-run-server":"yarn run build && node server.js",
-    "run-server":"node server.js"
+    "build-and-run-server": "yarn run build && node server.js",
+    "run-server": "node server.js"
   },
   "author": "Ahmad Tahani <ahmad.tahani@gmail.com>",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "babel-eslint": "^7.1.1",
     "babel-jest": "^20.0.3",
     "babel-loader": "^6.3.2",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-2": "^6.22.0",
     "env-cmd": "^5.1.0",
