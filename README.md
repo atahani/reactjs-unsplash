@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/atahani/reactjs-unsplash.svg?branch=master)](https://travis-ci.org/atahani/reactjs-unsplash)
+
 # unsplash clone project just for education
 
 this project made for Reactjs + Redux tutorial that recorded for [Faranesh.com](https://faranesh.com/web/16454-clone-unsplashcom-with-reactjs--redux)
