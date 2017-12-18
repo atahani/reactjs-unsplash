@@ -9,9 +9,9 @@ const isInProduction = process.env.NODE_ENV === 'production';
 let entry = [];
 
 if (isInProduction) {
-  entry = ['./index.jsx'];
+  entry = ['./index.js'];
 } else {
-  entry = ['webpack-dev-server/client?http://localhost:3030', 'webpack/hot/only-dev-server', 'react-hot-loader/patch', './index.jsx'];
+  entry = ['webpack-dev-server/client?http://localhost:3030', 'webpack/hot/only-dev-server', 'react-hot-loader/patch', './index.js'];
 }
 
 let plugins = [new webpack.DefinePlugin({
@@ -74,7 +74,7 @@ module.exports = {
           }
         }
       }, {
-        test: /\.(js|jsx)$/,
+        test: /\.(js)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
       }
@@ -82,7 +82,7 @@ module.exports = {
   },
   resolve: {
     extensions: [
-      '.webpack-loader.js', '.web-loader.js', '.loader.js', '.js', '.jsx'
+      '.webpack-loader.js', '.web-loader.js', '.loader.js', '.js'
     ],
     modules: [
       path.resolve(__dirname, 'node_modules'),
