@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
-import PrivateRoute from '../PrivateRoute';
+import PrivateRoute from '../../components/PrivateRoute';
 import App from '../App';
 import Login from '../Login';
 import Logout from '../Logout';
 import Authorize from '../Authorize';
-import Progress from '../Progress';
+import Progress from '../../components/Progress';
 
 const Wrapper = styled.div `
   height: 100%;

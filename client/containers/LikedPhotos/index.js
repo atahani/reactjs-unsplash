@@ -4,7 +4,7 @@ import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import pickBy from 'lodash/pickBy';
-import Photos from '../Photos';
+import Photos from '../../components/Photos';
 import AddToCollectionDialog from '../AddToCollectionDialog';
 import {clearItems} from '../../actions/items';
 import {getPhotos} from '../../actions/photo';

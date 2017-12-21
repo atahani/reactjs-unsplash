@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'react-router-redux';
 import {configureStore, getHistory, setAsCurrentStore, getStore} from './store';
-import MainApp from './components/MainApp';
+import MainApp from './containers/MainApp';
 import rootSaga from './sagas';
 import './style/global';
 
@@ -61,7 +61,7 @@ run();
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module
     .hot
-    .accept('./components/App', () => {
+    .accept('./containers/App', () => {
       run();
     });
   // Enable Webpack hot module replacement for reducers

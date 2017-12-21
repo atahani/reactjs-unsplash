@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
-import Dialog from '../Dialog';
+import Dialog from '../../components/Dialog';
 import AddOrEditCollection from '../AddOrEditCollection';
 
 const AddOrEditCollectionDialog = ({pathname, lastPathname, onPush}) => (

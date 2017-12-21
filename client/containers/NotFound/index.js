@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import styled from 'styled-components';
-import Button from '../Button';
+import Button from '../../components/Button';
 
 const Wrapper = styled.div `
   display: flex;

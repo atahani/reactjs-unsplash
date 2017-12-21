@@ -7,12 +7,12 @@ import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import debounce from 'lodash/debounce';
 import styled from 'styled-components';
-import _Logo from '../svg-images/camera';
-import _Nav from '../Navigation';
-import TextInput from '../TextInput';
-import Popover from '../Popover';
-import Avatar from '../Avatar';
-import NavOnAvatar from '../NavOnAvatar';
+import _Logo from '../../components/svg-images/camera';
+import _Nav from '../../components/Navigation';
+import TextInput from '../../components/TextInput';
+import Popover from '../../components/Popover';
+import Avatar from '../../components/Avatar';
+import NavOnAvatar from '../../components/NavOnAvatar';
 import {maxWidthContent} from '../../style/util';
 import {white, dividerColor} from '../../style/colors';
 

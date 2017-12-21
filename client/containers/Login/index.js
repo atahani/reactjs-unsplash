@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import styled from 'styled-components';
-import Button from '../Button';
-import Camera from '../svg-images/camera';
-import ExtLink from '../ExtLink';
+import Button from '../../components/Button';
+import Camera from '../../components/svg-images/camera';
+import ExtLink from '../../components/ExtLink';
 import {OAUTH_PATH} from '../../constants/service-info';
 
 const Wrapper = styled.div `

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Photos from '../Photos';
+import Photos from '../../components/Photos';
 import AddToCollectionDialog from '../AddToCollectionDialog';
 import {getPhotos} from '../../actions/photo';
 import {clearItems} from '../../actions/items';

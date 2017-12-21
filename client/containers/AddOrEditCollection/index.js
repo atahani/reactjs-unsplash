@@ -6,9 +6,9 @@ import {bindActionCreators} from 'redux';
 import {reduxForm, Field, change as changeForm, formValueSelector} from 'redux-form';
 import {withRouter} from 'react-router-dom';
 import styled from 'styled-components';
-import _RInput from '../RTextInput';
-import Button from '../Button';
-import CloseIcon from '../svg-icons/close';
+import _RInput from '../../components/RTextInput';
+import Button from '../../components/Button';
+import CloseIcon from '../../components/svg-icons/close';
 import {updateCollection, deleteCollection, createCollection} from '../../actions/collection';
 import {setActionData} from '../../actions/app';
 import {CONFIRM_DELETE_COLLECTION} from '../../constants/action-types';
@@ -138,7 +138,7 @@ let MainForm = ({
       {editMode
         ? confirmDeleteAction
           ? <Note>Are you sure ?
-              <CancelBtn
+            <CancelBtn
                 onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), false)}
               >Cancel</CancelBtn>
           </Note>
