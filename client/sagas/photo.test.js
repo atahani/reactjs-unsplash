@@ -1,13 +1,13 @@
 import {take, put, call, fork, all} from 'redux-saga/effects';
 import {cloneableGenerator} from 'redux-saga/utils';
-import {likePhotoF, unLikePhotoF, getPhotosF, searchInPhotosF, getPhotoF} from '../../sagas/photo';
-import {handleCommonErr} from '../../sagas/app';
-import {LIKE_PHOTO, UNLIKE_PHOTO, GE_PHOTOS, SEARCH_PHOTOS, GE_PHOTO} from '../../constants/action-types';
-import {likePhoto, unLikePhoto, getPhotos, searchInPhotos, getPhoto} from '../../actions/photo';
-import {updateFieldsOfItem, setItems, setItemsAttr, setItem} from '../../actions/items';
-import {jobStatus} from '../../actions/app';
-import {likePhoto as likeAPI, unLikePhoto as unLikeAPI, getPhotos as getPhotosAPI, getPhoto as getPhotoAPI} from '../../api/photo';
-import {getReq} from '../../api/rest-helper';
+import {likePhotoF, unLikePhotoF, getPhotosF, searchInPhotosF, getPhotoF} from '../sagas/photo';
+import {handleCommonErr} from '../sagas/app';
+import {LIKE_PHOTO, UNLIKE_PHOTO, GE_PHOTOS, SEARCH_PHOTOS, GE_PHOTO} from '../constants/action-types';
+import {likePhoto, unLikePhoto, getPhotos, searchInPhotos, getPhoto} from '../actions/photo';
+import {updateFieldsOfItem, setItems, setItemsAttr, setItem} from '../actions/items';
+import {jobStatus} from '../actions/app';
+import {likePhoto as likeAPI, unLikePhoto as unLikeAPI, getPhotos as getPhotosAPI, getPhoto as getPhotoAPI} from '../api/photo';
+import {getReq} from '../api/rest-helper';
 
 /**
  * redux-saga Testing

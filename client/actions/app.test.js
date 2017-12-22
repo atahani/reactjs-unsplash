@@ -1,5 +1,5 @@
-import {clearStore, jobStatus, setActionData, setLastPathName} from '../../actions/app';
-import {CL_STORE, CH_JOB_ST, SE_ACTION_DATA, SE_LAST_PATH_NAME} from '../../constants/action-types';
+import {clearStore, jobStatus, setActionData, setLastPathName} from './app';
+import {CL_STORE, CH_JOB_ST, SE_ACTION_DATA, SE_LAST_PATH_NAME} from '../constants/action-types';
 
 describe('app actions', () => {
   describe('clearStore', () => {

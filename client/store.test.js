@@ -1,7 +1,7 @@
 import configureStore from 'redux-mock-store';
-import {setLastPathName} from '../actions/app';
-import {SE_LAST_PATH_NAME} from '../constants/action-types';
-import appReducer from '../reducers/app';
+import {setLastPathName} from './actions/app';
+import {SE_LAST_PATH_NAME} from './constants/action-types';
+import appReducer from './reducers/app';
 
 /**
  * http://arnaudbenard.com/redux-mock-store/

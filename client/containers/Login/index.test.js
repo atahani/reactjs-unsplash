@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import 'jest-styled-components';
-import {Login} from '../../containers/Login';
+import {Login} from './index';
 
 describe('<Login />', () => {
   it('render it', () => {

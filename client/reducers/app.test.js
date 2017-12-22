@@ -1,5 +1,5 @@
-import appReducer from '../../reducers/app';
-import {setLastPathName, jobStatus, setActionData} from '../../actions/app';
+import appReducer from './app';
+import {setLastPathName, jobStatus, setActionData} from '../actions/app';
 
 describe('appReducer', () => {
   it('should return the initial state', () => {
