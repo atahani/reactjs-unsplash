@@ -3,7 +3,8 @@
     "airbnb",
     "eslint",
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended"
   ],
   "parser": "babel-eslint",
   "env": {
@@ -18,7 +19,8 @@
     "react",
     "jsx-a11y",
     "import",
-    "jest"
+    "jest",
+    "flowtype"
   ],
   "parserOptions": {
     "ecmaVersion": 7,
