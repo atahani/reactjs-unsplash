@@ -1,58 +1,26 @@
 // @flow
 
-import {
-  SE_LAST_PATH_NAME, 
-  CL_STORE, 
-  CH_JOB_ST, 
-  SE_ACTION_DATA,
-  GE_ACCESS_TOKEN, 
-  SE_ACCESS_TOKEN, 
-  LOGOUT, 
-  GE_USER_PROFILE, 
-  SE_USER_PROFILE,
-  GE_USER_COLLECTIONS,
-  GE_COLLECTION,
-  GE_COLLECTION_PHOTOS,
-  SEARCH_COLLECTIONS,
-  CREATE_COLLECTION,
-  UPDATE_COLLECTION,
-  DELETE_COLLECTION,
-  ADD_PHOTO_TO_COLLECTION,
-  REMOVE_PHOTO_FROM_COLLECTION,
-  GE_PHOTOS, 
-  LIKE_PHOTO, 
-  UNLIKE_PHOTO, 
-  SEARCH_PHOTOS, 
-  GE_PHOTO,
-  SE_ITEMS,
-  UP_ITEM,
-  RM_ITEM,
-  CL_ITEMS,
-  SE_ITEMS_ATTR,
-  UP_FIELD_OF_ITEM,
-  SE_ITEM
-} from '../constants/action-types';
 import type { AuthorizeToken, UserProfile, Collection } from './data';
 
 // ------------------------------------
 // App Actions
 // ------------------------------------
 type SetLastPathName = {
-  type: SE_LAST_PATH_NAME,
+  type: 'app/SE_LAST_PATH_NAME',
   pathName: string,
 };
 
 type ClearStore = {
-  type: CL_STORE,
+  type: 'app/CL_STORE',
 };
 
 type ChangeJobStatus = {
-  type: CH_JOB_ST,
+  type: 'app/CH_JOB_ST',
   status: boolean,
 };
 
 type SetActionData = {
-  type: SE_ACTION_DATA,
+  type: 'app/SE_ACTION_DATA',
   actionType: string,
   data: any,
 };
@@ -61,25 +29,25 @@ type SetActionData = {
 // User Actions
 // ------------------------------------
 type GetAccessToken = {
-  type: GE_ACCESS_TOKEN,
+  type: 'user/GE_ACCESS_TOKEN',
   code: string,
 };
 
 type SetAccessToken = {
-  type: SE_ACCESS_TOKEN,
+  type: 'user/SE_ACCESS_TOKEN',
   payload: AuthorizeToken,
 };
 
 type Logout = {
-  type: LOGOUT,
+  type: 'user/LOGOUT',
 };
 
 type GetProfile = {
-  type: GE_USER_PROFILE,
+  type: 'user/GE_USER_PROFILE',
 };
 
 type SetProfile = {
-  type: SE_USER_PROFILE ,
+  type: 'user/SE_USER_PROFILE',
   payload: UserProfile,
 };
 
@@ -88,49 +56,49 @@ type SetProfile = {
 // ------------------------------------
 
 type GetUserCollections = {
-  type: GE_USER_COLLECTIONS,
+  type: 'collection/GE_USER_COLLECTIONS',
   url: string,
 };
 
 type GetCollection = {
-  type: GE_COLLECTION,
+  type: 'collection/GE_COLLECTION',
   url: string,
   loadPhotos: boolean,
 };
 
 type GetCollectionPhotos = {
-  type: GE_COLLECTION_PHOTOS,
+  type: 'collection/GE_COLLECTION_PHOTOS',
   url: string,
 };
 
 type SearchInCollections = {
-  type: SEARCH_COLLECTIONS,
+  type: 'collection/SEARCH_COLLECTIONS',
   url: string,
 };
 
 type CreateCollection = {
-  type: CREATE_COLLECTION,
+  type: 'collection/CREATE_COLLECTION',
   collection: Collection,
 };
 
 type UpdateCollection = {
-  type: UPDATE_COLLECTION,
+  type: 'collection/UPDATE_COLLECTION',
   collection: Collection,
 };
 
 type DeleteCollection = {
-  type: DELETE_COLLECTION,
+  type: 'collection/DELETE_COLLECTION',
   id: string,
 };
 
 type AddPhotoToCollection = {
-  type: ADD_PHOTO_TO_COLLECTION,
+  type: 'collection/ADD_PHOTO_TO_COLLECTION',
   collectionId: string,
   photoId: string,
 };
 
 type RemovePhotoFromCollection = {
-  type: REMOVE_PHOTO_FROM_COLLECTION,
+  type: 'collection/REMOVE_PHOTO_FROM_COLLECTION',
   collectionId: string,
   photoId: string,
 };
@@ -140,27 +108,27 @@ type RemovePhotoFromCollection = {
 // ------------------------------------
 
 type GetPhoto = {
-  type: GE_PHOTO,
+  type: 'photo/GE_PHOTO',
   id: string,
 };
 
 type GetPhotos = {
-  type: GE_PHOTOS,
+  type: 'photo/GE_PHOTOS',
   url: string,
 };
 
 type LikePhoto = {
-  type: LIKE_PHOTO,
+  type: 'photo/LIKE_PHOTO',
   id: string,
 };
 
 type UnlikePhoto = {
-  type: UNLIKE_PHOTO,
+  type: 'photo/UNLIKE_PHOTO',
   id: string,
 };
 
 type SearchInPhotos = {
-  type: SEARCH_PHOTOS,
+  type: 'photo/SEARCH_PHOTOS',
   url: string,
 };
 
@@ -169,46 +137,48 @@ type SearchInPhotos = {
 // ------------------------------------
 
 type SetItem = {
-  type: SE_ITEM,
+  type: 'item/SE_ITEM',
   entity: string,
   payload: Object,
 };
 
 type SetItems = {
-  type: SE_ITEMS,
+  type: 'item/SE_ITEMS',
   entity: string,
   payload: Array<Object>,
 };
 
 type UpdateItem = {
-  type: UP_ITEM,
+  type: 'item/UP_ITEM',
   entity: string,
   payload: Object,
 };
 
 type RemoveItem = {
-  type: RM_ITEM,
+  type: 'item/RM_ITEM',
   entity: string,
   id: string,
 };
 
 type ClearItems = {
-  type: CL_ITEMS,
+  type: 'item/CL_ITEMS',
   entity: string,
 };
 
 type SetItemsAttr = {
-  type: SE_ITEMS_ATTR,
+  type: 'item/SE_ITEMS_ATTR',
   entity: string,
   attrObj: Object,
 };
 
 type UpdateFieldsOfItem = {
-  type: UP_FIELD_OF_ITEM,
+  type: 'item/UP_FIELD_OF_ITEM',
   entity: string,
   id: string,
   fields: Object,
 }
+
+// export all of the action in unions type
 
 export type Action = 
   | SetLastPathName
