@@ -78,7 +78,7 @@ export default function itemsReducer(state = initialState, action) {
     case RM_ITEM:
       // action.payload === id of item to delete
       return Object.assign({}, state, {
-        [action.entity]: omit(state[action.entity], action.payload),
+        [action.entity]: omit(state[action.entity], action.id),
       });
     // action > clearItems()
     case CL_ITEMS:

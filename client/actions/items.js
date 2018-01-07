@@ -1,12 +1,6 @@
-import {
-  SE_ITEMS,
-  UP_ITEM,
-  RM_ITEM,
-  CL_ITEMS,
-  SE_ITEMS_ATTR,
-  UP_FIELD_OF_ITEM,
-  SE_ITEM
-} from '../constants/action-types';
+// @flow
+
+import type { Action } from '../types';
 
 /**
  * set array of items like
@@ -17,7 +11,7 @@ import {
  * @param {array} payload array of items
  * @param {string} entity entity like cards
  */
-export const setItems = (entity, payload) => ({type: SE_ITEMS, entity, payload});
+export const setItems = (entity: string, payload: Array<Object>): Action => ({type: 'item/SE_ITEMS', entity, payload});
 
 /**
  * update item
@@ -25,7 +19,7 @@ export const setItems = (entity, payload) => ({type: SE_ITEMS, entity, payload})
  * @param {object} payload updated item object
  * @param {string} entity entity like cards
  */
-export const updateItem = (entity, payload) => ({type: UP_ITEM, entity, payload});
+export const updateItem = (entity: string, payload: Object): Action => ({type: 'item/UP_ITEM', entity, payload});
 
 /**
  * remove item with item id
@@ -33,21 +27,21 @@ export const updateItem = (entity, payload) => ({type: UP_ITEM, entity, payload}
  * @param {string} payload item id
  * @param {string} entity entity like cards
  */
-export const removeItem = (entity, payload) => ({type: RM_ITEM, entity, payload});
+export const removeItem = (entity: string, id: string): Action => ({type: 'item/RM_ITEM', entity, id});
 
 /**
  * clear items remove all of the items in entity
  * used in unMount component event
  * @param {string} entity entity like cards
  */
-export const clearItems = entity => ({type: CL_ITEMS, entity});
+export const clearItems = (entity: string): Action => ({type: 'item/CL_ITEMS', entity});
 
 /**
  * set items attr like total or links
  * @param {string} entity entity like cards
  * @param {object} attrObj object of attr like { total:20 }
  */
-export const setItemsAttr = (entity, attrObj = {}) => ({type: SE_ITEMS_ATTR, entity, attrObj});
+export const setItemsAttr = (entity: string, attrObj: ?Object): Action => ({type: 'item/SE_ITEMS_ATTR', entity, attrObj});
 
 /**
  * update fields of item
@@ -55,11 +49,11 @@ export const setItemsAttr = (entity, attrObj = {}) => ({type: SE_ITEMS_ATTR, ent
  * @param {*} id the id of itme
  * @param {*} fields updated fields { likes: 123, liked_by_user: false }
  */
-export const updateFieldsOfItem = (entity, id, fields = {}) => ({type: UP_FIELD_OF_ITEM, entity, id, fields});
+export const updateFieldsOfItem = (entity: string, id: string, fields: ?Object): Action => ({type: 'item/UP_FIELD_OF_ITEM', entity, id, fields});
 
 /**
  * set one object in entity
  * @param {string} entity entity like 'liked-photos'
  * @param {object} payload one item object
  */
-export const setItem = (entity, payload) => ({type: SE_ITEM, entity, payload});
+export const setItem = (entity: string, payload: Object): Action => ({type: 'item/SE_ITEM', entity, payload});

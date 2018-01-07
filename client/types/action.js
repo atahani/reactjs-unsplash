@@ -22,7 +22,7 @@ type ChangeJobStatus = {
 type SetActionData = {
   type: 'app/SE_ACTION_DATA',
   actionType: string,
-  data: any,
+  data: ?any,
 };
 
 // ------------------------------------
@@ -83,6 +83,7 @@ type CreateCollection = {
 
 type UpdateCollection = {
   type: 'collection/UPDATE_COLLECTION',
+  id: string,
   collection: Collection,
 };
 
@@ -168,14 +169,14 @@ type ClearItems = {
 type SetItemsAttr = {
   type: 'item/SE_ITEMS_ATTR',
   entity: string,
-  attrObj: Object,
+  attrObj: ?Object,
 };
 
 type UpdateFieldsOfItem = {
   type: 'item/UP_FIELD_OF_ITEM',
   entity: string,
   id: string,
-  fields: Object,
+  fields: ?Object,
 }
 
 // export all of the action in unions type

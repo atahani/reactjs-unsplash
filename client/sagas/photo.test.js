@@ -39,7 +39,7 @@ describe('Photos Sagas Flow', () => {
     it('run two actions setItems() and setItemsAttr()', () => {
       expect(data.gen.next().value).toEqual(all([
         put(setItems('photos', [])),
-        put(setItemsAttr('photos', {}))
+        put(setItemsAttr('photos'))
       ]));
     });
 
@@ -69,7 +69,7 @@ describe('Photos Sagas Flow', () => {
     it('after jobStatus(false) and since the response is true run updateFieldsOfItem act' +
         'ion',
     () => {
-      expect(data.gen.next().value).toEqual(put(updateFieldsOfItem('photos', "123", {})));
+      expect(data.gen.next().value).toEqual(put(updateFieldsOfItem('photos', "123")));
     });
 
     //NOTE: since we have while loop don't have done !
@@ -121,7 +121,7 @@ describe('Photos Sagas Flow', () => {
     });
 
     it('after that should updateFieldsOfItem for photos collection', () => {
-      expect(data.gen.next().value).toEqual(put(updateFieldsOfItem('photos', '123', {})));
+      expect(data.gen.next().value).toEqual(put(updateFieldsOfItem('photos', '123')));
     });
   });
 
