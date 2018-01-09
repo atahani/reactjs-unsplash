@@ -21,6 +21,6 @@ AddOrEditCollectionDialog.propTypes = {
   onPush: PropTypes.func
 };
 
-export default connect(state => ({pathname: state.router.location.pathname, lastPathname: state.app.last_pathname}), dispatch => bindActionCreators({
+export default connect(state => ({pathname: state.router.location.pathname, lastPathname: state.app.lastPathname}), dispatch => bindActionCreators({
   onPush: push
 }, dispatch))(AddOrEditCollectionDialog);

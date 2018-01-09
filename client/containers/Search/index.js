@@ -189,11 +189,11 @@ Search.defaultProps = {
 
 export default withRouter(connect(state => ({
   collections: state.items.collections,
-  nextCollectionsLink: state.items.collections_attr.next,
-  totalCollections: state.items.collections_attr.total,
+  nextCollectionsLink: state.items.collectionsAttr.next,
+  totalCollections: state.items.collectionsAttr.total,
   photos: state.items.photos,
-  nextPhotosLink: state.items.photos_attr.next,
-  totalPhotos: state.items.photos_attr.total
+  nextPhotosLink: state.items.photosAttr.next,
+  totalPhotos: state.items.photosAttr.total
 }), dispatch => bindActionCreators({
   onClearItems: clearItems,
   onSearchInPhotos: searchInPhotos,

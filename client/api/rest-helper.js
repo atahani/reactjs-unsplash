@@ -66,7 +66,7 @@ export const getHeaders = (jsonContentType = true) => {
     headers.append('Content-Type', 'application/json');
   }
   headers.append('Accept', 'application/json');
-  if (getState().user.is_authorized) {
+  if (getState().user.isAuthorized) {
     headers.append('Authorization', `Bearer ${getState().user.token.access_token}`);
   }
   return headers;
@@ -78,7 +78,7 @@ export const getHeaders = (jsonContentType = true) => {
  */
 export const getHeadersForMultiPart = () => {
   const headers = new Headers();
-  if (getState().user.is_authorized) {
+  if (getState().user.isAuthorized) {
     headers.append('Authorization', `Bearer ${getState().user.token.access_token}`);
   }
   return headers;

@@ -138,42 +138,42 @@ type SearchInPhotos = {
 // ------------------------------------
 
 type SetItem = {
-  type: 'item/SE_ITEM',
+  type: 'items/SE_ITEM',
   entity: string,
   payload: Object,
 };
 
 type SetItems = {
-  type: 'item/SE_ITEMS',
+  type: 'items/SE_ITEMS',
   entity: string,
   payload: Array<Object>,
 };
 
 type UpdateItem = {
-  type: 'item/UP_ITEM',
+  type: 'items/UP_ITEM',
   entity: string,
   payload: Object,
 };
 
 type RemoveItem = {
-  type: 'item/RM_ITEM',
+  type: 'items/RM_ITEM',
   entity: string,
   id: string,
 };
 
 type ClearItems = {
-  type: 'item/CL_ITEMS',
+  type: 'items/CL_ITEMS',
   entity: string,
 };
 
 type SetItemsAttr = {
-  type: 'item/SE_ITEMS_ATTR',
+  type: 'items/SE_ITEMS_ATTR',
   entity: string,
   attrObj: ?Object,
 };
 
 type UpdateFieldsOfItem = {
-  type: 'item/UP_FIELD_OF_ITEM',
+  type: 'items/UP_FIELD_OF_ITEM',
   entity: string,
   id: string,
   fields: ?Object,

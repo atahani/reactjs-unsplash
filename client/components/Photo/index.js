@@ -229,7 +229,7 @@ class Photo extends Component {
               </BtnDown>
               <Btn onClick={() => clickOnCollect()}>
                 <AddIcon
-                  color={belongsToCollections.length > 0
+                  color={belongsToCollections && belongsToCollections.length > 0
                   ? greenColor
                   : white} 
                 />
@@ -277,7 +277,7 @@ class Photo extends Component {
               </div>
               <CollectBtn
                 primary
-                primaryColor={belongsToCollections.length > 0
+                primaryColor={belongsToCollections && belongsToCollections.length > 0
                 ? greenColor
                 : primaryColor1}
                 onClick={() => clickOnCollect()}
@@ -326,7 +326,8 @@ Photo.propTypes = {
 };
 
 Photo.defualtProps = {
-  isRow: false
+  isRow: false,
+  belongsToCollections:[],
 };
 
 export default connect(state => ({}), dispatch => bindActionCreators({

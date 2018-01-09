@@ -35,7 +35,7 @@ export function* handleCommonErr(err, taskAction = NOTHING, taskPayload = {}) {
     yield put(push('/404'));
   } else if (err.code === 401) {
     // check if access_token expired since the request get 401 error should detect
-    // unauthorized if (getState().user.is_authorized) {   yield
+    // unauthorized if (getState().user.isAuthorized) {   yield
     // put(jobStatus(true));   // should refresh token and retry the task   const
     // {response, error} = yield call(refreshToken, getState().user.refresh_token);
     // if (response) {     // first set authentication information     yield*

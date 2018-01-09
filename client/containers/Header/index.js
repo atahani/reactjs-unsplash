@@ -185,8 +185,8 @@ Header.propTypes = {
 export default withRouter(connect(state => ({
   // the getProfile fire after getAccessToken so the profile_image maybe undefined
   // in load
-  userImageProfile: state.user.user_profile.profile_image
-    ? state.user.user_profile.profile_image.medium
+  userImageProfile: state.user.userProfile.profile_image
+    ? state.user.userProfile.profile_image.medium
     : void 0
 }), dispatch => bindActionCreators({
   onPush: push

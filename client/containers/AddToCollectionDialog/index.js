@@ -21,6 +21,6 @@ AddToCollectionDialog.propTypes = {
   onPush: PropTypes.func
 };
 
-export default connect(state => ({searchPath: state.router.location.search, lastPathname: state.app.last_pathname}), dispatch => bindActionCreators({
+export default connect(state => ({searchPath: state.router.location.search, lastPathname: state.app.lastPathname}), dispatch => bindActionCreators({
   onPush: push
 }, dispatch))(AddToCollectionDialog);

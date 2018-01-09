@@ -252,7 +252,7 @@ const mapStateToProps = (state, props) => {
   const searchParams = new URLSearchParams(state.router.location.search);
   const editMode = props.match.params.id && !searchParams.has('step');
   const collection = editMode
-    ? state.items.user_collections[props.match.params.id]
+    ? state.items.userCollections[props.match.params.id]
     : void 0;
   return {
     collectionId: collection
@@ -267,7 +267,7 @@ const mapStateToProps = (state, props) => {
       : {},
     isPrivate: selector(state, 'private'),
     editMode,
-    confirmDeleteAction: state.app.action_data[CONFIRM_DELETE_COLLECTION.toLowerCase()]
+    confirmDeleteAction: state.app.actionData[CONFIRM_DELETE_COLLECTION.toLowerCase()]
   };
 };
 export default withRouter(connect(mapStateToProps, dispatch => bindActionCreators({

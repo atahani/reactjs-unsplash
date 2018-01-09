@@ -24,7 +24,7 @@ const sagaMiddleware = createSagaMiddleware();
 export const locationChangeMiddleware = () => next => action => {
   // handle change location action
   if (action.type === '@@router/LOCATION_CHANGE' && !action.payload.pathname.startsWith('/collections/new') && !action.payload.pathname.startsWith('/collections/edit')) {
-    // dispatch action to change in last_pathname in app state
+    // dispatch action to change in lastPathname in app state
     currentStore.dispatch(setLastPathName(action.payload.pathname));
   }
   next(action);
@@ -33,7 +33,7 @@ export const locationChangeMiddleware = () => next => action => {
 middlewares.push(sagaMiddleware);
 
 // simple middleware to store handle LOCATION_CHANGE action and change
-// last_pathname in app state
+// lastPathname in app state
 middlewares.push(locationChangeMiddleware);
 
 // build the middleware for intercepting and dispatching navigation actions

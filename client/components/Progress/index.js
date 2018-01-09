@@ -59,4 +59,4 @@ Progress.defaultProps = {
   jobNumbers: 0
 };
 
-export default connect(state => ({jobNumbers: state.app.job_running}))(Progress);
+export default connect(state => ({jobNumbers: state.app.jobRunning}))(Progress);

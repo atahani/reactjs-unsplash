@@ -1,11 +1,14 @@
-import {SE_LAST_PATH_NAME, CH_JOB_ST, SE_ACTION_DATA} from '../constants/action-types';
+//@flow
+
+import type { Action } from '../types';
+import type { AppState } from '../types/state';
 
 // initial state of app state
 const initialState = {
-  action_data: {},
+  actionData: {},
   // the default pathname of application
-  last_pathname: '/',
-  job_running: 0
+  lastPathname: '/',
+  jobRunning: 0
 };
 
 /**
@@ -13,28 +16,28 @@ const initialState = {
  * @param {object} state
  * @param {object} action
  */
-export default function appReducer(state = initialState, action) {
+export default (state: AppState = initialState, action: Action): AppState => {
   switch (action.type) {
       // action > setLastPathName
-    case SE_LAST_PATH_NAME:
-      // like > state.app.last_pathname
-      return Object.assign({}, state, {last_pathname: action.pathName});
+    case 'app/SE_LAST_PATH_NAME':
+      // like > state.app.lastPathname
+      return Object.assign({}, state, {lastPathname: action.pathName});
       // action > jobStatus
-    case CH_JOB_ST:
-      // like > state.app.job_running
+    case 'app/CH_JOB_ST':
+      // like > state.app.jobRunning
       return Object.assign({}, state, {
-        job_running: action.status
-          ? state.job_running + 1
-          : state.job_running > 0
-            ? state.job_running - 1
+        jobRunning: action.status
+          ? state.jobRunning + 1
+          : state.jobRunning > 0
+            ? state.jobRunning - 1
             : 0
       });
       // action > setActionData
-    case SE_ACTION_DATA:
+    case 'app/SE_ACTION_DATA':
       {
         // change the state with custom attr obj as actionType
-        const obj = state.action_data
-          ? state.action_data
+        const obj = state.actionData
+          ? state.actionData
           : {};
         // assing new obj attr if not exist
         if (obj[action.actionType]) {
@@ -47,10 +50,10 @@ export default function appReducer(state = initialState, action) {
             enumerable: false
           });
         }
-        // like > state.app.action_data.login
-        return Object.assign({}, state, {action_data: obj});
+        // like > state.app.actionData.login
+        return Object.assign({}, state, {actionData: obj});
       }
     default:
       return state;
   }
-}
+};

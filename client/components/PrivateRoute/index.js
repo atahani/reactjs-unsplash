@@ -12,7 +12,7 @@ const PrivateRoute = ({
 }) => (
   <Route
     {...rest}
-    render={props => (getState().user.is_authorized
+    render={props => (getState().user.isAuthorized
     ? (<Component {...props} />)
     : (<Redirect to={{
       pathname: '/auth'

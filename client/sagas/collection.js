@@ -32,8 +32,8 @@ export function* getUserCollectionsF() {
     yield put(jobStatus(false));
     if (response) {
       yield all([
-        put(setItems('user_collections', response)),
-        put(setItemsAttr('user_collections', attr))
+        put(setItems('userCollections', response)),
+        put(setItemsAttr('userCollections', attr))
       ]);
     } else {
       yield fork(handleCommonErr, error, GE_USER_COLLECTIONS, {url});
@@ -53,9 +53,9 @@ export function* getCollectionF() {
     if (response) {
       // set collection to store check loggedIn user is owner of this collection or
       // not
-      const userId = getState().user.user_profile.id;
+      const userId = getState().user.userProfile.id;
       if (userId && userId === response.user.id) {
-        yield put(setItem('user_collections', response));
+        yield put(setItem('userCollections', response));
       } else {
         yield put(setItem('collections', response));
       }
@@ -133,8 +133,8 @@ export function* createCollectionF() {
     ]);
     if (response) {
       // update the entity
-      // NOTE: the user collection locate in user_collections
-      yield put(setItem('user_collections', response));
+      // NOTE: the user collection locate in userCollections
+      yield put(setItem('userCollections', response));
       // get current search path in url if startsWith ?add_to_collection&id=
       const {search} = getHistory().location;
       const searchParams = new URLSearchParams(search);
@@ -168,9 +168,9 @@ export function* updateCollectionF() {
     ]);
     if (response) {
       // update the entity
-      // NOTE: the user collection locate in user_collections
+      // NOTE: the user collection locate in userCollections
       yield all([
-        put(updateItem('user_collections', response)),
+        put(updateItem('userCollections', response)),
         put(push(`/collections/${response.id}`))
       ]);
     } else {
@@ -190,9 +190,9 @@ export function* deleteCollectionF() {
     yield put(jobStatus(false));
     if (response) {
       // update the entity
-      // NOTE: the user collection locate in user_collections
+      // NOTE: the user collection locate in userCollections
       yield all([
-        put(removeItem('user_collections', id)),
+        put(removeItem('userCollections', id)),
         put(push('/collections/'))
       ]);
     } else {
@@ -214,7 +214,7 @@ export function* addPhotoToCollectionF() {
       // INFO: https://unsplash.com/documentation#add-a-photo-to-a-collection response
       // have photo and collection object update state for two items
       yield all([
-        put(updateItem('user_collections', response.collection)),
+        put(updateItem('userCollections', response.collection)),
         put(updateItem('photos', response.photo))
       ]);
     } else {
@@ -236,7 +236,7 @@ export function* removePhotoFromCollectionF() {
       // INFO: https://unsplash.com/documentation#remove-a-photo-from-a-collection
       // response have photo and collection object update state for two items
       yield all([
-        put(updateItem('user_collections', response.collection)),
+        put(updateItem('userCollections', response.collection)),
         put(updateItem('photos', response.photo))
       ]);
     } else {

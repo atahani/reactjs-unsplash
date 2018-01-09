@@ -75,7 +75,7 @@ UserCollections.propTypes = {
   onClearItems: PropTypes.func
 };
 
-export default connect(state => ({loggedInUserId: state.user.user_profile.id, collections: state.items.user_collections, username: state.user.user_profile.username, nextCollectionsLink: state.items.user_collections_attr.next}), dispatch => bindActionCreators({
+export default connect(state => ({loggedInUserId: state.user.userProfile.id, collections: state.items.userCollections, username: state.user.userProfile.username, nextCollectionsLink: state.items.userCollectionsAttr.next}), dispatch => bindActionCreators({
   onGetUserCollections: getUserCollections,
   onClearItems: clearItems
 }, dispatch))(UserCollections);

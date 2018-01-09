@@ -43,7 +43,7 @@ Home.propTypes = {
   onClearItems: PropTypes.func
 };
 
-export default connect(state => ({photos: state.items.photos, nextPhotosLink: state.items.photos_attr.next}), dispatch => bindActionCreators({
+export default connect(state => ({photos: state.items.photos, nextPhotosLink: state.items.photosAttr.next}), dispatch => bindActionCreators({
   onGetPhotos: getPhotos,
   onClearItems: clearItems
 }, dispatch))(Home);

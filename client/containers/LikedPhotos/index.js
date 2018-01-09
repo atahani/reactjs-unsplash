@@ -49,7 +49,7 @@ LikedPhotos.propTypes = {
 export default connect(state => ({
   photos: pickBy(state.items.photos, item => item.liked_by_user === true),
   likesLink: state.user.links.likes,
-  nextLikesLink: state.items.photos_attr.next
+  nextLikesLink: state.items.photosAttr.next
 }), dispatch => bindActionCreators({
   onGetPhotos: getPhotos,
   onClearItems: clearItems

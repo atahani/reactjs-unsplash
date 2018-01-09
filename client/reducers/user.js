@@ -1,21 +1,24 @@
-import {SE_ACCESS_TOKEN, SE_USER_PROFILE} from '../constants/action-types';
+//@flow
+
+import type { Action } from '../types';
+import type { UserState } from '../types/state';
 
 const initialState = {
-  is_authorized: false,
-  user_profile: {},
+  isAuthorized: false,
+  userProfile: {},
   token: {}
 };
 
-export default function userReducer(state = initialState, action) {
+export default (state: UserState = initialState, action: Action): UserState => {
   switch (action.type) {
-    case SE_ACCESS_TOKEN:
+    case 'user/SE_ACCESS_TOKEN':
       {
         const {
           scope,
           ...others
         } = action.payload;
         return Object.assign({}, state, {
-          is_authorized: true,
+          isAuthorized: true,
           token: {
             ...others,
             user_scope: scope.split(" ")
@@ -23,15 +26,15 @@ export default function userReducer(state = initialState, action) {
         });
       }
       // setUserProfile
-    case SE_USER_PROFILE:
+    case 'user/SE_USER_PROFILE':
       {
         const {
           links,
           ...others
         } = action.payload;
-        // like > state.user.user_profile
+        // like > state.user.userProfile
         return Object.assign({}, state, {
-          user_profile: {
+          userProfile: {
             ...others
           },
           links
@@ -40,4 +43,4 @@ export default function userReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

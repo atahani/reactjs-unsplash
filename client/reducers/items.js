@@ -1,32 +1,31 @@
+//@flow
+
 import mapKeys from 'lodash/mapKeys';
 import omit from 'lodash/omit';
-import { SE_ITEMS, CL_ITEMS, UP_ITEM, RM_ITEM, SE_ITEMS_ATTR, UP_FIELD_OF_ITEM, SE_ITEM, } from '../constants/action-types';
+import type { Action } from '../types';
+import type { ItemsState } from '../types/state';
 
 const initialState = {
   photos: {},
-  photos_attr: {},
-  user_collections: {},
-  user_collections_attr: {},
+  photosAttr: {},
+  userCollections: {},
+  userCollectionsAttr: {},
   collections: {},
-  collections_attr: {},
+  collectionsAttr: {},
 };
 
 /**
  * items reducer 
  * this is object base on item id and entity
- * state.items.liked_photo = {
- *  "1239048": { ...itemObject },
- *  "0918203": { ...anotherItem },
- * }
  * @param {object} state state current state
  * @param {*} action pure action object
  */
-export default function itemsReducer(state = initialState, action) {
+export default (state: ItemsState = initialState, action: Action): ItemsState => {
   switch (action.type) {
     // action > setItem
-    case SE_ITEM: {
+    case 'items/SE_ITEM': {
       // NOTE: in SE_ITEM added to first
-      const newObj = mapKeys([action.payload], 'id');
+      const newObj = mapKeys(action.payload, 'id');
       return Object.assign({}, state, {
         [action.entity]: {
           ...newObj,
@@ -35,8 +34,9 @@ export default function itemsReducer(state = initialState, action) {
       });
     }
     // action > setItems
-    case SE_ITEMS: {
+    case 'items/SE_ITEMS': {
       // the payload === array of entity items
+      // $FlowFixMe mapKeys don't accept the Array<Object> type
       const newItems = mapKeys(action.payload, 'id');
       // like > state.items.photos
       return Object.assign({}, state, {
@@ -46,7 +46,7 @@ export default function itemsReducer(state = initialState, action) {
       });
     }
     // action > updateItem(entity,payload)
-    case UP_ITEM:
+    case 'items/UP_ITEM':
       // the payload === item object
       return Object.assign({}, state, {
         [action.entity]: {
@@ -55,7 +55,7 @@ export default function itemsReducer(state = initialState, action) {
         }
       });
     // action > updateFieldOfItem
-    case UP_FIELD_OF_ITEM: {
+    case 'items/UP_FIELD_OF_ITEM': {
       // first get items
       const items = state[action.entity];
       // get item by id
@@ -75,26 +75,26 @@ export default function itemsReducer(state = initialState, action) {
       });
     }
     // action > deleteItem(entity,payload)
-    case RM_ITEM:
+    case 'items/RM_ITEM':
       // action.payload === id of item to delete
       return Object.assign({}, state, {
         [action.entity]: omit(state[action.entity], action.id),
       });
     // action > clearItems()
-    case CL_ITEMS:
-      // clear both items entity and entity_attr
+    case 'items/CL_ITEMS':
+      // clear both items entity and entityAttr
       return Object.assign({}, state, {
         [action.entity]: {},
-        [`${action.entity}_attr`]: {},
+        [`${action.entity}Attr`]: {},
       });
     // action > setItemsAttr(entity,attrObj)
-    case SE_ITEMS_ATTR: {
-      // like > state.items.photos_attr.total
+    case 'items/SE_ITEMS_ATTR': {
+      // like > state.items.photosAttr.total
       return Object.assign({}, state, {
-        [`${action.entity}_attr`]: action.attrObj,
+        [`${action.entity}Attr`]: action.attrObj,
       });
     }
     default:
       return state;
   }
-}
+};

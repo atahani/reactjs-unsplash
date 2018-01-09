@@ -114,8 +114,8 @@ PhotosByCollection.propTypes = {
 
 const mapStateToProps = (state, props) => {
   const id = props.match.params.id;
-  const collection = state.items.collections[id] || state.items.user_collections[id];
-  return {collection, loggedInUserId: state.user.user_profile.username, photos: state.items.photos, nextPhotosLink: state.items.photos_attr.next};
+  const collection = state.items.collections[id] || state.items.userCollections[id];
+  return {collection, loggedInUserId: state.user.userProfile.username, photos: state.items.photos, nextPhotosLink: state.items.photosAttr.next};
 };
 export default connect(mapStateToProps, dispatch => bindActionCreators({
   onGetCollection: getCollection,
