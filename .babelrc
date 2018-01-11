@@ -10,13 +10,14 @@
     "react",
     "flow"
   ],
-  "plugins": [
+  "plugins": [    
     "react-hot-loader/babel"
   ],
   "env": {
     "test": {
       "presets": [
-        "env"
+        "env",
+        "stage-2"
       ]
     }
   }

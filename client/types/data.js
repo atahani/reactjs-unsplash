@@ -1,5 +1,7 @@
 // @flow
 
+import APIError from '../api/api-error';
+
 export type AuthorizeToken = {
   accessToken: string,
   createdAt: Date,
@@ -129,3 +131,14 @@ export type Collection = {
   user?: User,
   links?: CollectionLinks
 };
+
+export type ErrorResponse = {
+  error: APIError,
+};
+
+export type SuccessResponse = {
+  response: any,
+  attr: ?Object,
+};
+
+export type RESTAPIResponse = Promise<SuccessResponse | ErrorResponse>

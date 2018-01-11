@@ -1,8 +1,12 @@
+//@flow
+
+import type { RESTAPIResponse, ErrorResponse, SuccessResponse } from '../types/data';
+import APIError from './api-error';
 import {getState} from '../store';
-import {UN_AVAILABLE} from '../constants/api-error-codes';
+import {UN_AVAILABLE,UNHANDLED} from '../constants/api-error-codes';
 
 // check status used in fetch promise
-function checkStatus(json, res) {
+function checkStatus(json: any, res: Response): ErrorResponse | SuccessResponse {
   // check response in ok 200 or not
   if (res.ok) {
     // get link header from response
@@ -35,23 +39,27 @@ function checkStatus(json, res) {
     return {response: json, attr};
   }
   // create error with status text, message, code
-  const error = new Error(res.status);
+  const error = new APIError(res.status);
   error.code = res.status;
   error.errors = json.errors;
   error.description = json.error_description;
-  throw error;
+  return {error};
 }
 
 // handle failure error
-function failure(err) {
+function failure(err: Error): ErrorResponse {
   // handle server unavailable error
-  if (typeof err === 'object' && err.message === 'Failed to fetch') {
-    const error = new Error('server unavailable');
-    error.errors = ['server unavailable'];
+  if (err.message && err.message === 'Failed to fetch') {
+    const error = new APIError('server unavailable');
+    error.errors = 'server unavailable';
     error.code = UN_AVAILABLE;
     return {error};
+  }else{
+    const error = new APIError('unhandled error happend');
+    error.errors = 'unhandled error happend';
+    error.code = UNHANDLED;
+    return {error};
   }
-  return {error: err};
 }
 
 /**
@@ -59,7 +67,7 @@ function failure(err) {
  * add headers like Accept, Authorization, Content-Type
  * @param {bool} jsonContentType
  */
-export const getHeaders = (jsonContentType = true) => {
+export const getHeaders = (jsonContentType?: boolean = true): Headers => {
   const headers = new Headers();
   headers.append('Accept-Version', 'v1');
   if (jsonContentType) {
@@ -76,7 +84,7 @@ export const getHeaders = (jsonContentType = true) => {
  * get headers for Multi Part requests
  * like upload image
  */
-export const getHeadersForMultiPart = () => {
+export const getHeadersForMultiPart = (): Headers => {
   const headers = new Headers();
   if (getState().user.isAuthorized) {
     headers.append('Authorization', `Bearer ${getState().user.token.access_token}`);
@@ -90,7 +98,7 @@ export const getHeadersForMultiPart = () => {
  * @param {Object} body
  * @param {Headers} headers default is getHeaders()
  */
-export const postReq = (endpoint, body, headers = getHeaders()) => fetch(endpoint, {
+export const postReq = (endpoint: string, body: any, headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
   method: 'POST',
   body: JSON.stringify(body),
     headers
@@ -105,7 +113,7 @@ export const postReq = (endpoint, body, headers = getHeaders()) => fetch(endpoin
  * @param {string} endpoint
  * @param {Object} formData
  */
-export const postReqFormData = (endpoint, formData) => fetch(endpoint, {
+export const postReqFormData = (endpoint: string, formData: any): RESTAPIResponse => fetch(endpoint, {
     method: 'POST',
     body: formData,
     headers: getHeadersForMultiPart()
@@ -119,7 +127,7 @@ export const postReqFormData = (endpoint, formData) => fetch(endpoint, {
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const getReq = (endpoint, headers = getHeaders()) => fetch(endpoint, {
+export const getReq = (endpoint: string, headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
     method: 'GET',
     headers
   })
@@ -132,7 +140,7 @@ export const getReq = (endpoint, headers = getHeaders()) => fetch(endpoint, {
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const deleteReq = (endpoint, body = {}, headers = getHeaders()) => fetch(endpoint, {
+export const deleteReq = (endpoint: string, body: any = {}, headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
   method: 'DELETE',
   body: JSON.stringify(body),
     headers
@@ -146,7 +154,7 @@ export const deleteReq = (endpoint, body = {}, headers = getHeaders()) => fetch(
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const deleteReqWithoutJSON = (endpoint, headers = getHeaders()) => fetch(endpoint, {
+export const deleteReqWithoutJSON = (endpoint: string , headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
   method: 'DELETE',
   headers
 }).then(res => checkStatus({}, res)).catch(failure);
@@ -158,7 +166,7 @@ export const deleteReqWithoutJSON = (endpoint, headers = getHeaders()) => fetch(
  * @param {Object} body
  * @param {Headers} headers default is getHeaders()
  */
-export const putReq = (endpoint, body, headers = getHeaders()) => fetch(endpoint, {
+export const putReq = (endpoint: string, body: any, headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
   method: 'PUT',
   body: JSON.stringify(body),
     headers
