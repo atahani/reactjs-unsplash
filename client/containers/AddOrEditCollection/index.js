@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -14,6 +15,7 @@ import {setActionData} from '../../actions/app';
 import {CONFIRM_DELETE_COLLECTION} from '../../constants/action-types';
 import {media} from '../../style/util';
 import {errorColor} from '../../style/colors';
+import type { Collection } from '../../types/data';
 
 const Wrapper = styled.div `
   position: relative;
@@ -92,20 +94,31 @@ const Note = styled.div `
   width: 160px;
   justify-content: space-between;
 `;
+type FormProps = {
+  handleSubmit?: Function,
+  submitting?: boolean,
+  pristine?: boolean,
+  editMode: boolean,
+  confirmDeleteAction: boolean,
+  collection: Collection,
+  onRequestClose: Function,
+  onChangeForm: Function,
+  onSetActionData: Function,
+  onDeleteCollection: Function,
+};
 
 let MainForm = ({
   handleSubmit,
   submitting,
   pristine,
   editMode,
+  confirmDeleteAction,
+  collection,
   onRequestClose,
   onChangeForm,
-  isPrivate,
   onSetActionData,
-  confirmDeleteAction,
   onDeleteCollection,
-  collectionId
-}) => (
+}: FormProps) => (
   <Form onSubmit={handleSubmit}>
     <Controller>
       <ConHeader>
@@ -130,7 +143,7 @@ let MainForm = ({
         <Field name="private" component="input" type="checkbox" />
         <PrivateBtn
           type="button"
-          onClick={() => onChangeForm('add_or_edit_collection', 'private', !isPrivate)}
+          onClick={() => onChangeForm('add_or_edit_collection', 'private', !collection.private)}
         >Make collection private</PrivateBtn>
       </CheckboxCon>
     </Controller>
@@ -139,8 +152,8 @@ let MainForm = ({
         ? confirmDeleteAction
           ? <Note>Are you sure ?
             <CancelBtn
-                onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), false)}
-              >Cancel</CancelBtn>
+              onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), false)}
+            >Cancel</CancelBtn>
           </Note>
           : <DeleteBtn
             onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), true)}
@@ -151,7 +164,7 @@ let MainForm = ({
           primary
           label="Delete"
           primaryColor={errorColor}
-          onClick={() => onDeleteCollection(collectionId)}
+          onClick={() => onDeleteCollection(collection.id)}
           type="button" 
         />
         : <Button
@@ -166,9 +179,35 @@ let MainForm = ({
   </Form>
 );
 
+MainForm.defaultProps = {
+  submitting: false,
+  handleSubmit: () => {},
+  pristine: true,
+};
+
 MainForm = reduxForm({form: 'add_or_edit_collection', enableReinitialize: true})(MainForm);
 
-class AddOrEditCollection extends Component {
+type Props = {
+  editMode: boolean,
+  confirmDeleteAction: boolean,
+  onRequestClose: Function,
+  onUpdateCollection: Function,
+  onDeleteCollection: Function,
+  onCreateCollection: Function,
+  onSetActionData: Function,
+  onChangeForm: Function,
+  collection: Collection,
+}
+
+type State = {
+
+}
+
+class AddOrEditCollection extends Component<Props,State> {
+  static defaultProps = {
+    confirmDeleteAction: false
+  };
+
   componentDidMount() {
     this
       .props
@@ -177,22 +216,20 @@ class AddOrEditCollection extends Component {
 
   render() {
     const {
-      className,
       editMode,
-      collectionId,
+      collection,
+      confirmDeleteAction,
       onRequestClose,
       onChangeForm,
-      isPrivate,
-      initialValues,
-      confirmDeleteAction,
       onCreateCollection,
       onUpdateCollection,
       onDeleteCollection,
-      onSetActionData
+      onSetActionData,
+      ...others,
     } = this.props;
 
     return (
-      <Wrapper className={className}>
+      <Wrapper {...others}>
         <Helmet>
           <title>{editMode
               ? 'Edit Collection - unsplash clone'
@@ -210,36 +247,17 @@ class AddOrEditCollection extends Component {
           onRequestClose={onRequestClose}
           onSetActionData={onSetActionData}
           onDeleteCollection={onDeleteCollection}
-          isPrivate={isPrivate}
-          initialValues={initialValues}
-          collectionId={collectionId}
+          collection={collection}
+          initialValues={collection}
           onSubmit={values => editMode
-          ? onUpdateCollection(collectionId, values)
+          ? onUpdateCollection(values)
           : onCreateCollection(values)}
-          confirmDeleteAction={confirmDeleteAction} 
+          confirmDeleteAction={confirmDeleteAction}
         />
       </Wrapper>
     );
   }
 }
-
-AddOrEditCollection.propTypes = {
-  className: PropTypes.string,
-  editMode: PropTypes.bool,
-  collectionId: PropTypes.number,
-  isPrivate: PropTypes.bool,
-  initialValues: PropTypes.object,
-  onRequestClose: PropTypes.func,
-  onUpdateCollection: PropTypes.func,
-  onDeleteCollection: PropTypes.func,
-  onCreateCollection: PropTypes.func,
-  onSetActionData: PropTypes.func,
-  onChangeForm: PropTypes.func
-};
-
-AddOrEditCollection.defaultProps = {
-  confirmDeleteAction: false
-};
 
 /**
  * NOTE: since we use wrap component with connect the Route and also use NavLink inside 'Nav Component' the Route and NavLink dosn't connected
@@ -247,25 +265,16 @@ AddOrEditCollection.defaultProps = {
  * so we use Wrap component with withRouter
  * MORE_INFO: https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking
  */
-const selector = formValueSelector('add_or_edit_collection');
+// const selector = formValueSelector('add_or_edit_collection');
+// isPrivate: selector(state, 'private'),
 const mapStateToProps = (state, props) => {
   const searchParams = new URLSearchParams(state.router.location.search);
-  const editMode = props.match.params.id && !searchParams.has('step');
+  const editMode: boolean = props.match.params.id && !searchParams.has('step') ? true : false;
   const collection = editMode
     ? state.items.userCollections[props.match.params.id]
-    : void 0;
+    : {};
   return {
-    collectionId: collection
-      ? collection.id
-      : void 0,
-    initialValues: collection
-      ? {
-        title: collection.title,
-        description: collection.description,
-        private: collection.private
-      }
-      : {},
-    isPrivate: selector(state, 'private'),
+    collection,
     editMode,
     confirmDeleteAction: state.app.actionData[CONFIRM_DELETE_COLLECTION.toLowerCase()]
   };

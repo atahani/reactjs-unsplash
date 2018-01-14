@@ -1,5 +1,6 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,8 +15,10 @@ const Wrapper = styled.div `
   height: 100%;
 `;
 
-const MainApp = ({className}) => (
-  <Wrapper className={className}>
+type Props = {}
+
+const MainApp = ({...others}: Props) => (
+  <Wrapper {...others}>
     <Helmet>
       <meta charSet="utf-8" />
       <title>Unsplash clone app</title>
@@ -29,9 +32,5 @@ const MainApp = ({className}) => (
     <Progress />
   </Wrapper>
 );
-
-MainApp.propTypes = {
-  className: PropTypes.string
-};
 
 export default MainApp;

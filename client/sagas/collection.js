@@ -121,12 +121,12 @@ export function* searchInCollectionsF() {
  */
 export function* createCollectionF() {
   while (true) {
-    const {values} = yield take(CREATE_COLLECTION);
+    const {collection} = yield take(CREATE_COLLECTION);
     yield all([
       put(jobStatus(true)),
       put(startSubmit('add_or_edit_collection'))
     ]);
-    const {response, error} = yield call(createCollection, values);
+    const {response, error} = yield call(createCollection, collection);
     yield all([
       put(jobStatus(false)),
       put(stopSubmit('add_or_edit_collection'))
@@ -155,13 +155,13 @@ export function* createCollectionF() {
  */
 export function* updateCollectionF() {
   while (true) {
-    const {id, values} = yield take(UPDATE_COLLECTION);
+    const {collection} = yield take(UPDATE_COLLECTION);
     yield all([
       put(jobStatus(true)),
       put(startSubmit('add_or_edit_collection'))
     ]);
     yield;
-    const {response, error} = yield call(updateCollection, id, values);
+    const {response, error} = yield call(updateCollection, collection);
     yield all([
       put(jobStatus(false)),
       put(stopSubmit('add_or_edit_collection'))
@@ -174,7 +174,7 @@ export function* updateCollectionF() {
         put(push(`/collections/${response.id}`))
       ]);
     } else {
-      yield fork(handleCommonErr, error, UPDATE_COLLECTION, {id, values});
+      yield fork(handleCommonErr, error, UPDATE_COLLECTION, {collection});
     }
   }
 }

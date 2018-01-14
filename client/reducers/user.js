@@ -1,5 +1,6 @@
 //@flow
 
+import camelCaseKeys from 'camelcase-keys-deep';
 import type { Action } from '../types';
 import type { UserState } from '../types/state';
 
@@ -32,11 +33,10 @@ export default (state: UserState = initialState, action: Action): UserState => {
           links,
           ...others
         } = action.payload;
+        const userProfile = Object.assign({},camelCaseKeys(others));
         // like > state.user.userProfile
         return Object.assign({}, state, {
-          userProfile: {
-            ...others
-          },
+          userProfile,
           links
         });
       }

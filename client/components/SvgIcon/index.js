@@ -1,5 +1,7 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+//@flow
+
+//$FlowFixMe we should import Node as type but the eslint doesn't happy
+import React, {Component,Node} from 'react';
 import styled from 'styled-components';
 import {iconColor} from '../../style/colors';
 
@@ -16,47 +18,71 @@ const Svg = styled.svg `
     : props.color};`}
 `;
 
-class SvgIcon extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hovered: false
-    };
-    this.handleMouseLeave = this
-      .handleMouseLeave
-      .bind(this);
-    this.handleMouseEnter = this
-      .handleMouseEnter
-      .bind(this);
-  }
+type Props = {
+  children: Node,
+  size?: number,
+  fillFromParent?: boolean,
+  color?: string,
+  hoverColor?: string,
+  viewBox?: string,
+  onMouseEnter?: Function,
+  onMouseLeave?: Function,
+}
 
-  handleMouseLeave(e) {
+type State = {
+  hovered: boolean,
+}
+
+class SvgIcon extends Component<Props,State> {
+  static defaultProps = {
+    color: iconColor,
+    size: 24,
+    fillFromParent: false,
+    /**
+       * Allows you to redefine what the coordinates
+       * without units mean inside an svg element. For example,
+       * if the SVG element is 500 (width) by 200 (height), and you
+       * pass viewBox="0 0 50 20", this means that the coordinates inside
+       * the svg will go from the top left corner (0,0) to bottom right (50,20)
+       * and each unit will be worth 10px.
+       */
+    viewBox: '0 0 24 24'
+  };
+  state = {
+    hovered: false
+  };
+
+  handleMouseLeave = (e: Event) => {
     this.setState({hovered: false});
-    this
-      .props
-      .onMouseLeave(e);
+    if (this.props.onMouseLeave){
+      this
+        .props
+        .onMouseLeave(e);
+    }
   }
 
-  handleMouseEnter(e) {
+  handleMouseEnter = (e: Event) => {
     this.setState({hovered: true});
-    this
-      .props
-      .onMouseEnter(e);
+    if (this.props.onMouseEnter){
+      this
+        .props
+        .onMouseEnter(e);
+    }
   }
   render() {
     const {
-      className,
       size,
       color,
       hoverColor,
       viewBox,
       fillFromParent,
-      children
+      children,
+      ...others
     } = this.props;
     const {hovered} = this.state;
     return (
       <Svg
-        className={className}
+        {...others}
         size={size}
         fillFromParent={fillFromParent}
         color={color}
@@ -73,34 +99,5 @@ class SvgIcon extends Component {
     );
   }
 }
-
-SvgIcon.propTypes = {
-  children: PropTypes.node,
-  size: PropTypes.number,
-  fillFromParent: PropTypes.bool,
-  color: PropTypes.string,
-  hoverColor: PropTypes.string,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  viewBox: PropTypes.string,
-  className: PropTypes.string
-};
-
-SvgIcon.defaultProps = {
-  color: iconColor,
-  size: 24,
-  fillFromParent: false,
-  onMouseEnter: () => {},
-  onMouseLeave: () => {},
-  /**
-     * Allows you to redefine what the coordinates
-     * without units mean inside an svg element. For example,
-     * if the SVG element is 500 (width) by 200 (height), and you
-     * pass viewBox="0 0 50 20", this means that the coordinates inside
-     * the svg will go from the top left corner (0,0) to bottom right (50,20)
-     * and each unit will be worth 10px.
-     */
-  viewBox: '0 0 24 24'
-};
 
 export default SvgIcon;

@@ -1,9 +1,12 @@
+//@flow
+
 import {Component} from 'react';
-import PropTypes from 'prop-types';
 import {getAccessToken} from '../../actions/user';
 import {getStore, getHistory} from '../../store';
 
-class Authorize extends Component {
+type Props = {}
+
+class Authorize extends Component<Props> {
 
   componentDidMount() {
     // handle get access token with authorization code
@@ -12,9 +15,9 @@ class Authorize extends Component {
     // e act-router-v4 should get query string from history
     const {dispatch} = getStore();
     const URLQStrings = new URLSearchParams(getHistory().location.search);
-    const code = URLQStrings.has('code')
+    const code: string = URLQStrings.has('code')
       ? URLQStrings.get('code')
-      : void 0;
+      : '';
     // get access token
     dispatch(getAccessToken(code));
   }
@@ -23,9 +26,5 @@ class Authorize extends Component {
     return false;
   }
 }
-
-Authorize.propTypes = {
-  match: PropTypes.object
-};
 
 export default Authorize;

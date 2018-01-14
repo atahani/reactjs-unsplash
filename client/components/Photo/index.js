@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
@@ -12,6 +13,7 @@ import AddIcon from '../svg-icons/add';
 import Button from '../Button';
 import {likePhoto, unLikePhoto} from '../../actions/photo';
 import {primaryColor1, white, likeColor, greenColor} from '../../style/colors';
+import type { Photo } from '../../types/data';
 
 const Wrapper = styled.div `
   width: ${props => `${props.width}px`};
@@ -125,7 +127,7 @@ const RowFooter = styled.div `
 const BtnLikedR = styled(Button)`
   display: flex;
   align-items: center;
-  ${props => props.likeByUser
+  ${props => props.likedByUser
   ? `
     background-color: ${likeColor};
     color: ${white};
@@ -149,105 +151,104 @@ const CollectBtn = styled(Button)`
   justify-content: space-between;
 `;
 
-class Photo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show_overlay: false
-    };
-    this.handleMouseEnter = this
-      .handleMouseEnter
-      .bind(this);
-    this.handleMouseLeave = this
-      .handleMouseLeave
-      .bind(this);
-  }
+type Props = {
+  isRow: boolean,
+  width: number,
+  photo: Photo,
+  handleLikePhoto: Function,
+  handleUnLikePhoto: Function,
+  onPush: Function
+}
 
-  handleMouseLeave() {
+type State = {
+  showOverlay: boolean,
+}
+
+class PhotoComponent extends Component<Props,State> {
+  static defualtProps = {
+    isRow: false,
+  };
+  state = {
+    showOverlay: false
+  };
+
+  handleMouseLeave = () => {
     if (!this.props.isRow) {
-      this.setState({show_overlay: false});
+      this.setState({showOverlay: false});
     }
   }
 
-  handleMouseEnter() {
+  handleMouseEnter = () => {
     if (!this.props.isRow) {
-      this.setState({show_overlay: true});
+      this.setState({showOverlay: true});
     }
   }
 
   render() {
     const {
-      className,
       isRow,
       width,
-      id,
-      urls,
-      links,
-      likes,
-      likeByUser,
-      imgHeight,
-      imgWidth,
-      byUser,
+      photo,
       handleLikePhoto,
       handleUnLikePhoto,
       onPush,
-      belongsToCollections
+      ...others,
     } = this.props;
-    const height = (imgHeight * width) / imgWidth;
-    const {show_overlay} = this.state;
+    const height = (photo.height * width) / photo.width;
+    const {showOverlay} = this.state;
     const clickOnCollect = () => {
       // push to add_to_collection with photo id to catch it in dialog
-      onPush(`?add_to_collection&id=${id}`);
+      onPush(`?add_to_collection&id=${photo.id}`);
     };
     const userInfo = () => (
-      <UserInfo overlay={show_overlay} target="_blank" href={byUser.links.html}>
-        <Avatar name={byUser.name} imagePath={byUser.profile_image.medium} />
-        <DisplayName>{byUser.name}</DisplayName>
+      <UserInfo overlay={showOverlay} target="_blank" href={photo.user.links.html}>
+        <Avatar name={photo.user.name} imagePath={photo.user.profileImage.medium} />
+        <DisplayName>{photo.user.name}</DisplayName>
       </UserInfo>
     );
     const columnView = () => {
-      if (show_overlay) {
+      if (showOverlay) {
         return (
           <Overlay>
             {userInfo()}
             <BtnLiked
-              onClick={() => likeByUser
-              ? handleUnLikePhoto(id)
-              : handleLikePhoto(id)}
+              onClick={() => photo.likedByUser
+              ? handleUnLikePhoto(photo.id)
+              : handleLikePhoto(photo.id)}
             >
               <LikeIcon
-                color={likeByUser
+                color={photo.likedByUser
                 ? likeColor
                 : white}
                 hoverColor={likeColor} 
               />
-              <LikesText>{likes}</LikesText>
+              <LikesText>{photo.likes}</LikesText>
             </BtnLiked>
             <ActionsBtns>
-              <BtnDown target="_blank" href={`${links.download}?force=true`}>
+              <BtnDown target="_blank" href={`${photo.links.download}?force=true`}>
                 <DownloadIcon color={white} />
               </BtnDown>
               <Btn onClick={() => clickOnCollect()}>
                 <AddIcon
-                  color={belongsToCollections && belongsToCollections.length > 0
+                  color={photo.currentUserCollections && photo.currentUserCollections.length > 0
                   ? greenColor
                   : white} 
                 />
               </Btn>
             </ActionsBtns>
-            <ImageView overlay={show_overlay} src={urls.small} />
+            <ImageView overlay={showOverlay} src={photo.urls.small} />
           </Overlay>
         );
       }
-      return (<ImageView overlay={show_overlay} src={urls.small} />);
+      return (<ImageView overlay={showOverlay} src={photo.urls.small} />);
     };
     const main = () => {
       if (isRow) {
         return (
           <Row>
             {userInfo()}
-            <RowImgWrapper height={height} className={className}>
-              <ImageView overlay={show_overlay} src={urls.small} />
+            <RowImgWrapper height={height} {...others}>
+              <ImageView overlay={showOverlay} src={photo.urls.small} />
             </RowImgWrapper>
             <RowFooter>
               <div style={{
@@ -255,29 +256,29 @@ class Photo extends Component {
               }}
               >
                 <BtnLikedR
-                  likeByUser={likeByUser}
-                  onClick={() => likeByUser
-                  ? handleUnLikePhoto(id)
-                  : handleLikePhoto(id)}
+                  likedByUser={photo.likedByUser}
+                  onClick={() => photo.likedByUser
+                  ? handleUnLikePhoto(photo.id)
+                  : handleLikePhoto(photo.id)}
                 >
                   <LikeIcon
                     size={18}
-                    color={likeByUser
+                    color={photo.likedByUser
                     ? white
                     : likeColor}
-                    hoverColor={likeByUser
+                    hoverColor={photo.likedByUser
                     ? white
                     : likeColor} 
                   />
-                  <LikesCounter>{likes}</LikesCounter>
+                  <LikesCounter>{photo.likes}</LikesCounter>
                 </BtnLikedR>
-                <Button target="_blank" href={`${links.download}?force=true`}>
-                  <DownloadIcon size={20} color={greenColor} />
+                <Button target="_blank" href={`${photo.links.download}?force=true`}>
+                  <DownloadIcon color={greenColor} />
                 </Button>
               </div>
               <CollectBtn
                 primary
-                primaryColor={belongsToCollections && belongsToCollections.length > 0
+                primaryColor={photo.currentUserCollections && photo.currentUserCollections.length > 0
                 ? greenColor
                 : primaryColor1}
                 onClick={() => clickOnCollect()}
@@ -291,12 +292,12 @@ class Photo extends Component {
       }
       return (
         <Wrapper
-          className={className}
+          {...others}
           width={width}
           height={height}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          overlay={show_overlay}
+          overlay={showOverlay}
         >
           {columnView()}
         </Wrapper>
@@ -306,32 +307,8 @@ class Photo extends Component {
   }
 }
 
-Photo.propTypes = {
-  className: PropTypes.string,
-  isRow: PropTypes.bool,
-  width: PropTypes.number,
-  id: PropTypes.string,
-  urls: PropTypes.object,
-  links: PropTypes.object,
-  likes: PropTypes.number,
-  likeByUser: PropTypes.bool,
-  color: PropTypes.string,
-  imgHeight: PropTypes.number,
-  imgWidth: PropTypes.number,
-  byUser: PropTypes.object,
-  belongsToCollections: PropTypes.arrayOf(PropTypes.object),
-  handleLikePhoto: PropTypes.func,
-  handleUnLikePhoto: PropTypes.func,
-  onPush: PropTypes.func
-};
-
-Photo.defualtProps = {
-  isRow: false,
-  belongsToCollections:[],
-};
-
 export default connect(state => ({}), dispatch => bindActionCreators({
   handleLikePhoto: likePhoto,
   handleUnLikePhoto: unLikePhoto,
   onPush: push
-}, dispatch))(Photo);
+}, dispatch))(PhotoComponent);

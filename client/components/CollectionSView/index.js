@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {lighten} from 'polished';
@@ -8,6 +9,7 @@ import DoneIcon from '../svg-icons/done';
 import RemoveIcon from '../svg-icons/remove';
 import AddIcon from '../svg-icons/add';
 import {dividerColor, secondaryColor1, primaryColor1, white, greenColor} from '../../style/colors';
+import type { Collection } from '../../types/data';
 
 const Wrapper = styled.div `
   width: ${props => `${props.width}px`};
@@ -74,8 +76,7 @@ const Counter = styled.div `
   opacity: 0.7;
 `;
 
-const PrivateIcon = styled(LockIcon)
-`
+const PrivateIcon = styled(LockIcon)`
   position: absolute;
   bottom: 34px;
   left: 15px;
@@ -90,27 +91,34 @@ const SelectedStatusIcon = styled.div `
   fill: ${white};
 `;
 
-class CollectionSView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      overlay: false
-    };
-    this.handleMouseEnter = this
-      .handleMouseEnter
-      .bind(this);
-    this.handleMouseLeave = this
-      .handleMouseLeave
-      .bind(this);
+type Props = {
+  width: number,
+  height: number,
+  inRowSelection: boolean,
+  selected: boolean,
+  collection: Collection,
+}
+
+type State = {
+  overlay: boolean,
+}
+
+class CollectionSView extends Component<Props,State> {
+  static defaultProps = {
+    inRowSelection: false,
+    selected: false
+  };
+  state = {
+    overlay: false,
   }
 
-  handleMouseLeave() {
+  handleMouseLeave = () => {
     if (this.props.inRowSelection) {
       this.setState({overlay: false});
     }
   }
 
-  handleMouseEnter() {
+  handleMouseEnter = () => {
     if (this.props.inRowSelection) {
       this.setState({overlay: true});
     }
@@ -118,16 +126,11 @@ class CollectionSView extends Component {
 
   render() {
     const {
-      className,
-      id,
       width,
       height,
-      coverPhoto,
-      title,
-      totalPhotos,
-      isPrivate,
       inRowSelection,
       selected,
+      collection,
       ...others
     } = this.props;
     const {overlay} = this.state;
@@ -144,8 +147,8 @@ class CollectionSView extends Component {
       <Cover
         inRowSelection={inRowSelection}
         height={height}
-        imgUrl={coverPhoto
-        ? `${coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=${width
+        imgUrl={collection.coverPhoto
+        ? `${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=${width
           ? width
           : ''}&h=${height
             ? height
@@ -154,14 +157,13 @@ class CollectionSView extends Component {
       >
         <Overlay inRowSelection={inRowSelection} selected={selected} />
         <Counter >
-          {`${totalPhotos} Photos`
+          {`${collection.totalPhotos ? collection.totalPhotos : 0} Photos`
 }
         </Counter>
         <Title >
-          {title
-}
+          {collection.title}
         </Title>
-        {isPrivate
+        {collection.isPrivate
           ? <PrivateIcon size={16} />
           : null}
         {inRowSelection
@@ -175,7 +177,7 @@ class CollectionSView extends Component {
     const content = () => {
       if (!inRowSelection) {
         return (
-          <Link to={`/collections/${id}`}>
+          <Link to={`/collections/${collection.id ? collection.id : ''}`}>
             {cover()
 }
           </Link>
@@ -188,7 +190,6 @@ class CollectionSView extends Component {
         {...others}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className={className}
         width={width}
         height={height}
         inRowSelection={inRowSelection}
@@ -199,23 +200,5 @@ class CollectionSView extends Component {
     );
   }
 }
-
-CollectionSView.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.number,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  coverPhoto: PropTypes.object,
-  title: PropTypes.string,
-  totalPhotos: PropTypes.number,
-  inRowSelection: PropTypes.bool,
-  isPrivate: PropTypes.bool,
-  selected: PropTypes.bool
-};
-
-CollectionSView.defaultProps = {
-  inRowSelection: false,
-  selected: false
-};
 
 export default CollectionSView;

@@ -7,6 +7,7 @@ import {getPhotos, likePhoto, unLikePhoto, getPhoto} from '../api/photo';
 import {getReq} from '../api/rest-helper';
 import {setItems, setItemsAttr, updateFieldsOfItem, setItem} from '../actions/items';
 
+
 /**
  * get photos flow
  */

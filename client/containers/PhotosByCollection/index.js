@@ -78,7 +78,7 @@ class PhotosByCollection extends Component {
               ? <Description>{collection.description}</Description>
               : null}
             <UserLink target="_blank" href={collection.user.links.html}>
-              <Avatar imagePath={collection.user.profile_image.medium} />
+              <Avatar imagePath={collection.user.profileImage.medium} />
               <DisplayName>{collection.user.name}</DisplayName>
             </UserLink>
           </Header>

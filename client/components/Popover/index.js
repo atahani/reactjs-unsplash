@@ -1,5 +1,7 @@
-import React, {Component, cloneElement} from 'react';
-import PropTypes from 'prop-types';
+//@flow
+
+//$FlowFixMe we should import Node as type but the eslint doesn't happy
+import React, {Component, cloneElement, ReactPropTypes} from 'react';
 import styled from 'styled-components';
 import {rgba} from 'polished';
 import onClickOutside from 'react-onclickoutside';
@@ -44,31 +46,40 @@ const Arrow = styled.div `
   }
 `;
 
-class Popover extends Component {
+type Props = {
+  children: ReactPropTypes,
+  target: ReactPropTypes,
+  width: number,
+  on: "hover" | "click" | "focus",
+  autoCloseWhenOffScreen: boolean,
+  arrowSide: string,
+  onOpen: Function,
+  onClose: Function
+}
+
+type State = {
+  open: boolean,
+  target: ReactPropTypes,
+  targetWithEvent: ReactPropTypes,
+  top: number,
+  left: number,
+  arrowTop: number,
+  arrowLeft: number,
+}
+
+class Popover extends Component<Props,State> {
+  static defaultProps = {
+    width: 60,
+    on: 'click',
+    arrowSide: 'center',
+    autoCloseWhenOffScreen: false
+  };
   constructor(props) {
     super(props);
-    this.handleOpen = this
-      .handleOpen
-      .bind(this);
-    this.handleClose = this
-      .handleClose
-      .bind(this);
-    this.handleClick = this
-      .handleClick
-      .bind(this);
-    this.getTargetEvent = this
-      .getTargetEvent
-      .bind(this);
-    this.setPlacement = this
-      .setPlacement
-      .bind(this);
-    this.handleResizeOrScroll = this
-      .handleResizeOrScroll
-      .bind(this);
     this.state = {
       open: false,
-      // it's for get BoundingClientRect on resize or scroll and calc and set elm
-      target: void 0,
+      // it's for get BoundingClientRect on resize or scroll and calc
+      target: null,
       // clone target element with custom events
       targetWithEvent: cloneElement(props.target, this.getTargetEvent(props.on)),
       top: 0,
@@ -78,16 +89,16 @@ class Popover extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     // check if target changed clone it with custom events
-    if (nextProps.target !== this.props.target) {
+    if (nextProps.target && nextProps.target !== this.props.target) {
       this.setState({
         targetWithEvent: cloneElement(nextProps.target, this.getTargetEvent(nextProps.on))
       });
     }
   }
 
-  setPlacement(target) {
+  setPlacement = (target: ReactPropTypes) => {
     if (!target) {
       return;
     }
@@ -126,7 +137,7 @@ class Popover extends Component {
   }
 
   // get target event base on event type
-  getTargetEvent(on) {
+  getTargetEvent = on => {
     // check base on type of event
     switch (on) {
       case 'hover':
@@ -146,7 +157,7 @@ class Popover extends Component {
     }
   }
 
-  handleResizeOrScroll() {
+  handleResizeOrScroll = () => {
     const {open, target} = this.state;
     // check is close return
     if (!open) {
@@ -155,11 +166,11 @@ class Popover extends Component {
     this.setPlacement(target);
   }
 
-  handleClickOutside(e) {
+  handleClickOutside = e => {
     this.handleClose(e);
   }
 
-  handleOpen(e) {
+  handleOpen = e => {
     const target = e.target;
     if (this.props.onOpen) {
       this
@@ -169,8 +180,8 @@ class Popover extends Component {
     this.setPlacement(target);
   }
 
-  handleClose(e) {
-    this.setState({open: false, elm: void 0, target: void 0});
+  handleClose = e => {
+    this.setState({open: false, target: null});
     if (this.props.onClose) {
       this
         .props
@@ -178,7 +189,7 @@ class Popover extends Component {
     }
   }
 
-  handleClick(e) {
+  handleClick = e => {
     if (this.state.open) {
       this.handleClose(e);
     } else {
@@ -187,7 +198,7 @@ class Popover extends Component {
   }
 
   render() {
-    const {className, width} = this.props;
+    const {width,...others} = this.props;
     const {
       open,
       targetWithEvent,
@@ -203,7 +214,7 @@ class Popover extends Component {
           onScroll={this.handleResizeOrScroll}
           onResize={this.handleResizeOrScroll} 
         />
-        <Wrapper className={className} open={open} top={top} left={left} width={width}>
+        <Wrapper {...others} open={open} top={top} left={left} width={width}>
           <Inner>
             {this.props.children}
           </Inner>
@@ -214,28 +225,6 @@ class Popover extends Component {
     );
   }
 }
-
-Popover.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  target: PropTypes.node.isRequired,
-  width: PropTypes.number,
-  on: PropTypes.oneOf(['hover', 'click', 'focus']),
-  autoCloseWhenOffScreen: PropTypes.bool,
-  arrowSide: PropTypes.string,
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func
-};
-
-Popover.defaultProps = {
-  width: 60,
-  on: 'click',
-  arrowSide: 'center',
-  autoCloseWhenOffScreen: false
-};
 
 // wrap it with onClickOutside for handle when user click outside of popover
 export default onClickOutside(Popover);

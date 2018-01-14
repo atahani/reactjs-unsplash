@@ -35,10 +35,9 @@ export const createCollection = (collection: Collection): Action => ({type: 'col
 
 /**
  * update collection
- * @param {string} id collection id
  * @param {Collection} collection object of collection from form
  */
-export const updateCollection = (id: string, collection: Collection): Action  => ({type: 'collection/UPDATE_COLLECTION', id, collection});
+export const updateCollection = (collection: Collection): Action  => ({type: 'collection/UPDATE_COLLECTION', collection});
 
 /**
  * delete collection

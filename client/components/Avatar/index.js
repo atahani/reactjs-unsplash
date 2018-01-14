@@ -1,5 +1,6 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { secondaryColor1, white, } from '../../style/colors';
 
@@ -20,23 +21,23 @@ const NoImage = styled.div`
   border-radius: 50%;
 `;
 
-const Avatar = ({className, name, imagePath, size}) => (
+type Props = {
+  className?: string,
+  name: string,
+  imagePath: string,
+  size?: number,
+};
+
+const Avatar = ({className, name, imagePath, size}: Props) => (
 imagePath !== '' ?
   <Image className={className} src={imagePath} alt={name} size={size} />
   :
   <NoImage className={className} size={size}>{name.substr(0, 1)}</NoImage>
 );
 
-Avatar.propTypes = {
-  className: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  imagePath: PropTypes.string.isRequired,
-  size: PropTypes.number.isRequired,
-};
-
 Avatar.defaultProps = {
+  className: void 0,
   name: 'U',
-  imagePath: '',
   size: 40,
 };
 

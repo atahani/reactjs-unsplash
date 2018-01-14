@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -14,6 +15,7 @@ import {getUserCollections, addPhotoToCollection, removePhotoFromCollection} fro
 import {API_ROOT} from '../../constants/service-info';
 import {secondaryColor1, white} from '../../style/colors';
 import {media} from '../../style/util';
+import type { Photo } from '../../types/data';
 
 const slideInRight = keyframes `
   from {
@@ -106,13 +108,24 @@ const AddNewCollection = styled(_AddNewCollection)`
   background-color: ${white};
 `;
 
-class AddToCollection extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSelectCollection = this
-      .handleSelectCollection
-      .bind(this);
-  }
+type Props = {
+  idFromUrl: string,
+  photo: Photo,
+  userCollections: Object,
+  userCollectionsLink: string,
+  showCreateNewCollection: boolean,
+  onRequestClose: Function,
+  onGetPhoto: Function,
+  onGetUserCollections: Function,
+  onAddPhotoToCollection: Function,
+  onRemovePhotoFromCollection: Function,
+  onPush: Function
+}
+
+class AddToCollection extends Component<Props> {
+  static defaultProps = {
+    showCreateNewCollection: false
+  };
 
   componentDidMount() {
     // check if don't have this photo in state get this photo
@@ -125,7 +138,7 @@ class AddToCollection extends Component {
     onGetUserCollections(userCollectionsLink);
   }
 
-  handleSelectCollection(photoId, collectionId, selected) {
+  handleSelectCollection = (photoId, collectionId, selected) => {
     if (selected) {
       this
         .props
@@ -140,17 +153,12 @@ class AddToCollection extends Component {
   render() {
     const {userCollections, photo, showCreateNewCollection, onRequestClose, onPush} = this.props;
     const item = col => {
-      const selectedItem = photo
-        .current_user_collections
+      const selectedItem = photo.currentUserCollections
         .find(item => item.id === col.id);
       return (<CollectionSView
-        key={col.id}
-        id={col.id}
-        coverPhoto={col.cover_photo}
-        title={col.title}
-        totalPhotos={col.total_photos}
+        key={col.id ? col.id : ''}
+        collection={col}
         inRowSelection
-        isPrivate={col.private}
         selected={selectedItem !== void 0}
         onClick={() => this.handleSelectCollection(photo.id, col.id, selectedItem !== void 0)} 
       />);
@@ -195,24 +203,6 @@ class AddToCollection extends Component {
     return main();
   }
 }
-
-AddToCollection.propTypes = {
-  idFromUrl: PropTypes.string,
-  photo: PropTypes.object,
-  userCollections: PropTypes.object,
-  userCollectionsLink: PropTypes.string,
-  showCreateNewCollection: PropTypes.bool,
-  onRequestClose: PropTypes.func,
-  onGetPhoto: PropTypes.func,
-  onGetUserCollections: PropTypes.func,
-  onAddPhotoToCollection: PropTypes.func,
-  onRemovePhotoFromCollection: PropTypes.func,
-  onPush: PropTypes.func
-};
-
-AddToCollection.defaultProps = {
-  showCreateNewCollection: false
-};
 
 const mapStateToProps = state => {
   const searchParams = new URLSearchParams(state.router.location.search);

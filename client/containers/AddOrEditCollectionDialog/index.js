@@ -1,12 +1,19 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import Dialog from '../../components/Dialog';
 import AddOrEditCollection from '../AddOrEditCollection';
 
-const AddOrEditCollectionDialog = ({pathname, lastPathname, onPush}) => (
+type Props = {
+  pathname: string,
+  lastPathname: string,
+  onPush: Function,
+}
+
+const AddOrEditCollectionDialog = ({pathname, lastPathname, onPush}: Props) => (
   <Dialog
     open={pathname === '/collections/new' || pathname.startsWith('/collections/edit/')}
     onRequestClose={() => onPush(lastPathname)}
@@ -14,12 +21,6 @@ const AddOrEditCollectionDialog = ({pathname, lastPathname, onPush}) => (
     <AddOrEditCollection onRequestClose={() => onPush(lastPathname)} />
   </Dialog>
 );
-
-AddOrEditCollectionDialog.propTypes = {
-  pathname: PropTypes.string,
-  lastPathname: PropTypes.string,
-  onPush: PropTypes.func
-};
 
 export default connect(state => ({pathname: state.router.location.pathname, lastPathname: state.app.lastPathname}), dispatch => bindActionCreators({
   onPush: push

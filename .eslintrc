@@ -45,6 +45,7 @@
       "error",
       {"devDependencies": true}
     ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "arrow-body-style": "error",
     "arrow-parens": "error",
     "arrow-spacing": "error",

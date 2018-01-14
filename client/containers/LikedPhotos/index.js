@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -9,7 +10,15 @@ import AddToCollectionDialog from '../AddToCollectionDialog';
 import {clearItems} from '../../actions/items';
 import {getPhotos} from '../../actions/photo';
 
-class LikedPhotos extends Component {
+type Props = {
+  photos: Object,
+  likesLink: string,
+  nextLikesLink: string,
+  onGetPhotos: Function,
+  onClearItems: Function
+}
+
+class LikedPhotos extends Component<Props> {
   componentDidMount() {
     const {onClearItems, onGetPhotos, likesLink} = this.props;
     onClearItems('photos');
@@ -38,16 +47,8 @@ class LikedPhotos extends Component {
   }
 }
 
-LikedPhotos.propTypes = {
-  photos: PropTypes.object,
-  likesLink: PropTypes.string,
-  nextLikesLink: PropTypes.string,
-  onGetPhotos: PropTypes.func,
-  onClearItems: PropTypes.func
-};
-
 export default connect(state => ({
-  photos: pickBy(state.items.photos, item => item.liked_by_user === true),
+  photos: pickBy(state.items.photos, item => item.likedByUser === true),
   likesLink: state.user.links.likes,
   nextLikesLink: state.items.photosAttr.next
 }), dispatch => bindActionCreators({

@@ -1,8 +1,12 @@
+//@flow
+
 import {Component} from 'react';
 import {getStore} from '../../store';
 import {logout} from '../../actions/user';
 
-class Logout extends Component {
+type Props = {}
+
+class Logout extends Component<Props> {
   componentDidMount() {
     // dispatch logout action
     getStore().dispatch(logout());
@@ -11,7 +15,5 @@ class Logout extends Component {
     return null;
   }
 }
-
-Logout.propTypes = {};
 
 export default Logout;

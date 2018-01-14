@@ -1,5 +1,6 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ContainerDimensions from 'react-container-dimensions';
 import {Link} from 'react-router-dom';
@@ -30,16 +31,17 @@ const ViewAll = styled(Link)`
   font-weight: 700;
 `;
 
-const CollectionsSView = ({items, viewAllPath}) => {
+type Props = {
+  items: Object,
+  viewAllPath: string,
+}
+
+const CollectionsSView = ({items, viewAllPath}: Props) => {
   const item = (col, width) => (<CollectSmall
-    key={col.id}
-    id={col.id}
+    key={col.id ? col.id : ''}
     width={width}
     height={width * 0.6}
-    coverPhoto={col.cover_photo}
-    title={col.title}
-    isPrivate={col.private}
-    totalPhotos={col.total_photos} 
+    collection={col}
   />);
   const collections = width => {
     let w = width;
@@ -68,11 +70,6 @@ const CollectionsSView = ({items, viewAllPath}) => {
       {({width}) => collections(width)}
     </ContainerDimensions>
   );
-};
-
-CollectionsSView.propTypes = {
-  items: PropTypes.object,
-  viewAllPath: PropTypes.string
 };
 
 CollectionsSView.defaultProps = {

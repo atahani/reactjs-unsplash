@@ -1,5 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+//@flow
+
+//$FlowFixMe we should import Node as type but the eslint doesn't happy
+import React,{Node} from 'react';
 import styled from 'styled-components';
 import {primaryColor1} from '../../style/colors';
 
@@ -16,16 +18,24 @@ const SvgImg = styled.svg `
     : props.color};`}
 `;
 
+type Props = {
+  children: Node,
+  viewBox: string,
+  size: number,
+  color: string,
+  fillFromParent: boolean,
+}
+
 const SvgImage = ({
-  className,
   children,
   viewBox,
   size,
   color,
-  fillFromParent
-}) => (
+  fillFromParent,
+  ...others
+}: Props) => (
   <SvgImg
-    className={className}
+    {...others}
     size={size}
     color={color}
     fillFromParent={fillFromParent}
@@ -34,15 +44,6 @@ const SvgImage = ({
     {children}
   </SvgImg>
 );
-
-SvgImage.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  viewBox: PropTypes.string,
-  size: PropTypes.number,
-  color: PropTypes.string,
-  fillFromParent: PropTypes.bool
-};
 
 SvgImage.defaultProps = {
   size: 20,

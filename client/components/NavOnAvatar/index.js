@@ -1,5 +1,6 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import _Link from '../Link';
@@ -33,7 +34,11 @@ const ExtLink = styled(_ExtLink)`
   display: block;
 `;
 
-const NavOnAvatar = ({profileLink}) => (
+type Props = {
+  profileLink: string,
+}
+
+const NavOnAvatar = ({profileLink}: Props) => (
   <Wrapper>
     <List>
       <Item secondary>
@@ -49,8 +54,9 @@ const NavOnAvatar = ({profileLink}) => (
   </Wrapper>
 );
 
-NavOnAvatar.propTypes = {
-  profileLink: PropTypes.string
-};
+const mapStateToProps = state => ({profileLink: state.user.links.html});
 
-export default connect(state => ({profileLink: state.user.links.html}))(NavOnAvatar);
+export default connect(
+  mapStateToProps,
+  (dispatch: Dispatch) => ({dispatch})
+)(NavOnAvatar);

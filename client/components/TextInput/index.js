@@ -1,5 +1,6 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {lighten, darken} from 'polished';
 import {inputBgColor, textColor2, errorColor, warnColor, successColor} from '../../style/colors';
@@ -103,8 +104,19 @@ const getColorOfMessage = msgType => {
   }
 };
 
+type Props = {
+  wrapperStyle?: Object,
+  disabled?: boolean,
+  fullWidth?: boolean,
+  rounded?: boolean,
+  hintText?: string,
+  multiLine?: boolean,
+  message: ?string,
+  messageType?: "error" | "warn" | "success",
+  messageColor?: string,
+}
+
 const TextInput = ({
-  className,
   wrapperStyle,
   disabled,
   fullWidth,
@@ -113,15 +125,15 @@ const TextInput = ({
   message,
   messageType,
   messageColor,
-  ...others
-}) => {
+  rounded,
+  ...others }: Props) => {
   const msgColor = messageColor
     ? messageColor
     : getColorOfMessage(messageType);
   const input = () => {
     if (multiLine) {
       return (<AreaInput
-        className={className}
+        {...others}
         disabled={disabled}
         placeholder={hintText}
         fullWidth={fullWidth}
@@ -132,10 +144,11 @@ const TextInput = ({
       />);
     }
     return (<Input
-      className={className}
+      {...others}
       type="text"
       disabled={disabled}
       placeholder={hintText}
+      rounded={rounded}
       msgColor={message
       ? msgColor
       : void 0}
@@ -160,19 +173,6 @@ const TextInput = ({
   );
 };
 
-TextInput.propTypes = {
-  className: PropTypes.string,
-  wrapperStyle: PropTypes.object,
-  disabled: PropTypes.bool,
-  fullWidth: PropTypes.bool,
-  rounded: PropTypes.bool,
-  hintText: PropTypes.string,
-  multiLine: PropTypes.bool,
-  message: PropTypes.string,
-  messageType: PropTypes.oneOf(['error', 'warn', 'success']),
-  messageColor: PropTypes.string
-};
-
 TextInput.defaultProps = {
   wrapperStyle: {},
   fullWidth: false,
@@ -180,9 +180,9 @@ TextInput.defaultProps = {
   disabled: false,
   hintText: '',
   multiLine: false,
-  rows: 2,
-  cols: 30,
-  messageType: 'error'
+  message: null,
+  messageType: 'error',
+  messageColor: errorColor,
 };
 
 export default TextInput;

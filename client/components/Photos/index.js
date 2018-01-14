@@ -1,9 +1,11 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ContainerDimensions from 'react-container-dimensions';
 import EventListener from 'react-event-listener';
-import Photo from '../Photo';
+import PhotoComponent from '../Photo';
+import type { Photo } from '../../types/data'; 
 
 const PhotosWrapper = styled.div `
   height: 100%;
@@ -15,33 +17,33 @@ const Column = styled.div `
   width: ${props => props.width};
 `;
 
-const Photos = ({className, items, onScrollToLoad}) => {
+
+type Props = {
+  items: Object,
+  onScrollToLoad: Function,
+}
+
+const Photos = ({items, onScrollToLoad,...others}: Props) => {
   const handleResizeOrScroll = () => {
     const windowHeight = "innerHeight" in window
       ? window.innerHeight
-      : document.documentElement.offsetHeight;
+      : document && document.documentElement ? document.documentElement.offsetHeight : 0;
     const body = document.body;
     const html = document.documentElement;
-    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    let docHeight = 0;
+    if (html && body && body.scrollHeight && body.offsetHeigh && html.offsetHeight && html.scrollHeight){
+      docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    }
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
       onScrollToLoad();
     }
   };
-  const item = (img, width, cWidth) => (<Photo
+  const item = (img: Photo, width, cWidth) => (<PhotoComponent
     key={img.id}
-    id={img.id}
-    urls={img.urls}
-    links={img.links}
-    likes={img.likes}
-    likeByUser={img.liked_by_user}
-    color={img.color}
-    imgHeight={img.height}
-    imgWidth={img.width}
-    byUser={img.user}
+    photo={img}
     width={width}
     isRow={cWidth < 752}
-    belongsToCollections={img.current_user_collections} 
   />);
   const photoColumn = (list, width, cWidth) => list.map(id => item(items[id], width, cWidth));
   const photos = width => {
@@ -82,11 +84,11 @@ const Photos = ({className, items, onScrollToLoad}) => {
     }
   };
   return (
-    <div className={className}>
+    <div {...others}>
       <EventListener
         target="window"
-        onScroll={e => handleResizeOrScroll(e)}
-        onResize={e => handleResizeOrScroll(e)} 
+        onScroll={handleResizeOrScroll}
+        onResize={handleResizeOrScroll} 
       />
       <ContainerDimensions>
         {({width}) => photos(width)}
@@ -95,11 +97,6 @@ const Photos = ({className, items, onScrollToLoad}) => {
   );
 };
 
-Photos.propTypes = {
-  className: PropTypes.string,
-  items: PropTypes.object,
-  onScrollToLoad: PropTypes.func
-};
 
 Photos.defaultProps = {
   items: []

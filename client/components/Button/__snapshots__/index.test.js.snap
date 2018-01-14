@@ -41,5 +41,7 @@ exports[`<Button /> render it 1`] = `
   disabled={false}
   onClick={[Function]}
   type="button"
-/>
+>
+  
+</button>
 `;

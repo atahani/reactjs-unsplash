@@ -83,7 +83,6 @@ type CreateCollection = {
 
 type UpdateCollection = {
   type: 'collection/UPDATE_COLLECTION',
-  id: string,
   collection: Collection,
 };
 

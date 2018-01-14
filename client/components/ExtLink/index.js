@@ -1,3 +1,5 @@
+//@flow
+
 import styled from 'styled-components';
 import { secondaryColor1, primaryColor1, } from '../../style/colors';
 

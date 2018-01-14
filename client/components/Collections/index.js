@@ -1,31 +1,43 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import ContainerDimensions from 'react-container-dimensions';
 import EventListener from 'react-event-listener';
 import styled from 'styled-components';
-import Collection from '../Collection';
+import type { Collection } from '../../types/data';
+import CollectionView from '../Collection';
 
 const ItemsWrapper = styled.div `
   width: 100%;
   height: 100%;
 `;
 
-const Collections = ({loggedInUserId, items, onScrollToLoad}) => {
+type Props = {
+  loggedInUserId?: ?string,
+  items: Object,
+  onScrollToLoad: Function
+}
+
+const Collections = ({loggedInUserId, items, onScrollToLoad}: Props) => {
   const handleResizeOrScroll = () => {
     const windowHeight = "innerHeight" in window
       ? window.innerHeight
-      : document.documentElement.offsetHeight;
+      : document.documentElement ? document.documentElement.offsetHeight : 0;
     const body = document.body;
     const html = document.documentElement;
-    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    let docHeight: number = 0;
+    // check values since we have error in flow
+    if (body && body.scrollHeight && body.offsetHeight && html && html.clientHeight && html.scrollHeight && html.offsetHeight){
+      docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    }
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
       onScrollToLoad();
     }
   };
-  const item = (col, width, index, column) => {
-    let mLeft,
-      mRight = 0;
+  const item = (col: Collection, width: number, index: number, column: number) => {
+    let mLeft: number = 0,
+      mRight: number = 0;
     if (column === 3) {
       if (index % 3 === 0) {
         mRight = 10;
@@ -45,20 +57,16 @@ const Collections = ({loggedInUserId, items, onScrollToLoad}) => {
       mLeft = 5;
       mRight = 5;
     }
-    return (<Collection
-      key={col.id}
-      id={col.id}
+    const key: string = col.id ? col.id : '';
+    const editable: boolean = col.user && loggedInUserId === col.user.id ? true: false;
+    return (<CollectionView
+      key={key}
+      marginLeft={mLeft}
+      marginRight={mRight}
       width={width}
       height={width * 0.6}
-      coverPhoto={col.cover_photo}
-      color={col.color}
-      byUser={col.user}
-      title={col.title}
-      totalPhotos={col.total_photos}
-      isPrivate={col.private}
-      editable={loggedInUserId === col.user.id}
-      marginLeft={mLeft}
-      marginRight={mRight} 
+      editable={editable}
+      collection={col}
     />);
   };
   const collections = width => {
@@ -83,8 +91,8 @@ const Collections = ({loggedInUserId, items, onScrollToLoad}) => {
     <div>
       <EventListener
         target="window"
-        onScroll={e => handleResizeOrScroll(e)}
-        onResize={e => handleResizeOrScroll(e)} 
+        onScroll={handleResizeOrScroll()}
+        onResize={handleResizeOrScroll()} 
       />
       <ContainerDimensions>
         {({width}) => collections(width)}
@@ -93,14 +101,8 @@ const Collections = ({loggedInUserId, items, onScrollToLoad}) => {
   );
 };
 
-Collections.propTypes = {
-  loggedInUserId: PropTypes.string,
-  items: PropTypes.object,
-  onScrollToLoad: PropTypes.func
-};
-
 Collections.defaultProps = {
-  items: []
+  loggedInUserId: null,
 };
 
 export default Collections;

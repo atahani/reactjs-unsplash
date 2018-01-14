@@ -19,7 +19,7 @@ export const createCollection = (collection: Collection): RESTAPIResponse => pos
  * @param {string} id collection id
  * @param {collection} collection object
  */
-export const updateCollection = (id: string, collection: Collection): RESTAPIResponse => putReq(`${API_ROOT}/collections/${id}`, {
+export const updateCollection = (collection: Collection): RESTAPIResponse => putReq(`${API_ROOT}/collections/${collection.id ? collection.id:''}`, {
   title: collection.title,
   description: collection.description,
   private: collection.private,

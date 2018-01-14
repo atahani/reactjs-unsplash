@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import EventListener from 'react-event-listener';
@@ -15,6 +16,7 @@ import Avatar from '../../components/Avatar';
 import NavOnAvatar from '../../components/NavOnAvatar';
 import {maxWidthContent} from '../../style/util';
 import {white, dividerColor} from '../../style/colors';
+
 
 const Wrapper = styled.div `
   background-color: ${white};
@@ -72,22 +74,28 @@ const Nav = styled(_Nav)`
   margin: 0 auto;
 `;
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      last_scroll_top: 0,
-      top_bar_fixed: false
-    };
-    this.handleScroll = this
-      .handleScroll
-      .bind(this);
-    this.onSearchTxChange = this
-      .onSearchTxChange
-      .bind(this);
+type Props = {
+  userImageProfile: string,
+  width: number,
+  onPush: Function,
+}
+
+type State = {
+  lastScrollTop: number,
+  topBarFixed: boolean,
+}
+
+class Header extends Component<Props,State> {
+  static defaultProps = {
+    delayedCallback: () => {}
   }
+  state = {
+    lastScrollTop: 0,
+    topBarFixed: false
+  };
 
   componentWillMount() {
+    // $FlowFixMe
     this.delayedCallback = debounce(e => {
       // `event.target` is accessible now
       const val = e
@@ -109,33 +117,34 @@ class Header extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // prevent to re render view in update last_scroll_top state
-    if (nextState.last_scroll_top !== this.state.last_scroll_top) {
+    // prevent to re render view in update lastScrollTop state
+    if (nextState.lastScrollTop !== this.state.lastScrollTop) {
       return false;
     }
     return true;
   }
 
-  onSearchTxChange(e) {
+  onSearchTxChange = e => {
     e.persist();
+    // $FlowFixMe
     this.delayedCallback(e);
   }
 
-  handleScroll(e) {
-    const {last_scroll_top} = this.state;
+  handleScroll = e => {
+    const {lastScrollTop} = this.state;
     const scrollTop = e.target.body.scrollTop;
-    if (scrollTop < last_scroll_top && scrollTop > 0) {
-      this.setState({top_bar_fixed: true});
+    if (scrollTop < lastScrollTop && scrollTop > 0) {
+      this.setState({topBarFixed: true});
     } else {
-      this.setState({top_bar_fixed: false});
+      this.setState({topBarFixed: false});
     }
     // set this scrollTop as last
-    this.setState({last_scroll_top: scrollTop});
+    this.setState({lastScrollTop: scrollTop});
   }
 
   render() {
     const {userImageProfile, width} = this.props;
-    const {top_bar_fixed} = this.state;
+    const {topBarFixed} = this.state;
     const avatar = () => {
       if (userImageProfile) {
         return (
@@ -156,7 +165,7 @@ class Header extends Component {
     return (
       <Wrapper>
         <EventListener target="window" onScroll={this.handleScroll} />
-        <TopBarWrapper fixed={top_bar_fixed}>
+        <TopBarWrapper fixed={topBarFixed}>
           <TopBar>
             <Logo />
             <Controller>
@@ -170,12 +179,6 @@ class Header extends Component {
   }
 }
 
-Header.propTypes = {
-  userImageProfile: PropTypes.string,
-  width: PropTypes.number,
-  onPush: PropTypes.func
-};
-
 /**
  * NOTE: since we use wrap component with connect the Route and also use NavLink inside 'Nav Component' the Route and NavLink dosn't connected
  * and when route changed the NavLink don't rerender
@@ -183,10 +186,10 @@ Header.propTypes = {
  * MORE_INFO: https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking
  */
 export default withRouter(connect(state => ({
-  // the getProfile fire after getAccessToken so the profile_image maybe undefined
+  // the getProfile fire after getAccessToken so the profileImage maybe undefined
   // in load
-  userImageProfile: state.user.userProfile.profile_image
-    ? state.user.userProfile.profile_image.medium
+  userImageProfile: state.user.userProfile.profileImage
+    ? state.user.userProfile.profileImage.medium
     : void 0
 }), dispatch => bindActionCreators({
   onPush: push

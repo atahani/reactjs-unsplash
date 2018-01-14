@@ -1,5 +1,7 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+//@flow
+
+//$FlowFixMe we should import Node as type but the eslint doesn't happy
+import React, {Component,Node} from 'react';
 import onClickOutside from 'react-onclickoutside';
 import styled from 'styled-components';
 import {rgba} from 'polished';
@@ -38,11 +40,16 @@ const Wrapper = styled.div `
   `}
 `;
 
+type InnerDialogProps = {
+  children: Node,
+  onRequestClose: Function,
+};
+
 /**
  * Inner Component to handle onRequestClose on overlay area
  * NOTE: can't stateless component since we use from react-onclickoutside
  */
-class Inner extends Component {
+class Inner extends Component<InnerDialogProps> {
   handleClickOutside() {
     this
       .props
@@ -58,14 +65,6 @@ class Inner extends Component {
   }
 }
 
-Inner.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
-  onRequestClose: PropTypes.func.isRequired
-};
-
 /**
  * wrap this with onClickOutSide
  * to handle when click out side of dialog
@@ -73,12 +72,18 @@ Inner.propTypes = {
  */
 const InnerDialog = onClickOutside(Inner);
 
+type DialogProps = {
+  children: Node,
+  open: boolean,
+  onRequestClose: Function,
+}
+
 // the main component
-const Dialog = ({children, className, open, onRequestClose}) => {
+const Dialog = ({children, open, onRequestClose,...others}: DialogProps) => {
   const main = () => {
     if (open) {
       return (
-        <Overlay className={className}>
+        <Overlay {...others}>
           <InnerDialog onRequestClose={onRequestClose}>
             {children}
           </InnerDialog>
@@ -88,17 +93,6 @@ const Dialog = ({children, className, open, onRequestClose}) => {
     return false;
   };
   return main();
-};
-
-Dialog.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  open: PropTypes.bool.isRequired,
-  maxWidth: PropTypes.number,
-  onRequestClose: PropTypes.func.isRequired,
-  className: PropTypes.string
 };
 
 Dialog.defaultProps = {

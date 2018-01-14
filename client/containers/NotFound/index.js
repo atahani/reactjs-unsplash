@@ -1,3 +1,5 @@
+//@flow
+
 import React from 'react';
 import {Helmet} from 'react-helmet';
 import styled from 'styled-components';
@@ -16,6 +18,7 @@ const Message = styled.h1 `
   font-weight: 600;
   padding: 30px 0px;
 `;
+
 const NotFound = () => (
   <Wrapper>
     <Helmet>
@@ -27,7 +30,5 @@ const NotFound = () => (
     <Button label="Back to Home" primary href="/" />
   </Wrapper>
 );
-
-NotFound.propTypes = {};
 
 export default NotFound;

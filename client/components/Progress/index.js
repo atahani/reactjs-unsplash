@@ -1,5 +1,6 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled, {keyframes} from 'styled-components';
 import {primaryColor1} from '../../style/colors';
@@ -38,7 +39,11 @@ const Mover = styled.div `
   `}
 `;
 
-const Progress = ({jobNumbers}) => {
+type Props = {
+  jobNumbers: number,
+}
+
+const Progress = ({jobNumbers}: Props) => {
   const progress = () => {
     if (jobNumbers > 0) {
       return <Mover />;
@@ -51,12 +56,13 @@ const Progress = ({jobNumbers}) => {
   );
 };
 
-Progress.propTypes = {
-  jobNumbers: PropTypes.number
-};
-
 Progress.defaultProps = {
   jobNumbers: 0
 };
 
-export default connect(state => ({jobNumbers: state.app.jobRunning}))(Progress);
+const mapStateToProps = state => ({jobNumbers: state.app.jobRunning});
+
+export default connect(
+  mapStateToProps,
+  (dispatch: Dispatch) => ({dispatch})
+)(Progress);

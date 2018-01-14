@@ -47,7 +47,7 @@ export const setItemsAttr = (entity: string, attrObj: ?Object): Action => ({type
  * update fields of item
  * @param {string} entity entity like 'liked-photos'
  * @param {*} id the id of itme
- * @param {*} fields updated fields { likes: 123, liked_by_user: false }
+ * @param {*} fields updated fields { likes: 123, likedByUser: false }
  */
 export const updateFieldsOfItem = (entity: string, id: string, fields: ?Object): Action => ({type: 'items/UP_FIELD_OF_ITEM', entity, id, fields});
 

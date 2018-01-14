@@ -1,3 +1,5 @@
+//@flow
+
 import React from 'react';
 import TextInput from '../TextInput';
 
@@ -7,24 +9,31 @@ import TextInput from '../TextInput';
  * INFO: http://redux-form.com/6.8.0/docs/api/Field.md/
  */
 
+ type Props = {
+   label: string,
+   translate: Function,
+   meta: {
+     touched: boolean,
+     error: boolean,
+   },
+   input: Object,
+ }
+
 const RTextInput = ({
-  className,
-  input,
   label,
   translate,
   meta: {
     touched,
     error
   },
-  ...custom
-}) => (<TextInput
-  className={className}
-  hintText={label}
-  errorMessage={touched && error
+  input,
+  ...others}: Props) => (<TextInput
+    {...others}
+    {...input}
+    hintText={label}
+    errorMessage={touched && error
   ? translate(error)
   : void 0}
-  {...input}
-  {...custom} 
-/>);
+  />);
 
 export default RTextInput;

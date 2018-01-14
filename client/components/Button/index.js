@@ -1,5 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+//@flow
+
+//$FlowFixMe we should import Node as type but the eslint doesn't happy
+import React, {Node} from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {primaryColor1, secondaryColor1, white, borderInAvtiveColor, borderAvtiveColor} from '../../style/colors';
@@ -50,8 +52,19 @@ const Btn = styled.button `
   `}
 `;
 
+type Props = {
+  label?: string,
+  onClick?: Function,
+  children?: Node,
+  disabled?: boolean,
+  primary?: boolean,
+  primaryColor?: string,
+  type?: string,
+  href?: string,
+  target?: string,
+};
+
 const Button = ({
-  className,
   disabled,
   label,
   children,
@@ -61,7 +74,7 @@ const Button = ({
   onClick,
   type,
   ...others
-}) => {
+}: Props) => {
   const handleOnClick = e => {
     if (onClick) {
       onClick(e);
@@ -69,12 +82,11 @@ const Button = ({
   };
   const btn = () => (
     <Btn
-      className={className}
       type={type}
       disabled={disabled}
       primary={primary}
       primaryColor={primaryColor}
-      onClick={e => handleOnClick(e)}
+      onClick={handleOnClick}
       {...others}
     >
       {children
@@ -85,7 +97,7 @@ const Button = ({
   const main = () => {
     if (href) {
       return (
-        <Link to={href}>{btn()}</Link>
+        <Link {...others} to={href}>{btn()}</Link>
       );
     }
     return btn();
@@ -93,26 +105,12 @@ const Button = ({
   return main();
 };
 
-Button.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  disabled: PropTypes.bool,
-  label: PropTypes.string,
-  primary: PropTypes.bool,
-  primaryColor: PropTypes.string,
-  type: PropTypes.string,
-  href: PropTypes.string,
-  onClick: PropTypes.func
-};
-
 Button.defaultProps = {
   primary: false,
   disabled: false,
   primaryColor: primaryColor1,
-  type: 'button'
+  type: 'button',
+  label: '',
 };
 
 export default Button;

@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter, NavLink} from 'react-router-dom';
@@ -60,18 +61,34 @@ const Results = styled.div `
   margin-top: 24px;
 `;
 
-class Search extends Component {
+type Props = {
+  match: Object,
+  collections: Object,
+  nextCollectionsLink: string,
+  totalCollections: number,
+  photos: Object,
+  nextPhotosLink: string,
+  totalPhotos: number,
+  onClearItems: Function,
+  onSearchInPhotos: Function,
+  onSearchInCollections: Function
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: void 0,
-      title: void 0,
-      type: void 0
-    };
-    this.handleSearch = this
-      .handleSearch
-      .bind(this);
+type State = {
+  query: ?string,
+  title: ?string,
+  type: ?string,
+}
+
+class Search extends Component<Props,State> {
+  static defaultProps = {
+    totalPhotos: 0,
+    totalCollections: 0
+  };
+  state = {
+    query: void 0,
+    title: void 0,
+    type: void 0
   }
 
   componentDidMount() {
@@ -87,7 +104,7 @@ class Search extends Component {
     }
   }
 
-  handleSearch(query, type) {
+  handleSearch = (query, type) => {
     if (this.state.query !== query || this.state.type !== type) {
       const {onClearItems, onSearchInPhotos, onSearchInCollections} = this.props;
       onClearItems('photos');
@@ -118,7 +135,7 @@ class Search extends Component {
     } = this.props;
     const {query, title, type} = this.state;
     const header = () => {
-      if (title) {
+      if (title && query) {
         const typeStr = type
           ? type
             .charAt(0)
@@ -139,7 +156,7 @@ class Search extends Component {
     return (
       <div>
         {header()}
-        {!type && collections
+        {!type && collections && query
           ? <CollectionsSView
             viewAllPath={`/search/collections/${query}`}
             items={collections} 
@@ -168,24 +185,6 @@ class Search extends Component {
     );
   }
 }
-
-Search.propTypes = {
-  match: PropTypes.object,
-  collections: PropTypes.object,
-  nextCollectionsLink: PropTypes.string,
-  totalCollections: PropTypes.number,
-  photos: PropTypes.object,
-  nextPhotosLink: PropTypes.string,
-  totalPhotos: PropTypes.number,
-  onClearItems: PropTypes.func,
-  onSearchInPhotos: PropTypes.func,
-  onSearchInCollections: PropTypes.func
-};
-
-Search.defaultProps = {
-  totalPhotos: 0,
-  totalCollections: 0
-};
 
 export default withRouter(connect(state => ({
   collections: state.items.collections,

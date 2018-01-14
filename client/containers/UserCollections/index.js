@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -8,7 +9,6 @@ import Button from '../../components/Button';
 import Collections from '../../components/Collections';
 import AddOrEditCollectionDialog from '../AddOrEditCollectionDialog';
 import {getUserCollections} from '../../actions/collection';
-import {clearItems} from '../../actions/items';
 import {API_ROOT} from '../../constants/service-info';
 
 const Title = styled.h2 `
@@ -24,12 +24,15 @@ const Action = styled.div `
   margin-bottom: 15px;
 `;
 
-class UserCollections extends Component {
+type Props = {
+  loggedInUserId: string,
+  collections: Object,
+  username: string,
+  nextCollectionsLink: string,
+  onGetUserCollections: Function,
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+class UserCollections extends Component<Props> {
 
   componentDidMount() {
     const {onGetUserCollections, username} = this.props;
@@ -66,16 +69,6 @@ class UserCollections extends Component {
   }
 }
 
-UserCollections.propTypes = {
-  loggedInUserId: PropTypes.string,
-  collections: PropTypes.object,
-  username: PropTypes.string,
-  nextCollectionsLink: PropTypes.string,
-  onGetUserCollections: PropTypes.func,
-  onClearItems: PropTypes.func
-};
-
 export default connect(state => ({loggedInUserId: state.user.userProfile.id, collections: state.items.userCollections, username: state.user.userProfile.username, nextCollectionsLink: state.items.userCollectionsAttr.next}), dispatch => bindActionCreators({
   onGetUserCollections: getUserCollections,
-  onClearItems: clearItems
 }, dispatch))(UserCollections);

@@ -1,3 +1,5 @@
+//@flow
+
 import React from 'react';
 import {Helmet} from 'react-helmet';
 import styled from 'styled-components';
@@ -34,7 +36,7 @@ const Note = styled.div `
   text-align: center;
 `;
 
-export const Login = ({}) => (
+export const Login = () => (
   <Wrapper>
     <Helmet>
       <title>Authorize by unsplash.com</title>
@@ -56,7 +58,5 @@ export const Login = ({}) => (
     </Content>
   </Wrapper>
 );
-
-Login.propTypes = {};
 
 export default Login;

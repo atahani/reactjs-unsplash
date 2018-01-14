@@ -1,5 +1,6 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {lighten} from 'polished';
@@ -100,71 +101,58 @@ const EditBtn = styled(Link)`
   cursor: pointer;
 `;
 
+type Props = {
+  width: number,
+  height: number,
+  marginLeft: number,
+  marginRight: number,
+  collection: Collection,
+  editable: boolean,
+};
+
 const Collection = ({
-  className,
-  id,
   width,
   height,
-  coverPhoto,
-  color,
-  byUser,
-  title,
-  totalPhotos,
-  isPrivate,
-  editable,
   marginLeft,
-  marginRight
-}) => (
+  marginRight,
+  editable,
+  collection,
+  ...others
+}: Props) => (
   <Wrapper
-    className={className}
     width={width}
     height={height}
     marginLeft={marginLeft}
     marginRight={marginRight}
+    {...others}
   >
-    <CoverLink to={`/collections/${id}`}>
+    <CoverLink to={`/collections/${collection.id}`}>
       <Cover
         height={height}
-        imgUrl={coverPhoto
-        ? `${coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=${width}&h=${height}&q=80&cs=tinysrgb`
+        imgUrl={collection.coverPhoto
+        ? `${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=${width}&h=${height}&q=80&cs=tinysrgb`
         : void 0}
       >
         <Overlay />
-        <Title>{title}</Title>
-        <Counter>{`${totalPhotos} Photos`}</Counter>
-        {isPrivate
+        <Title>{collection.title}</Title>
+        <Counter>{`${collection.totalPhotos} Photos`}</Counter>
+        {collection.is_private
           ? <PrivateIcon size={16} />
           : null}
       </Cover>
     </CoverLink>
     <Footer>
-      <UserLink target="_blank" href={byUser.links.html}>
-        <Avatar imagePath={byUser.profile_image.medium} />
-        <DisplayName>{byUser.name}</DisplayName>
+      <UserLink target="_blank" href={collection.user.links.html}>
+        <Avatar imagePath={collection.user.profileImage.medium} />
+        <DisplayName>{collection.user.name}</DisplayName>
       </UserLink>
       {editable
-        ? <EditBtn to={`/collections/edit/${id}`}>
+        ? <EditBtn to={`/collections/edit/${collection.id}`}>
           <EditIcon />
         </EditBtn>
         : null}
     </Footer>
   </Wrapper>
 );
-
-Collection.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.number,
-  marginLeft: PropTypes.number,
-  marginRight: PropTypes.number,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  coverPhoto: PropTypes.object,
-  color: PropTypes.string,
-  byUser: PropTypes.object,
-  title: PropTypes.string,
-  totalPhotos: PropTypes.number,
-  isPrivate: PropTypes.bool,
-  editable: PropTypes.bool
-};
 
 export default Collection;

@@ -1,7 +1,7 @@
 //@flow
 
-import mapKeys from 'lodash/mapKeys';
 import omit from 'lodash/omit';
+import camelCaseKeys from 'camelcase-keys-deep';
 import type { Action } from '../types';
 import type { ItemsState } from '../types/state';
 
@@ -25,7 +25,10 @@ export default (state: ItemsState = initialState, action: Action): ItemsState =>
     // action > setItem
     case 'items/SE_ITEM': {
       // NOTE: in SE_ITEM added to first
-      const newObj = mapKeys(action.payload, 'id');
+      const element = camelCaseKeys(action.payload);
+      const newObj = Object.assign({},{
+        [action.payload.id]: {...element}
+      });
       return Object.assign({}, state, {
         [action.entity]: {
           ...newObj,
@@ -35,9 +38,15 @@ export default (state: ItemsState = initialState, action: Action): ItemsState =>
     }
     // action > setItems
     case 'items/SE_ITEMS': {
-      // the payload === array of entity items
-      // $FlowFixMe mapKeys don't accept the Array<Object> type
-      const newItems = mapKeys(action.payload, 'id');
+      // the payload === array of entity items 
+      let newItems: Object = {};
+      for (let i = 0; i < action.payload.length; i++) {
+        let element = action.payload[i];
+        element = camelCaseKeys(element);
+        newItems = Object.assign({},newItems,{
+          [element.id]:{...element}
+        });
+      }
       // like > state.items.photos
       return Object.assign({}, state, {
         [action.entity]: {
@@ -51,7 +60,7 @@ export default (state: ItemsState = initialState, action: Action): ItemsState =>
       return Object.assign({}, state, {
         [action.entity]: {
           ...state[action.entity],
-          [action.payload.id]: action.payload
+          [action.payload.id]: camelCaseKeys(action.payload)
         }
       });
     // action > updateFieldOfItem
@@ -64,8 +73,9 @@ export default (state: ItemsState = initialState, action: Action): ItemsState =>
       if (!item) {
         return state;
       }
+      const fields = camelCaseKeys(action.fields);
       const obj = Object.assign({}, item, {
-        ...action.fields,
+        ...fields,
       });
       return Object.assign({}, state, {
         [action.entity]: {

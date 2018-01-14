@@ -1,5 +1,6 @@
+//@flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
 import {lighten} from 'polished';
@@ -35,8 +36,10 @@ const Link = styled(NavLink)`
   }
 `;
 
-const Navigation = ({className}) => (
-  <Wrapper className={className}>
+type Props = {}
+
+const Navigation = ({...others}: Props) => (
+  <Wrapper {...others}>
     <List>
       <Item>
         <Link
@@ -64,9 +67,5 @@ const Navigation = ({className}) => (
     </List>
   </Wrapper>
 );
-
-Navigation.propTypes = {
-  className: PropTypes.string
-};
 
 export default Navigation;
