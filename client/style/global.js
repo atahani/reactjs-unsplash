@@ -1,3 +1,5 @@
+//@flow
+
 import { injectGlobal } from 'styled-components';
 import { primaryColor1, secondaryColor1 } from './colors';
 

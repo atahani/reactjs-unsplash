@@ -1,3 +1,5 @@
+//@flow
+
 import { lighten, darken } from 'polished';
 
 export const primaryColor1 = '#111';
