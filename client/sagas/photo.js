@@ -1,3 +1,5 @@
+//@flow
+
 /*eslint-disable no-constant-condition*/
 import {take, put, call, fork, all} from 'redux-saga/effects';
 import {handleCommonErr} from './app';
@@ -11,7 +13,7 @@ import {setItems, setItemsAttr, updateFieldsOfItem, setItem} from '../actions/it
 /**
  * get photos flow
  */
-export function* getPhotosF() {
+export function* getPhotosF(): any {
   while (true) {
     const {url} = yield take(GE_PHOTOS);
     yield put(jobStatus(true));
@@ -31,7 +33,7 @@ export function* getPhotosF() {
 /**
  * like photo flow
  */
-export function* likePhotoF() {
+export function* likePhotoF(): any {
   while (true) {
     const {id} = yield take(LIKE_PHOTO);
     yield put(jobStatus(true));
@@ -49,7 +51,7 @@ export function* likePhotoF() {
 /**
  * unlike photo flow
  */
-export function* unLikePhotoF() {
+export function* unLikePhotoF(): any {
   while (true) {
     const {id} = yield take(UNLIKE_PHOTO);
     yield put(jobStatus(true));
@@ -66,7 +68,7 @@ export function* unLikePhotoF() {
 /**
  * search in photos flow
  */
-export function* searchInPhotosF() {
+export function* searchInPhotosF(): any {
   while (true) {
     const {url} = yield take(SEARCH_PHOTOS);
     yield put(jobStatus(true));
@@ -93,7 +95,7 @@ export function* searchInPhotosF() {
 /**
  * get photo by id flow
  */
-export function* getPhotoF() {
+export function* getPhotoF(): any {
   while (true) {
     const {id} = yield take(GE_PHOTO);
     yield put(jobStatus(true));

@@ -1,3 +1,5 @@
+//@flow
+
 /*eslint-disable no-constant-condition*/
 import {take, put, call, all, fork} from 'redux-saga/effects';
 import {push} from 'react-router-redux';
@@ -10,7 +12,7 @@ import {handleCommonErr} from './app';
 /**
  * get access token flow
  */
-export function* getAccessTokenF() {
+export function* getAccessTokenF(): any {
   while (true) {
     const {code} = yield take(GE_ACCESS_TOKEN);
     // check code define or not
@@ -37,7 +39,7 @@ export function* getAccessTokenF() {
 /**
  * log out flow
  */
-export function* logOutF() {
+export function* logOutF(): any {
   while (true) {
     yield take(LOGOUT);
     yield all([
@@ -50,7 +52,7 @@ export function* logOutF() {
 /**
  * get logged in user profile
  */
-export function* getMyProfileF() {
+export function* getMyProfileF(): any {
   while (true) {
     yield take(GE_USER_PROFILE);
     yield put(jobStatus(true));

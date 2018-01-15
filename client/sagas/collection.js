@@ -1,3 +1,5 @@
+//@flow
+
 /*eslint-disable no-constant-condition*/
 import {take, put, call, fork, all} from 'redux-saga/effects';
 import {startSubmit, stopSubmit} from 'redux-form';
@@ -24,7 +26,7 @@ import {getState, getHistory} from '../store';
 /**
  * get user collections flow
  */
-export function* getUserCollectionsF() {
+export function* getUserCollectionsF(): any {
   while (true) {
     const {url} = yield take(GE_USER_COLLECTIONS);
     yield put(jobStatus(true));
@@ -44,7 +46,7 @@ export function* getUserCollectionsF() {
 /**
  * get collection flow
  */
-export function* getCollectionF() {
+export function* getCollectionF(): any {
   while (true) {
     const {url, loadPhotos} = yield take(GE_COLLECTION);
     yield put(jobStatus(true));
@@ -72,7 +74,7 @@ export function* getCollectionF() {
 /**
  * get photos of collection flow
  */
-export function* getCollectionPhotosF() {
+export function* getCollectionPhotosF(): any {
   while (true) {
     const {url} = yield take(GE_COLLECTION_PHOTOS);
     yield put(jobStatus(true));
@@ -92,7 +94,7 @@ export function* getCollectionPhotosF() {
 /**
  * search in collection flow
  */
-export function* searchInCollectionsF() {
+export function* searchInCollectionsF(): any {
   while (true) {
     const {url} = yield take(SEARCH_COLLECTIONS);
     yield put(jobStatus(true));
@@ -119,7 +121,7 @@ export function* searchInCollectionsF() {
 /**
  * create collection flow
  */
-export function* createCollectionF() {
+export function* createCollectionF(): any {
   while (true) {
     const {collection} = yield take(CREATE_COLLECTION);
     yield all([
@@ -145,7 +147,7 @@ export function* createCollectionF() {
         yield put(push(`/collections/${response.id}`));
       }
     } else {
-      yield fork(handleCommonErr, error, CREATE_COLLECTION, {values});
+      yield fork(handleCommonErr, error, CREATE_COLLECTION, {collection});
     }
   }
 }
@@ -153,7 +155,7 @@ export function* createCollectionF() {
 /**
  * update collection flow
  */
-export function* updateCollectionF() {
+export function* updateCollectionF(): any {
   while (true) {
     const {collection} = yield take(UPDATE_COLLECTION);
     yield all([
@@ -182,7 +184,7 @@ export function* updateCollectionF() {
 /**
  * delete collection flow
  */
-export function* deleteCollectionF() {
+export function* deleteCollectionF(): any {
   while (true) {
     const {id} = yield take(DELETE_COLLECTION);
     yield put(jobStatus(true));
@@ -204,7 +206,7 @@ export function* deleteCollectionF() {
 /**
  * add photo to collection flow
  */
-export function* addPhotoToCollectionF() {
+export function* addPhotoToCollectionF(): any {
   while (true) {
     const {photoId, collectionId} = yield take(ADD_PHOTO_TO_COLLECTION);
     yield put(jobStatus(true));
@@ -226,7 +228,7 @@ export function* addPhotoToCollectionF() {
 /**
  * remove photo from collection flow
  */
-export function* removePhotoFromCollectionF() {
+export function* removePhotoFromCollectionF(): any {
   while (true) {
     const {photoId, collectionId} = yield take(REMOVE_PHOTO_FROM_COLLECTION);
     yield put(jobStatus(true));

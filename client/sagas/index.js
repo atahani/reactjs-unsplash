@@ -1,3 +1,5 @@
+//@flow
+
 import {fork, all} from 'redux-saga/effects';
 import {getAccessTokenF, logOutF, getMyProfileF} from './user';
 import {getPhotosF, likePhotoF, unLikePhotoF, searchInPhotosF} from './photo';
@@ -13,7 +15,7 @@ import {
   removePhotoFromCollectionF
 } from './collection';
 
-export default function* root() {
+export default function* root(): any {
   yield all([ // user saga flows
     fork(getAccessTokenF),
     fork(logOutF),
