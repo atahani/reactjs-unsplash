@@ -178,6 +178,17 @@ type UpdateFieldsOfItem = {
   fields: ?Object,
 }
 
+// ------------------------------------
+// React Router Redux Action
+// ------------------------------------
+
+type LocationChangeRRR = {
+  type: '@@router/LOCATION_CHANGE',
+  payload: {
+    pathname: string,
+  }
+}
+
 // export all of the action in unions type
 
 export type Action = 
@@ -210,4 +221,5 @@ export type Action =
   | RemoveItem
   | ClearItems
   | SetItemsAttr
-  | UpdateFieldsOfItem;
+  | UpdateFieldsOfItem
+  | LocationChangeRRR;

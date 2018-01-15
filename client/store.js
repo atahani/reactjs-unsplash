@@ -1,17 +1,22 @@
-import {createStore, applyMiddleware, compose} from 'redux';
-import {createBrowserHistory} from 'history';
+//@flow
+
+//$FlowFixMe we should import Node as type but the eslint doesn't happy
+import {createStore, applyMiddleware, compose,Store} from 'redux';
+import {createBrowserHistory, History} from 'history';
 import {routerMiddleware} from 'react-router-redux';
 import createSagaMiddleware, {END} from 'redux-saga';
 import {persistStore, autoRehydrate} from 'redux-persist';
 import reducers from './reducers';
 import {setLastPathName} from './actions/app';
+import type { Action } from './types';
 
 // define it as gloabl variable
-let currentStore = null;
+let currentStore: Store<*,*>;
+let isStoreConfigure: boolean = false;
 const middlewares = [];
 
 // create history for routeMiddleware
-const history = createBrowserHistory();
+const history: History = createBrowserHistory();
 
 // create saga middleware to handle async flow
 const sagaMiddleware = createSagaMiddleware();
@@ -21,7 +26,7 @@ const sagaMiddleware = createSagaMiddleware();
  * middlewares config
  */
 
-export const locationChangeMiddleware = () => next => action => {
+export const locationChangeMiddleware = () => (next: any) => (action: Action) => {
   // handle change location action
   if (action.type === '@@router/LOCATION_CHANGE' && !action.payload.pathname.startsWith('/collections/new') && !action.payload.pathname.startsWith('/collections/edit')) {
     // dispatch action to change in lastPathname in app state
@@ -84,16 +89,21 @@ if (process.env.NODE_ENV === 'development') {
  * NOTE: since the persist store take for a while use from Promise to configureStore
  * @param {object} initialState initial state can set by windows --app-initial
  */
-export const configureStore = initialState => new Promise((resolve, reject) => {
+export const configureStore = (initialState: any): Promise<*> => new Promise((resolve, reject) => {
   try {
     // create store
     currentStore = createStore(reducers, initialState, customCompose,);
+    //$FlowFixMe
     currentStore.runSaga = sagaMiddleware.run;
+    //$FlowFixMe
     currentStore.close = () => currentStore.dispatch(END);
     persistStore(currentStore, {
       // since use from whitelist other ignored blacklist: ['app'],
       whitelist: ['user']
-    }, () => resolve(currentStore));
+    }, () => {
+      isStoreConfigure = true;
+      resolve(currentStore);
+    });
   } catch (e) {
     reject(e);
   }
@@ -103,8 +113,9 @@ export const configureStore = initialState => new Promise((resolve, reject) => {
  * set current store
  * @param {object} store redux store
  */
-export const setAsCurrentStore = store => {
+export const setAsCurrentStore = (store: Store<*,*>) => {
   currentStore = store;
+  isStoreConfigure = true;
   if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
     window.store = currentStore;
   }
@@ -115,14 +126,19 @@ export const setAsCurrentStore = store => {
  * can use for dispatch action
  * getStore().dispatch()
  */
-export const getStore = () => currentStore;
+export const getStore = (): Store<*,*> => currentStore;
 
 /**
  * get history
  */
-export const getHistory = () => history;
+export const getHistory = (): History => history;
 
 /**
  * get current state
  */
 export const getState = () => currentStore.getState();
+
+/** 
+ * store has been configured
+ */
+export const storeHasBeenConfigured = () => isStoreConfigure;
