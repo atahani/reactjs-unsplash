@@ -1,5 +1,6 @@
+//@flow
+
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -14,6 +15,7 @@ import {getCollection, getCollectionPhotos} from '../../actions/collection';
 import {clearItems} from '../../actions/items';
 import {API_ROOT} from '../../constants/service-info';
 import {primaryColor1} from '../../style/colors';
+import type { Collection } from '../../types/data';
 
 const Header = styled.div `
   margin-top: 15px;
@@ -46,11 +48,20 @@ const DisplayName = styled.div `
   font-size: 16px;
 `;
 
-const EditBtn = styled(Button)`
+const EditBtn = styled(Button)``;
 
-`;
+type Props = {
+  loggedInUserId: string,
+  collection: Collection,
+  photos: Object,
+  nextPhotosLink: string,
+  match: Object,
+  onGetCollection: Function,
+  onGetCollectionPhotos: Function,
+  onClearItems: Function
+}
 
-class PhotosByCollection extends Component {
+class PhotosByCollection extends Component<Props> {
 
   componentWillMount() {
     const {id} = this.props.match.params;
@@ -62,7 +73,7 @@ class PhotosByCollection extends Component {
   render() {
     const {loggedInUserId, collection, photos, nextPhotosLink, onGetCollectionPhotos} = this.props;
     const collectionInfo = () => {
-      if (collection) {
+      if (collection && collection.user && collection.id) {
         return (
           <Header>
             <Helmet>
@@ -100,17 +111,6 @@ class PhotosByCollection extends Component {
     );
   }
 }
-
-PhotosByCollection.propTypes = {
-  loggedInUserId: PropTypes.string,
-  collection: PropTypes.object,
-  photos: PropTypes.object,
-  nextPhotosLink: PropTypes.string,
-  match: PropTypes.object,
-  onGetCollection: PropTypes.func,
-  onGetCollectionPhotos: PropTypes.func,
-  onClearItems: PropTypes.func
-};
 
 const mapStateToProps = (state, props) => {
   const id = props.match.params.id;

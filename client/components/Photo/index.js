@@ -307,7 +307,7 @@ class PhotoComponent extends Component<Props,State> {
   }
 }
 
-export default connect(state => ({}), dispatch => bindActionCreators({
+export default connect(() => ({}), dispatch => bindActionCreators({
   handleLikePhoto: likePhoto,
   handleUnLikePhoto: unLikePhoto,
   onPush: push

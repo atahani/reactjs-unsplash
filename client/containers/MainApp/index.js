@@ -6,9 +6,9 @@ import {Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
 import PrivateRoute from '../../components/PrivateRoute';
 import App from '../App';
-import Login from '../Login';
-import Logout from '../Logout';
-import Authorize from '../Authorize';
+import LoginContainers from '../Login';
+import LogoutContainer from '../Logout';
+import AuthorizeContainers from '../Authorize';
 import Progress from '../../components/Progress';
 
 const Wrapper = styled.div `
@@ -24,9 +24,9 @@ const MainApp = ({...others}: Props) => (
       <title>Unsplash clone app</title>
     </Helmet>
     <Switch>
-      <Route exact path="/auth/callback" component={Authorize} />
-      <Route path="/auth" component={Login} />
-      <Route path="/logout" component={Logout} />
+      <Route exact path="/auth/callback" component={AuthorizeContainers} />
+      <Route path="/auth" component={LoginContainers} />
+      <Route path="/logout" component={LogoutContainer} />
       <PrivateRoute path="/" component={App} />
     </Switch>
     <Progress />

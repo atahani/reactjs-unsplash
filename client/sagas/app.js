@@ -28,6 +28,7 @@ export function* runActionInSeq(actionObj: Action): any {
  * @param {string} taskAction
  * @param {object} taskPayload
  */
+/*eslint no-unused-vars: "off"*/ 
 export function* handleCommonErr(err: APIError, taskAction: string = NOTHING, taskPayload: Object = {}): any {
   if (err.code === UN_AVAILABLE) {
     // check the internet connection by window.navigator.onLine

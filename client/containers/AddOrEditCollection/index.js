@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reduxForm, Field, change as changeForm, formValueSelector} from 'redux-form';
+import {reduxForm, Field, change as changeForm} from 'redux-form';
 import {withRouter} from 'react-router-dom';
 import styled from 'styled-components';
 import _RInput from '../../components/RTextInput';
@@ -265,8 +265,6 @@ class AddOrEditCollection extends Component<Props,State> {
  * so we use Wrap component with withRouter
  * MORE_INFO: https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking
  */
-// const selector = formValueSelector('add_or_edit_collection');
-// isPrivate: selector(state, 'private'),
 const mapStateToProps = (state, props) => {
   const searchParams = new URLSearchParams(state.router.location.search);
   const editMode: boolean = props.match.params.id && !searchParams.has('step') ? true : false;
