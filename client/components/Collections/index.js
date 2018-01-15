@@ -27,8 +27,10 @@ const Collections = ({loggedInUserId, items, onScrollToLoad}: Props) => {
     const html = document.documentElement;
     let docHeight: number = 0;
     // check values since we have error in flow
-    if (body && body.scrollHeight && body.offsetHeight && html && html.clientHeight && html.scrollHeight && html.offsetHeight){
-      docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    if (body && body.scrollHeight && body.offsetHeight && html && 
+                html.clientHeight && html.scrollHeight && html.offsetHeight){
+      docHeight = Math.max(body.scrollHeight, body.offsetHeight, 
+                            html.clientHeight, html.scrollHeight, html.offsetHeight);
     }
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {

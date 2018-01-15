@@ -209,7 +209,13 @@ const mapStateToProps = state => {
   const photoId = searchParams.get('id');
   const showCreateNewCollection = searchParams.has('step');
   const photo = state.items.photos[photoId];
-  return {idFromUrl: photoId, photo, userCollections: state.items.userCollections, userCollectionsLink: `${API_ROOT}/users/${state.user.userProfile.username}/collections`, showCreateNewCollection};
+  return {
+    idFromUrl: photoId, 
+    photo, 
+    userCollections: state.items.userCollections, 
+    userCollectionsLink: `${API_ROOT}/users/${state.user.userProfile.username}/collections`, 
+    showCreateNewCollection
+  };
 };
 
 export default connect(mapStateToProps, dispatch => bindActionCreators({

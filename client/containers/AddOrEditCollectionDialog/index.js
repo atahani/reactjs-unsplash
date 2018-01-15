@@ -22,6 +22,11 @@ const AddOrEditCollectionDialog = ({pathname, lastPathname, onPush}: Props) => (
   </Dialog>
 );
 
-export default connect(state => ({pathname: state.router.location.pathname, lastPathname: state.app.lastPathname}), dispatch => bindActionCreators({
+const mapStateToProps = state => ({
+  pathname: state.router.location.pathname, 
+  lastPathname: state.app.lastPathname
+});
+
+export default connect(mapStateToProps, dispatch => bindActionCreators({
   onPush: push
 }, dispatch))(AddOrEditCollectionDialog);

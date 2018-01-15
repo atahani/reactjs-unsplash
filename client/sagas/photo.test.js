@@ -6,7 +6,8 @@ import {LIKE_PHOTO, UNLIKE_PHOTO, GE_PHOTOS, SEARCH_PHOTOS, GE_PHOTO} from '../c
 import {likePhoto, unLikePhoto, getPhotos, searchInPhotos, getPhoto} from '../actions/photo';
 import {updateFieldsOfItem, setItems, setItemsAttr, setItem} from '../actions/items';
 import {jobStatus} from '../actions/app';
-import {likePhoto as likeAPI, unLikePhoto as unLikeAPI, getPhotos as getPhotosAPI, getPhoto as getPhotoAPI} from '../api/photo';
+import {likePhoto as likeAPI, unLikePhoto as unLikeAPI, 
+        getPhotos as getPhotosAPI, getPhoto as getPhotoAPI} from '../api/photo';
 import {getReq} from '../api/rest-helper';
 
 /**

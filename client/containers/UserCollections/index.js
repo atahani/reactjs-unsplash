@@ -69,6 +69,13 @@ class UserCollections extends Component<Props> {
   }
 }
 
-export default connect(state => ({loggedInUserId: state.user.userProfile.id, collections: state.items.userCollections, username: state.user.userProfile.username, nextCollectionsLink: state.items.userCollectionsAttr.next}), dispatch => bindActionCreators({
+const mapStateToProps = state => ({
+  loggedInUserId: state.user.userProfile.id, 
+  collections: state.items.userCollections, 
+  username: state.user.userProfile.username, 
+  nextCollectionsLink: state.items.userCollectionsAttr.next
+});
+
+export default connect(mapStateToProps, dispatch => bindActionCreators({
   onGetUserCollections: getUserCollections,
 }, dispatch))(UserCollections);

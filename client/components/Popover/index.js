@@ -122,7 +122,8 @@ class Popover extends Component<Props,State> {
     const arrowTop = elmBottom + 1;
     const arrowLeft = elmLeft + (elmWidth / 2) - 7;
     // if autoCloseWhenOffScreen is true check it and close it :)
-    if (autoCloseWhenOffScreen && (arrowTop < 0 || arrowTop > window.innerHeight || arrowLeft < 0 || arrowLeft > window.innerWidth)) {
+    if (autoCloseWhenOffScreen && (arrowTop < 0 || arrowTop > window.innerHeight 
+                || arrowLeft < 0 || arrowLeft > window.innerWidth)) {
       this.handleClose('');
       return;
     }

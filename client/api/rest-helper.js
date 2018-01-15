@@ -98,14 +98,15 @@ export const getHeadersForMultiPart = (): Headers => {
  * @param {Object} body
  * @param {Headers} headers default is getHeaders()
  */
-export const postReq = (endpoint: string, body: any, headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
-  method: 'POST',
-  body: JSON.stringify(body),
-    headers
-  })
-  .then(res => res.json().then(json => ({json, res})))
-  .then(({json, res}) => checkStatus(json, res))
-  .catch(failure);
+export const postReq = (endpoint: string, body: any, headers?: Headers = getHeaders()): RESTAPIResponse => 
+  fetch(endpoint, {
+    method: 'POST',
+    body: JSON.stringify(body),
+      headers
+    })
+    .then(res => res.json().then(json => ({json, res})))
+    .then(({json, res}) => checkStatus(json, res))
+    .catch(failure);
 
 /**
  * post form for multipart requests
@@ -113,51 +114,55 @@ export const postReq = (endpoint: string, body: any, headers?: Headers = getHead
  * @param {string} endpoint
  * @param {Object} formData
  */
-export const postReqFormData = (endpoint: string, formData: any): RESTAPIResponse => fetch(endpoint, {
-    method: 'POST',
-    body: formData,
-    headers: getHeadersForMultiPart()
-  })
-  .then(res => res.json().then(json => ({json, res})))
-  .then(({json, res}) => checkStatus(json, res))
-  .catch(failure);
+export const postReqFormData = (endpoint: string, formData: any): RESTAPIResponse => 
+  fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+      headers: getHeadersForMultiPart()
+    })
+    .then(res => res.json().then(json => ({json, res})))
+    .then(({json, res}) => checkStatus(json, res))
+    .catch(failure);
 
 /**
  * get request
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const getReq = (endpoint: string, headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
-    method: 'GET',
-    headers
-  })
-  .then(res => res.json().then(json => ({json, res})))
-  .then(({json, res}) => checkStatus(json, res))
-  .catch(failure);
+export const getReq = (endpoint: string, headers?: Headers = getHeaders()): RESTAPIResponse => 
+  fetch(endpoint, {
+      method: 'GET',
+      headers
+    })
+    .then(res => res.json().then(json => ({json, res})))
+    .then(({json, res}) => checkStatus(json, res))
+    .catch(failure);
 
 /**
  * delete request
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const deleteReq = (endpoint: string, body: any = {}, headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
-  method: 'DELETE',
-  body: JSON.stringify(body),
-    headers
-  })
-  .then(res => res.json().then(json => ({json, res})))
-  .then(({json, res}) => checkStatus(json, res))
-  .catch(failure);
+export const deleteReq = (endpoint: string, body: any = {}, headers?: Headers = getHeaders()): RESTAPIResponse => 
+  fetch(endpoint, {
+    method: 'DELETE',
+    body: JSON.stringify(body),
+      headers
+    })
+    .then(res => res.json().then(json => ({json, res})))
+    .then(({json, res}) => checkStatus(json, res))
+    .catch(failure);
 
 /**
  * delete request without get json in response
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const deleteReqWithoutJSON = (endpoint: string , headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
-  method: 'DELETE',
-  headers
-}).then(res => checkStatus({}, res)).catch(failure);
+export const deleteReqWithoutJSON = (endpoint: string , headers?: Headers = getHeaders()): RESTAPIResponse => 
+  fetch(endpoint, {
+    method: 'DELETE',
+    headers
+  }).then(res => checkStatus({}, res)).catch(failure);
 
 /**
  * put request
@@ -166,11 +171,12 @@ export const deleteReqWithoutJSON = (endpoint: string , headers?: Headers = getH
  * @param {Object} body
  * @param {Headers} headers default is getHeaders()
  */
-export const putReq = (endpoint: string, body: any, headers?: Headers = getHeaders()): RESTAPIResponse => fetch(endpoint, {
-  method: 'PUT',
-  body: JSON.stringify(body),
-    headers
-  })
-  .then(res => res.json().then(json => ({json, res})))
-  .then(({json, res}) => checkStatus(json, res))
-  .catch(failure);
+export const putReq = (endpoint: string, body: any, headers?: Headers = getHeaders()): RESTAPIResponse => 
+  fetch(endpoint, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+      headers
+    })
+    .then(res => res.json().then(json => ({json, res})))
+    .then(({json, res}) => checkStatus(json, res))
+    .catch(failure);

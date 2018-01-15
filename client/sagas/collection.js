@@ -7,7 +7,8 @@ import {push} from 'react-router-redux';
 import {handleCommonErr} from './app';
 import {jobStatus} from '../actions/app';
 import {getReq} from '../api/rest-helper';
-import {createCollection, updateCollection, deleteCollection, addPhotoToCollection, removePhotoFromCollection} from '../api/collection';
+import {createCollection, updateCollection, deleteCollection, 
+        addPhotoToCollection, removePhotoFromCollection} from '../api/collection';
 import {setItems, setItemsAttr, setItem, updateItem, removeItem} from '../actions/items';
 import {getCollectionPhotos} from '../actions/collection';
 import {

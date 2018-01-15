@@ -44,7 +44,12 @@ class Home extends Component<Props> {
   }
 }
 
-export default connect(state => ({photos: state.items.photos, nextPhotosLink: state.items.photosAttr.next}), dispatch => bindActionCreators({
+const mapStateToProps = state => ({
+  photos: state.items.photos, 
+  nextPhotosLink: state.items.photosAttr.next
+});
+
+export default connect(mapStateToProps, dispatch => bindActionCreators({
   onGetPhotos: getPhotos,
   onClearItems: clearItems
 }, dispatch))(Home);

@@ -22,6 +22,11 @@ const AddToCollectionDialog = ({searchPath, lastPathname, onPush}: Props) => (
   </Dialog>
 );
 
-export default connect(state => ({searchPath: state.router.location.search, lastPathname: state.app.lastPathname}), dispatch => bindActionCreators({
+const mapStateToProps = state => ({
+  searchPath: state.router.location.search, 
+  lastPathname: state.app.lastPathname
+});
+
+export default connect(mapStateToProps, dispatch => bindActionCreators({
   onPush: push
 }, dispatch))(AddToCollectionDialog);

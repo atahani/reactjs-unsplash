@@ -32,7 +32,8 @@ const Photos = ({items, onScrollToLoad,...others}: Props) => {
     const html = document.documentElement;
     let docHeight = 0;
     if (html && body && body.scrollHeight && body.offsetHeigh && html.offsetHeight && html.scrollHeight){
-      docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+      docHeight = Math.max(body.scrollHeight, body.offsetHeight, 
+                          html.clientHeight, html.scrollHeight, html.offsetHeight);
     }
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {

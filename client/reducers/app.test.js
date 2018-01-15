@@ -6,7 +6,8 @@ describe('appReducer', () => {
     expect(appReducer(void 0, {})).toMatchObject({actionData: {}, jobRunning: 0, lastPathname: '/'});
   });
   it('should react to SE_LAST_PATH_NAME action', () => {
-    expect(appReducer(void 0, setLastPathName('/auth'))).toMatchObject({actionData: {}, jobRunning: 0, lastPathname: '/auth'});
+    expect(appReducer(void 0, setLastPathName('/auth')))
+            .toMatchObject({actionData: {}, jobRunning: 0, lastPathname: '/auth'});
   });
   it('should react to CH_JOB_ST actoin', () => {
     expect(appReducer(void 0, jobStatus(true))).toMatchObject({actionData: {}, jobRunning: 1, lastPathname: '/'});
