@@ -25,6 +25,13 @@ type SetActionData = {
   data: ?any,
 };
 
+type SetSearchValues = {
+  type: 'app/SE_SEARCH_VALUES',
+  query: string,
+  title: string,
+  value: string,
+}
+
 // ------------------------------------
 // User Actions
 // ------------------------------------
@@ -196,6 +203,7 @@ export type Action =
   | ClearStore
   | ChangeJobStatus
   | SetActionData
+  | SetSearchValues
   | GetAccessToken
   | SetAccessToken
   | Logout

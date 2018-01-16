@@ -13,6 +13,7 @@ import Collections from '../../components/Collections';
 import {searchInPhotos} from '../../actions/photo';
 import {searchInCollections} from '../../actions/collection';
 import {clearItems} from '../../actions/items';
+import { setSearchValues } from '../../actions/app';
 import {API_ROOT} from '../../constants/service-info';
 import {linkColor, activeLinkColor, primaryColor1} from '../../style/colors';
 import { media } from '../../style/util';
@@ -62,6 +63,8 @@ const Results = styled.div `
 `;
 
 type Props = {
+  query: string,
+  title: string,
   match: Object,
   collections: Object,
   nextCollectionsLink: string,
@@ -71,25 +74,15 @@ type Props = {
   totalPhotos: number,
   onClearItems: Function,
   onSearchInPhotos: Function,
-  onSearchInCollections: Function
+  onSearchInCollections: Function,
+  onSetSearchValues: Function,
 }
 
-type State = {
-  query: ?string,
-  title: ?string,
-  type: ?string,
-}
-
-class Search extends Component<Props,State> {
+class Search extends Component<Props> {
   static defaultProps = {
     totalPhotos: 0,
     totalCollections: 0
   };
-  state = {
-    query: void 0,
-    title: void 0,
-    type: void 0
-  }
 
   componentDidMount() {
     const {query, type} = this.props.match.params;
@@ -104,21 +97,21 @@ class Search extends Component<Props,State> {
     }
   }
 
+  componentWillUnmount () {
+    this.props.onSetSearchValues();
+  }
+  
+
   handleSearch = (query, type) => {
-    if (this.state.query !== query || this.state.type !== type) {
-      const {onClearItems, onSearchInPhotos, onSearchInCollections} = this.props;
+    if (this.props.query !== query || this.props.match.params.type !== type) {
+      const {onClearItems, onSearchInPhotos, onSearchInCollections,onSetSearchValues} = this.props;
       onClearItems('photos');
       onClearItems('collections');
       onSearchInPhotos(`${API_ROOT}/search/photos?page=1&query=${query.replace('-', ' ')}`);
       onSearchInCollections(`${API_ROOT}/search/collections?page=1&query=${query.replace('-', ' ')}`);
-      // finaly set it into state
-      this.setState({
-        title: query
-          ? (query.charAt(0).toUpperCase() + query.slice(1)).replace('-', ' ')
-          : void 0,
-        query,
-        type
-      });
+      const title = (query.charAt(0).toUpperCase() + query.slice(1)).replace('-', ' ');
+      const value = query.replace('-',' ');
+      onSetSearchValues(query,title,value);
     }
   }
 
@@ -133,9 +126,10 @@ class Search extends Component<Props,State> {
       onSearchInCollections,
       onSearchInPhotos
     } = this.props;
-    const {query, title, type} = this.state;
+    const { query, title } = this.props;
+    const { type } = this.props.match.params;
     const header = () => {
-      if (title && query) {
+      if (query !== '') {
         const typeStr = type
           ? type
             .charAt(0)
@@ -156,7 +150,7 @@ class Search extends Component<Props,State> {
     return (
       <div>
         {header()}
-        {!type && collections && query
+        {!type && collections && query !== ''
           ? <CollectionsSView
             viewAllPath={`/search/collections/${query}`}
             items={collections} 
@@ -187,6 +181,8 @@ class Search extends Component<Props,State> {
 }
 
 export default withRouter(connect(state => ({
+  query: state.app.searchValues.query,
+  title: state.app.searchValues.title,
   collections: state.items.collections,
   nextCollectionsLink: state.items.collectionsAttr.next,
   totalCollections: state.items.collectionsAttr.total,
@@ -196,5 +192,6 @@ export default withRouter(connect(state => ({
 }), dispatch => bindActionCreators({
   onClearItems: clearItems,
   onSearchInPhotos: searchInPhotos,
-  onSearchInCollections: searchInCollections
+  onSearchInCollections: searchInCollections,
+  onSetSearchValues: setSearchValues,
 }, dispatch))(Search));

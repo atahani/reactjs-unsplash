@@ -28,4 +28,8 @@ export const jobStatus = (status: boolean = false): Action => ({type: 'app/CH_JO
  * @param {string} actionType
  * @param {any} data
  */
-export const setActionData = (actionType: string, data: ?any) => ({type: 'app/SE_ACTION_DATA', actionType, data});
+export const setActionData = (actionType: string, data: ?any): Action => 
+      ({type: 'app/SE_ACTION_DATA', actionType, data});
+
+export const setSearchValues = (query: string = '', title: string = '', value: string = ''): Action => 
+      ({type: 'app/SE_SEARCH_VALUES',query,title,value});

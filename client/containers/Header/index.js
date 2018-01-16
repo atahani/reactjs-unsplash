@@ -76,6 +76,7 @@ const Nav = styled(_Nav)`
 `;
 
 type Props = {
+  queryValue: string,
   userProfile: UserProfileType,
   width: number,
   onPush: Function,
@@ -84,6 +85,7 @@ type Props = {
 type State = {
   lastScrollTop: number,
   topBarFixed: boolean,
+  searchTxVal: string,
 }
 
 class Header extends Component<Props,State> {
@@ -92,7 +94,8 @@ class Header extends Component<Props,State> {
   }
   state = {
     lastScrollTop: 0,
-    topBarFixed: false
+    topBarFixed: false,
+    searchTxVal:'',
   };
 
   componentWillMount() {
@@ -115,7 +118,15 @@ class Header extends Component<Props,State> {
           .onPush('/');
       }
     }, 700);
+    this.setState({searchTxVal: this.props.queryValue});
   }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.queryValue !== this.props.queryValue && nextProps.queryValue !== this.state.searchTxVal && nextProps.queryValue === ''){
+      this.setState({searchTxVal: ''});
+    }
+  }
+  
 
   shouldComponentUpdate(nextProps, nextState) {
     // prevent to re render view in update lastScrollTop state
@@ -127,6 +138,7 @@ class Header extends Component<Props,State> {
 
   onSearchTxChange = e => {
     e.persist();
+    this.setState({searchTxVal: e.target.value});
     // $FlowFixMe
     this.delayedCallback(e);
   }
@@ -145,7 +157,7 @@ class Header extends Component<Props,State> {
 
   render() {
     const {userProfile, width} = this.props;
-    const {topBarFixed} = this.state;
+    const {topBarFixed, searchTxVal} = this.state;
     const avatar = () => {
       if (userProfile.profileImage) {
         return (
@@ -174,7 +186,7 @@ class Header extends Component<Props,State> {
           <TopBar>
             <Logo />
             <Controller>
-              <SearchTx onChange={this.onSearchTxChange} hintText="Search photos" rounded /> {avatar()}
+              <SearchTx value={searchTxVal} onChange={this.onSearchTxChange} hintText="Search photos" rounded /> {avatar()}
             </Controller>
           </TopBar>
         </TopBarWrapper>
@@ -193,9 +205,7 @@ class Header extends Component<Props,State> {
 export default withRouter(connect(state => ({
   // the getProfile fire after getAccessToken so the profileImage maybe undefined
   // in load
-  // userProfile: state.user.userProfile.profileImage
-  //   ? state.user.userProfile.profileImage.medium
-  //   : void 0
+  queryValue: state.app.searchValues.value,
   userProfile: state.user.userProfile,
 }), dispatch => bindActionCreators({
   onPush: push

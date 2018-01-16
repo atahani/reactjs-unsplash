@@ -8,7 +8,12 @@ const initialState = {
   actionData: {},
   // the default pathname of application
   lastPathname: '/',
-  jobRunning: 0
+  jobRunning: 0,
+  searchValues: {
+    query: '',
+    title: '',
+    value: ''
+  }
 };
 
 /**
@@ -53,6 +58,14 @@ export default (state: AppState = initialState, action: Action): AppState => {
         // like > state.app.actionData.login
         return Object.assign({}, state, {actionData: obj});
       }
+    case 'app/SE_SEARCH_VALUES':
+      return Object.assign({},state,{
+        searchValues: Object.assign({},state.searchValues,{
+          query: action.query,
+          title: action.title,
+          value: action.value,
+        })
+      });
     default:
       return state;
   }

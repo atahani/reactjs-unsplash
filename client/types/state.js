@@ -4,6 +4,11 @@ export type AppState = {
   actionData: Object,
   lastPathname: string,
   jobRunning: number,
+  searchValues: {
+    query: string,
+    title: string,
+    value: string,
+  },
 };
 
 export type ItemsState = {
