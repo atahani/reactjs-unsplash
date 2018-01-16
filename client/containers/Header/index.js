@@ -16,6 +16,7 @@ import Avatar from '../../components/Avatar';
 import NavOnAvatar from '../../components/NavOnAvatar';
 import {maxWidthContent} from '../../style/util';
 import {white, dividerColor} from '../../style/colors';
+import type { UserProfile as UserProfileType } from '../../types/data';
 
 
 const Wrapper = styled.div `
@@ -75,7 +76,7 @@ const Nav = styled(_Nav)`
 `;
 
 type Props = {
-  userImageProfile: string,
+  userProfile: UserProfileType,
   width: number,
   onPush: Function,
 }
@@ -143,10 +144,10 @@ class Header extends Component<Props,State> {
   }
 
   render() {
-    const {userImageProfile, width} = this.props;
+    const {userProfile, width} = this.props;
     const {topBarFixed} = this.state;
     const avatar = () => {
-      if (userImageProfile) {
+      if (userProfile.profileImage) {
         return (
           <Popover
             arrowSide={width > 1130
@@ -154,7 +155,11 @@ class Header extends Component<Props,State> {
             : 'right'}
             autoCloseWhenOffScreen
             width={200}
-            target={<AButton > <Avatar imagePath={userImageProfile} /> </AButton>}
+            target={
+              <AButton > 
+                <Avatar imagePath={userProfile.profileImage.medium} name={userProfile.name} /> 
+              </AButton>
+            }
           >
             <NavOnAvatar />
           </Popover>
@@ -188,9 +193,10 @@ class Header extends Component<Props,State> {
 export default withRouter(connect(state => ({
   // the getProfile fire after getAccessToken so the profileImage maybe undefined
   // in load
-  userImageProfile: state.user.userProfile.profileImage
-    ? state.user.userProfile.profileImage.medium
-    : void 0
+  // userProfile: state.user.userProfile.profileImage
+  //   ? state.user.userProfile.profileImage.medium
+  //   : void 0
+  userProfile: state.user.userProfile,
 }), dispatch => bindActionCreators({
   onPush: push
 }, dispatch))(Header));

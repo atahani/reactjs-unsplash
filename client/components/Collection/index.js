@@ -129,9 +129,8 @@ const Collection = ({
     <CoverLink to={`/collections/${collection.id}`}>
       <Cover
         height={height}
-        imgUrl={collection.coverPhoto
-        ? `${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&
-              w=${width}&h=${height}&q=80&cs=tinysrgb`
+        imgUrl={collection.coverPhoto ? 
+        `${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=${width}&h=${height}&q=80&cs=tinysrgb`
         : void 0}
       >
         <Overlay />
