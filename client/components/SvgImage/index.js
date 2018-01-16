@@ -21,9 +21,9 @@ const SvgImg = styled.svg `
 type Props = {
   children: Node,
   viewBox: string,
-  size: number,
-  color: string,
-  fillFromParent: boolean,
+  size?: number,
+  color?: string,
+  fillFromParent?: boolean,
 }
 
 const SvgImage = ({

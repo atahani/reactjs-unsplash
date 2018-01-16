@@ -72,8 +72,4 @@ const CollectionsSView = ({items, viewAllPath}: Props) => {
   );
 };
 
-CollectionsSView.defaultProps = {
-  items: {}
-};
-
 export default CollectionsSView;

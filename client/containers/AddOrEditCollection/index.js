@@ -144,20 +144,24 @@ let MainForm = ({
         <PrivateBtn
           type="button"
           onClick={() => onChangeForm('add_or_edit_collection', 'private', !collection.private)}
-        >Make collection private</PrivateBtn>
+        >Make collection private
+        </PrivateBtn>
       </CheckboxCon>
     </Controller>
     <Actions>
       {editMode
-        ? confirmDeleteAction
-          ? <Note>Are you sure ?
+        ? confirmDeleteAction ? 
+          <Note>Are you sure ?
             <CancelBtn
               onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), false)}
-            >Cancel</CancelBtn>
+            >Cancel
+            </CancelBtn>
           </Note>
-          : <DeleteBtn
+          : 
+          <DeleteBtn
             onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), true)}
-          >Delete Collection</DeleteBtn>
+          >Delete Collection
+          </DeleteBtn>
         : <CancelBtn onClick={e => onRequestClose(e)}>Cancel</CancelBtn>}
       {confirmDeleteAction
         ? <Button
@@ -225,7 +229,7 @@ class AddOrEditCollection extends Component<Props,State> {
       onUpdateCollection,
       onDeleteCollection,
       onSetActionData,
-      ...others,
+      ...others
     } = this.props;
 
     return (
@@ -233,14 +237,16 @@ class AddOrEditCollection extends Component<Props,State> {
         <Helmet>
           <title>{editMode
               ? 'Edit Collection - unsplash clone'
-              : 'Add New Collection - unsplash clone'}</title>
+              : 'Add New Collection - unsplash clone'}
+          </title>
         </Helmet>
         <CloseBtn onClick={e => onRequestClose(e)}>
           <CloseIcon />
         </CloseBtn>
         <Title>{editMode
             ? 'Edit collection'
-            : 'Create new collection'}</Title>
+            : 'Create new collection'}
+        </Title>
         <MainForm
           onChangeForm={onChangeForm}
           editMode={editMode}

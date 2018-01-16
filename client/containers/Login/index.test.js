@@ -8,6 +8,6 @@ describe('<Login />', () => {
     const login = renderer
       .create(<Login />)
       .toJSON();
-    expect(login).toMatchStyledComponentsSnapshot();
+    expect(login).toMatchSnapshot();
   });
 });

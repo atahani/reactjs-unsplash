@@ -192,7 +192,7 @@ class PhotoComponent extends Component<Props,State> {
       handleLikePhoto,
       handleUnLikePhoto,
       onPush,
-      ...others,
+      ...others
     } = this.props;
     const height = (photo.height * width) / photo.width;
     const {showOverlay} = this.state;

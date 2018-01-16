@@ -166,10 +166,9 @@ class CollectionSView extends Component<Props,State> {
         {collection.isPrivate
           ? <PrivateIcon size={16} />
           : null}
-        {inRowSelection
-          ? <SelectedStatusIcon >
-            {selectionStatus()
-}
+        {inRowSelection ? 
+          <SelectedStatusIcon >
+            {selectionStatus()}
           </SelectedStatusIcon>
           : null}
       </Cover>
@@ -178,8 +177,7 @@ class CollectionSView extends Component<Props,State> {
       if (!inRowSelection) {
         return (
           <Link to={`/collections/${collection.id ? collection.id : ''}`}>
-            {cover()
-}
+            {cover()}
           </Link>
         );
       }

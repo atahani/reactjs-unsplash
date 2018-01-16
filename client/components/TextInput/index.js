@@ -111,7 +111,7 @@ type Props = {
   rounded?: boolean,
   hintText?: string,
   multiLine?: boolean,
-  message: ?string,
+  message?: ?string,
   messageType?: "error" | "warn" | "success",
   messageColor?: string,
 }

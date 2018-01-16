@@ -56,10 +56,6 @@ const Progress = ({jobNumbers}: Props) => {
   );
 };
 
-Progress.defaultProps = {
-  jobNumbers: 0
-};
-
 const mapStateToProps = state => ({jobNumbers: state.app.jobRunning});
 
 export default connect(

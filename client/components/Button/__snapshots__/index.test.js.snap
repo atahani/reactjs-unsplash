@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Button /> render it 1`] = `
-.bSZzkB {
+.c0 {
   display: inline-block;
   margin-right: 8px;
   color: #999;
@@ -29,15 +29,15 @@ exports[`<Button /> render it 1`] = `
   text-decoration: none;
 }
 
-.bSZzkB:hover,
-.bSZzkB:focus {
+.c0:hover,
+.c0:focus {
   color: #111;
   fill: #111;
   border-color: #999 !important;
 }
 
 <button
-  className="sc-bdVaJa bSZzkB"
+  className="c0"
   disabled={false}
   onClick={[Function]}
   type="button"

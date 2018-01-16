@@ -98,9 +98,4 @@ const Photos = ({items, onScrollToLoad,...others}: Props) => {
   );
 };
 
-
-Photos.defaultProps = {
-  items: []
-};
-
 export default Photos;

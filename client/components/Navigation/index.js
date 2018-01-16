@@ -48,21 +48,24 @@ const Navigation = ({...others}: Props) => (
           color: primaryColor1
         }}
           to="/"
-        >Home</Link>
+        >Home
+        </Link>
         <Link
           exact
           activeStyle={{
           color: primaryColor1
         }}
           to="/collections"
-        >Your Collection</Link>
+        >Your Collection
+        </Link>
         <Link
           exact
           activeStyle={{
           color: primaryColor1
         }}
           to="/liked-photos"
-        >Liked photos</Link>
+        >Liked photos
+        </Link>
       </Item>
     </List>
   </Wrapper>

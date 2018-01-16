@@ -37,7 +37,6 @@ imagePath !== '' ?
 
 Avatar.defaultProps = {
   className: void 0,
-  name: 'U',
   size: 40,
 };
 

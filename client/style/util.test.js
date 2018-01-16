@@ -25,7 +25,7 @@ describe('Test style Util', () => {
       const wrapper = renderer
         .create(<Div />)
         .toJSON();
-      expect(wrapper).toMatchStyledComponentsSnapshot();
+      expect(wrapper).toMatchSnapshot();
     });
   });
 });

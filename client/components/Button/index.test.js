@@ -11,7 +11,7 @@ describe('<Button />', () => {
     const button = renderer
       .create(<Button />)
       .toJSON();
-    expect(button).toMatchStyledComponentsSnapshot();
+    expect(button).toMatchSnapshot();
   });
 
   it('check primary color when in primary button type', () => {
