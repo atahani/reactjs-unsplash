@@ -5,7 +5,7 @@ import {createStore, applyMiddleware, compose,Store} from 'redux';
 import {createBrowserHistory, History} from 'history';
 import {routerMiddleware} from 'react-router-redux';
 import createSagaMiddleware, {END} from 'redux-saga';
-import {persistStore, autoRehydrate} from 'redux-persist';
+import {persistStore} from 'redux-persist';
 import reducers from './reducers';
 import {setLastPathName} from './actions/app';
 import type { Action } from './types';
@@ -64,9 +64,8 @@ if (process.env.NODE_ENV === 'development') {
 
 /**
  * config compose with middlewares
- * autoRehydrate for redux-persist store state in localStorage
  */
-let customCompose = compose(applyMiddleware(...middlewares), autoRehydrate());
+let customCompose = compose(applyMiddleware(...middlewares));
 
 // wrap customCompose by composeWithDevTools with configs to enable redux dev
 // tools
@@ -98,10 +97,7 @@ export const configureStore = (initialState: any): Promise<*> => new Promise((re
     currentStore.runSaga = sagaMiddleware.run;
     //$FlowFixMe
     currentStore.close = () => currentStore.dispatch(END);
-    persistStore(currentStore, {
-      // since use from whitelist other ignored blacklist: ['app'],
-      whitelist: ['user']
-    }, () => {
+    persistStore(currentStore, null, () => {
       isStoreConfigure = true;
       resolve(currentStore);
     });
