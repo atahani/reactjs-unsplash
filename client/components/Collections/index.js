@@ -22,15 +22,13 @@ const Collections = ({loggedInUserId, items, onScrollToLoad}: Props) => {
   const handleResizeOrScroll = () => {
     const windowHeight = "innerHeight" in window
       ? window.innerHeight
-      : document.documentElement ? document.documentElement.offsetHeight : 0;
+      : document && document.documentElement ? document.documentElement.offsetHeight : 0;
     const body = document.body;
     const html = document.documentElement;
-    let docHeight: number = 0;
-    // check values since we have error in flow
-    if (body && body.scrollHeight && body.offsetHeight && html && 
-                html.clientHeight && html.scrollHeight && html.offsetHeight){
+    let docHeight = 0;
+    if (html && body && body.scrollHeight && body.offsetHeigh && html.offsetHeight && html.scrollHeight){
       docHeight = Math.max(body.scrollHeight, body.offsetHeight, 
-                            html.clientHeight, html.scrollHeight, html.offsetHeight);
+                          html.clientHeight, html.scrollHeight, html.offsetHeight);
     }
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
