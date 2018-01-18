@@ -8,6 +8,14 @@ This project was developed to demonstrate how you can develop a React.js web app
 
 > This project has written only for educational purpose. So we don't want to abuse the name or idea of [unsplash.com](https://medium.com/unsplash/unsplash-api-guidelines-28e0216e6daa).
 
+## How Does It Look Like?
+
+![Home Page](images/home.png)
+![Home Page in Mobile](images/home-mobile.png)
+![Search Page](images/search.png)
+![Create New Collection Dialog](images/create-new-collection.png)
+![Add Image to Collections Dialog](images/add-image-to-collections.png)
+
 ## Some Libraries that have been used.
 
 #### Flow
