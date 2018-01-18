@@ -33,6 +33,7 @@ const AppTitle = styled.h1 `
 `;
 
 const Note = styled.div `
+  margin-top: 10px;
   text-align: center;
 `;
 
@@ -47,13 +48,12 @@ export const Login = () => (
       <a href={OAUTH_PATH}>
         <Button primary label="Authorize by unsplash.com" />
       </a>
-      <Note>this project made by
-        <ExtLink target="blank" href="https://twitter.com/atahani">@atahani</ExtLink>
-        for Reactjs + Redux tutorial that recorded for
-        <ExtLink target="blank" href="https://faranesh.com/web/16454-clone-unsplashcom-with-reactjs--redux">Faranesh</ExtLink>
+      <Note>This project was developed to demonstrate how you can develop a React.js web application like
+        <ExtLink target="blank" href="https://unsplash.com">unsplash.com</ExtLink>
+        from scratch.
         <br />
-        source on
-        <ExtLink target="blank" href="https://github.com/atahani/reactjs-unsplash">github</ExtLink>
+        For more information please check
+        <ExtLink target="blank" href="https://github.com/atahani/reactjs-unsplash">Github</ExtLink>
       </Note>
     </Content>
   </Wrapper>

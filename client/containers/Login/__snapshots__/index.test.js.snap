@@ -102,6 +102,7 @@ exports[`<Login /> render it 1`] = `
 }
 
 .c5 {
+  margin-top: 10px;
   text-align: center;
 }
 
@@ -141,30 +142,23 @@ exports[`<Login /> render it 1`] = `
     <div
       className="c5"
     >
-      this project made by
+      This project was developed to demonstrate how you can develop a React.js web application like
       <a
         className="c6"
-        href="https://twitter.com/atahani"
+        href="https://unsplash.com"
         target="blank"
       >
-        @atahani
+        unsplash.com
       </a>
-      for Reactjs + Redux tutorial that recorded for
-      <a
-        className="c6"
-        href="https://faranesh.com/web/16454-clone-unsplashcom-with-reactjs--redux"
-        target="blank"
-      >
-        Faranesh
-      </a>
+      from scratch.
       <br />
-      source on
+      For more information please check
       <a
         className="c6"
         href="https://github.com/atahani/reactjs-unsplash"
         target="blank"
       >
-        github
+        Github
       </a>
     </div>
   </div>
