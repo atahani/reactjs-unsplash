@@ -16,7 +16,7 @@ This project was developed to demonstrate how you can develop a React.js web app
 ![Create New Collection Dialog](images/create-new-collection.png)
 ![Add Image to Collections Dialog](images/add-image-to-collections.png)
 
-## Some Libraries that have been used.
+## Some Libraries that have been used
 
 #### Flow
 
