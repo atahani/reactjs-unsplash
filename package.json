@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "env-cmd .env_development webpack-dev-server",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest && yarn run flow && yarn run lint",
     "test-w": "NODE_ENV=test jest --watch --no-cache",
     "build": "rm -f ./public/bundle.js && env-cmd .env_production webpack --progress",
     "build-and-run-server": "yarn run build && node server.js",
