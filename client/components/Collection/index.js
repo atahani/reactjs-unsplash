@@ -7,40 +7,52 @@ import {lighten} from 'polished';
 import Avatar from '../Avatar';
 import LockIcon from '../svg-icons/lock';
 import EditIcon from '../svg-icons/edit';
+import { screenLargerThan } from '../../style/util';
 import {secondaryColor1, dividerColor, primaryColor1, white} from '../../style/colors';
 
 const Wrapper = styled.div `
-  width: ${props => `${props.width}px`};
-  height: ${props => `${props.height + 60}px`};
-  float: left;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  display: flex;
+  max-width: 100%;
+  flex-basis: 100%;
+  ${screenLargerThan.tablet`
+    flex-basis: 50%;
+  `};
+  ${screenLargerThan.desktop`
+    flex-basis: 33.3333333333%;
+  `};
+`;
+
+const Card = styled.div`
+  width: 100%;
+  margin: 5px;
   border: 1px solid  ${dividerColor};
   border-radius: 10px;
-  margin-left: ${props => `${props.marginLeft}px`};
-  margin-right: ${props => `${props.marginRight}px`};
 `;
 
 const CoverLink = styled(Link)``;
 
 const Cover = styled.div `
-  width: 100%;
-  height: ${props => `${props.height}px`};
   position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  padding-bottom: 55%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  ${props => props.imgUrl
-  ? `
-    background-image: url(${props.imgUrl});
-  `
-  : `
-    background: ${secondaryColor1};
-  `};
+  background-color: ${secondaryColor1};
+`;
+
+const ImgCover = styled.img`
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
 `;
 
 const Overlay = styled.div `
   width: 100%;
-  height: 100%;
   background-color: ${lighten(0.15, primaryColor1)};
   opacity: 0.4;
   border-top-left-radius: 10px;
@@ -102,56 +114,46 @@ const EditBtn = styled(Link)`
 `;
 
 type Props = {
-  width: number,
-  height: number,
-  marginLeft: number,
-  marginRight: number,
   collection: Collection,
   editable: boolean,
 };
 
 const Collection = ({
-  width,
-  height,
-  marginLeft,
-  marginRight,
   editable,
   collection,
   ...others
 }: Props) => (
   <Wrapper
-    width={width}
-    height={height}
-    marginLeft={marginLeft}
-    marginRight={marginRight}
     {...others}
   >
-    <CoverLink to={`/collections/${collection.id}`}>
-      <Cover
-        height={height}
-        imgUrl={collection.coverPhoto ? 
-        `${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=${width}&h=${height}&q=80&cs=tinysrgb`
-        : void 0}
-      >
-        <Overlay />
-        <Title>{collection.title}</Title>
-        <Counter>{`${collection.totalPhotos} Photos`}</Counter>
-        {collection.is_private
+    <Card>
+      <CoverLink to={`/collections/${collection.id}`}>
+        <Cover>
+          <Overlay />
+          <Title>{collection.title}</Title>
+          <Counter>{`${collection.totalPhotos} Photos`}</Counter>
+          <ImgCover
+            src={collection.coverPhoto ? 
+            `${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=400&q=80&cs=tinysrgb` : void 0}
+            alt={collection.name}
+          />
+          {collection.is_private
           ? <PrivateIcon size={16} />
           : null}
-      </Cover>
-    </CoverLink>
-    <Footer>
-      <UserLink target="_blank" href={collection.user.links.html}>
-        <Avatar imagePath={collection.user.profileImage.medium} name={collection.user.name} />
-        <DisplayName>{collection.user.name}</DisplayName>
-      </UserLink>
-      {editable ? 
-        <EditBtn to={`/collections/edit/${collection.id}`}>
-          <EditIcon />
-        </EditBtn>
+        </Cover>
+      </CoverLink>
+      <Footer>
+        <UserLink target="_blank" href={collection.user.links.html}>
+          <Avatar imagePath={collection.user.profileImage.medium} name={collection.user.name} />
+          <DisplayName>{collection.user.name}</DisplayName>
+        </UserLink>
+        {editable ? 
+          <EditBtn to={`/collections/edit/${collection.id}`}>
+            <EditIcon />
+          </EditBtn>
         : null}
-    </Footer>
+      </Footer>
+    </Card>
   </Wrapper>
 );
 

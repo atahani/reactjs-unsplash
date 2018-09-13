@@ -4,11 +4,24 @@ import { css } from 'styled-components';
 
 // sizes for devices
 export const sizes = {
-  giant: 1170,
-  desktop: 992,
-  tablet: 768,
-  phone: 376
+  giant: 1440,
+  desktop: 1024,
+  tablet: 668,
+  phone: 420
 };
+
+export const screenLargerThan = Object.keys(sizes).reduce(
+  (accumulator, label) => {
+    const emSize = sizes[label] / 16;
+    accumulator[label] = (...args: any) => css`
+      @media (min-width: ${emSize}em) {
+        ${css(...args)};
+      }
+    `;
+    return accumulator;
+  },
+  {}
+);
 
 // iterate through the sizes and create a media template
 export const media = Object.keys(sizes).reduce((accumulator, label) => {
@@ -22,5 +35,7 @@ export const media = Object.keys(sizes).reduce((accumulator, label) => {
   `;
   return accumulator;
 }, {});
+
+
 
 export const maxWidthContent = sizes.desktop;

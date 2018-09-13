@@ -36,7 +36,7 @@ class UserCollections extends Component<Props> {
 
   componentDidMount() {
     const {onGetUserCollections, username} = this.props;
-    if (username) {
+    if (username && Object.keys(this.props.collections).length < 4) {
       onGetUserCollections(`${API_ROOT}/users/${username}/collections`);
     }
   }

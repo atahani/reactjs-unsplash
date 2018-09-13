@@ -12,24 +12,26 @@ import DownloadIcon from '../svg-icons/download';
 import AddIcon from '../svg-icons/add';
 import Button from '../Button';
 import {likePhoto, unLikePhoto} from '../../actions/photo';
+import { screenLargerThan } from '../../style/util';
 import {primaryColor1, white, likeColor, greenColor} from '../../style/colors';
 import type { Photo } from '../../types/data';
 
-const Wrapper = styled.div `
-  width: ${props => `${props.width}px`};
-  height: ${props => `${props.height}px`};
-  float: left;
-  margin-bottom: 10px;
+const Wrapper = styled.div`
+  margin-bottom: 12px;
+  ${screenLargerThan.tablet`
+    margin-left: 6px;
+    margin-right: 6px;
+  `};
   ${props => props.overlay
-  ? `
+    ? `
     background-color: ${lighten(0.25, primaryColor1)}
-  `
-  : ``};
+    `
+    : ``};
 `;
 
 const ImageView = styled.img `
   width: 100%;
-  height: 100%;
+  height: auto;
   position: relative;
   ${props => props.overlay
   ? `opacity: 0.65`
@@ -39,7 +41,6 @@ const ImageView = styled.img `
 const Overlay = styled.div `
   position: relative;
   width: 100%;
-  height: 100%:
 `;
 
 const UserInfo = styled.a `
@@ -112,7 +113,6 @@ const Row = styled.div `
 `;
 
 const RowImgWrapper = styled.div `
-  height: ${props => `${props.height}px`};
   width: 100%;
 `;
 
@@ -153,7 +153,6 @@ const CollectBtn = styled(Button)`
 
 type Props = {
   isRow: boolean,
-  width: number,
   photo: Photo,
   handleLikePhoto: Function,
   handleUnLikePhoto: Function,
@@ -187,14 +186,12 @@ class PhotoComponent extends Component<Props,State> {
   render() {
     const {
       isRow,
-      width,
       photo,
       handleLikePhoto,
       handleUnLikePhoto,
       onPush,
       ...others
     } = this.props;
-    const height = (photo.height * width) / photo.width;
     const {showOverlay} = this.state;
     const clickOnCollect = () => {
       // push to add_to_collection with photo id to catch it in dialog
@@ -247,7 +244,7 @@ class PhotoComponent extends Component<Props,State> {
         return (
           <Row>
             {userInfo()}
-            <RowImgWrapper height={height} {...others}>
+            <RowImgWrapper {...others}>
               <ImageView overlay={showOverlay} src={photo.urls.small} />
             </RowImgWrapper>
             <RowFooter>
@@ -293,8 +290,6 @@ class PhotoComponent extends Component<Props,State> {
       return (
         <Wrapper
           {...others}
-          width={width}
-          height={height}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           overlay={showOverlay}

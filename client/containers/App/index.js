@@ -3,7 +3,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import ContainerDimensions from 'react-container-dimensions';
 import Header from '../Header';
 import Home from '../Home';
 import Search from '../Search';
@@ -32,9 +31,7 @@ const Content = styled.div `
 
 const App = () => (
   <Wrapper>
-    <ContainerDimensions>
-      {({width}) => <Header width={width} />}
-    </ContainerDimensions>
+    <Header />
     <Main>
       <Content>
         <Switch>

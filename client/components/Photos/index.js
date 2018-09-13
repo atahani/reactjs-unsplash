@@ -1,22 +1,9 @@
 //@flow
 
 import React from 'react';
-import styled from 'styled-components';
-import ContainerDimensions from 'react-container-dimensions';
 import EventListener from 'react-event-listener';
+import Masonry, {ResponsiveMasonry} from 'react-responsive-masonry';
 import PhotoComponent from '../Photo';
-import type { Photo } from '../../types/data'; 
-
-const PhotosWrapper = styled.div `
-  height: 100%;
-`;
-
-const Column = styled.div `
-  margin: 0px 5px;
-  float: left;
-  width: ${props => props.width};
-`;
-
 
 type Props = {
   items: Object,
@@ -40,50 +27,6 @@ const Photos = ({items, onScrollToLoad,...others}: Props) => {
       onScrollToLoad();
     }
   };
-  const item = (img: Photo, width, cWidth) => (<PhotoComponent
-    key={img.id}
-    photo={img}
-    width={width}
-    isRow={cWidth < 752}
-  />);
-  const photoColumn = (list, width, cWidth) => list.map(id => item(items[id], width, cWidth));
-  const photos = width => {
-    const list = Object.keys(items);
-    if (width > 940) {
-      const w = (width / 3) - 10;
-      return (
-        <PhotosWrapper>
-          <Column width={w}>
-            {photoColumn(list.filter((_, index) => index % 3 === 0), w, width)}
-          </Column>
-          <Column width={w}>
-            {photoColumn(list.filter((_, index) => index % 3 === 1), w, width)}
-          </Column>
-          <Column width={w}>
-            {photoColumn(list.filter((_, index) => index % 3 === 2), w, width)}
-          </Column>
-        </PhotosWrapper>
-      );
-    } else if (width >= 752) {
-      const w = (width / 2) - 20;
-      return (
-        <PhotosWrapper>
-          <Column width={w}>
-            {photoColumn(list.filter((x, index) => index % 2 === 0), w, width)}
-          </Column>
-          <Column width={w}>
-            {photoColumn(list.filter((x, index) => index % 2 === 1), w, width)}
-          </Column>
-        </PhotosWrapper>
-      );
-    } else {
-      return (
-        <PhotosWrapper>
-          {photoColumn(list, width, width)}
-        </PhotosWrapper>
-      );
-    }
-  };
   return (
     <div {...others}>
       <EventListener
@@ -91,9 +34,15 @@ const Photos = ({items, onScrollToLoad,...others}: Props) => {
         onScroll={handleResizeOrScroll}
         onResize={handleResizeOrScroll} 
       />
-      <ContainerDimensions>
-        {({width}) => photos(width)}
-      </ContainerDimensions>
+      <ResponsiveMasonry columnsCountBreakPoints={{'350': 1, '750': 2, '900': 3}}>
+        <Masonry>
+          {Object.keys(items).map(key => 
+            (<PhotoComponent
+              key={items[key].id}
+              photo={items[key]}
+            />))}
+        </Masonry>
+      </ResponsiveMasonry>
     </div>
   );
 };

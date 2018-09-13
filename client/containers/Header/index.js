@@ -78,7 +78,6 @@ const Nav = styled(_Nav)`
 type Props = {
   queryValue: string,
   userProfile: UserProfileType,
-  width: number,
   onPush: Function,
 }
 
@@ -156,15 +155,13 @@ class Header extends Component<Props,State> {
   }
 
   render() {
-    const {userProfile, width} = this.props;
+    const {userProfile} = this.props;
     const {topBarFixed, searchTxVal} = this.state;
     const avatar = () => {
       if (userProfile.profileImage) {
         return (
           <Popover
-            arrowSide={width > 1130
-            ? 'center'
-            : 'right'}
+            arrowSide="right"
             autoCloseWhenOffScreen
             width={200}
             target={

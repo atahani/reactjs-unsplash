@@ -11,7 +11,7 @@
     "run-server": "node server.js",
     "lint": "eslint ./client",
     "flow": "flow check",
-    "update-flowtyped": "rm -rf flow-typed && flow-typed update"
+    "update-flowtyped": "flow-typed update"
   },
   "author": "Ahmad Tahani <ahmad.tahani@gmail.com>",
   "license": "MIT",
@@ -55,12 +55,12 @@
     "lodash": "^4.17.4",
     "polished": "^1.2.1",
     "react": "^16.2.0",
-    "react-container-dimensions": "^1.3.2",
     "react-dom": "^16.2.0",
     "react-event-listener": "^0.5.3",
     "react-helmet": "^5.1.3",
     "react-onclickoutside": "^6.1.1",
     "react-redux": "^5.0.3",
+    "react-responsive-masonry": "^2.0.0",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "next",
     "redux": "^3.6.0",

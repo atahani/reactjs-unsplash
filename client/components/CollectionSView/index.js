@@ -8,40 +8,65 @@ import LockIcon from '../svg-icons/lock';
 import DoneIcon from '../svg-icons/done';
 import RemoveIcon from '../svg-icons/remove';
 import AddIcon from '../svg-icons/add';
+import { screenLargerThan } from '../../style/util';
 import {dividerColor, secondaryColor1, primaryColor1, white, greenColor} from '../../style/colors';
 import type { Collection } from '../../types/data';
 
 const Wrapper = styled.div `
-  width: ${props => `${props.width}px`};
-  height: ${props => `${props.height}px`};
-  float: left;
-  border: 1px solid ${dividerColor};
-  border-radius: ${props => props.inRowSelection
-  ? '3px'
-  : '10px'};
+  flex-basis: 90px;
+  display: flex;
   ${props => props.inRowSelection
     ? `
     cursor: pointer;
   `
     : ``}
+  ${screenLargerThan.tablet`
+    flex-basis: 25%;
+  `};
+`;
+
+const Content = styled.div`
+  width: 100%;
+  margin: 8px 0px;
+  border: 1px solid ${dividerColor};
+  border-radius: ${props => props.inRowSelection
+    ? '3px'
+    : '10px'};
+  ${props => props.inRowSelection ? `
+    height: 120px;
+  `:`
+    height: 74px;
+  `};
+  ${screenLargerThan.tablet`
+     ${props => props.inRowSelection ? `
+        height: unset;
+        margin: 0px;
+     ` : `
+        height: 94px;
+        margin: 0px 4px;
+      `};
+  `};
 `;
 
 const Cover = styled.div `
   width: 100%;
-  height: ${props => `${props.height}px`};
+  height: 100%;
   position: relative;
+  overflow: hidden;
   border-radius: ${props => props.inRowSelection
   ? '3px'
   : '10px'};
-  ${props => props.imgUrl
-    ? `
-    background-image: url(${props.imgUrl});
-  `
-    : `
-    background: ${lighten(0.1, secondaryColor1)};
-  `};
-  background-size: cover;
-  background-position: 50%;
+  background: ${lighten(0.1, secondaryColor1)}
+`;
+
+const ImgCover = styled.img`
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
 `;
 
 const Overlay = styled.div `
@@ -92,8 +117,6 @@ const SelectedStatusIcon = styled.div `
 `;
 
 type Props = {
-  width: number,
-  height: number,
   inRowSelection: boolean,
   selected: boolean,
   collection: Collection,
@@ -126,8 +149,6 @@ class CollectionSView extends Component<Props,State> {
 
   render() {
     const {
-      width,
-      height,
       inRowSelection,
       selected,
       collection,
@@ -146,15 +167,12 @@ class CollectionSView extends Component<Props,State> {
     const cover = () => (
       <Cover
         inRowSelection={inRowSelection}
-        height={height}
-        imgUrl={collection.coverPhoto
-        ? `${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=${width
-          ? width
-          : ''}&h=${height
-            ? height
-            : 240}&q=80&cs=tinysrgb`
-        : void 0}
       >
+        {collection.coverPhoto 
+          && 
+          <ImgCover 
+            src={`${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=230&q=80&cs=tinysrgb`}
+          />}
         <Overlay inRowSelection={inRowSelection} selected={selected} />
         <Counter >
           {`${collection.totalPhotos ? collection.totalPhotos : 0} Photos`
@@ -188,12 +206,11 @@ class CollectionSView extends Component<Props,State> {
         {...others}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        width={width}
-        height={height}
         inRowSelection={inRowSelection}
       >
-        {content()
-}
+        <Content inRowSelection={inRowSelection}>
+          {content()}
+        </Content>
       </Wrapper>
     );
   }
