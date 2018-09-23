@@ -73,47 +73,47 @@ REDIRECT_URI=http://localhost:3030/auth/callback
 
 #### Start App in Development Mode
 ```
-yarn run start
+npm run start
 ```
 
 #### Test
 
 ```
-yarn run test
+npm run test
 ```
 
 #### Test in Watch Mode
 
 ```
-yarn run test-w
+npm run test-w
 ```
 
 #### Flow Checking
 
 ```
-yarn run flow
+npm run flow
 ```
 
 #### Linting
 
 ```
-yarn run lint
+npm run lint
 ```
 
 #### Build Project in Production Mode
 
 ```
-yarn run build
+npm run build
 ```
 
 #### Build and Run Server
 
 ```
-yarn run build-and-run-server
+npm run build-and-run-server
 ```
 
 #### Run Server Only
 
 ```
-yarn run run-server
+npm run run-server
 ```
