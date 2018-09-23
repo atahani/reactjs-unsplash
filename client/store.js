@@ -45,13 +45,6 @@ middlewares.push(locationChangeMiddleware);
 // build the middleware for intercepting and dispatching navigation actions
 middlewares.push(routerMiddleware(history));
 
-// add middlewares only in development mode
-if (process.env.NODE_ENV === 'development') {
-  // add redux-logger to middlewares
-  const reduxLogger = require('redux-logger');
-  middlewares.push(reduxLogger.createLogger());
-}
-
 /**
  * END
  * middlewares config
