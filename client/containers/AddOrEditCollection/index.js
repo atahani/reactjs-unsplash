@@ -55,7 +55,7 @@ const Controller = styled.div `
   margin-bottom: 6px;
 `;
 
-const CheckboxCon = Controller.extend `
+const CheckboxCon = styled(Controller)`
   flex-direction: row;
   align-items: center;  
   margin-top: 10px;
@@ -80,7 +80,7 @@ const CancelBtn = styled.div `
   cursor: pointer;
 `;
 
-const DeleteBtn = CancelBtn.extend `
+const DeleteBtn = styled(CancelBtn)`
   color: ${errorColor};
 `;
 

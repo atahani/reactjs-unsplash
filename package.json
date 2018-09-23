@@ -38,7 +38,6 @@
     "flow-bin": "^0.63.1",
     "jest": "^22.1.1",
     "jest-cli": "^22.1.1",
-    "jest-styled-components": "^4.10.0",
     "react-hot-loader": "4.0.0-beta.14",
     "react-test-renderer": "^16.2.0",
     "redux-devtools-extension": "^2.13.2",
@@ -52,6 +51,7 @@
     "camelcase-keys-deep": "^0.1.0",
     "express": "^4.15.3",
     "history": "^4.6.3",
+    "jest-styled-components": "^6.2.1",
     "lodash": "^4.17.4",
     "polished": "^1.2.1",
     "react": "^16.2.0",
@@ -67,7 +67,7 @@
     "redux-form": "^7.2.0",
     "redux-persist": "^5.4.0",
     "redux-saga": "^0.16.0",
-    "styled-components": "^2.1.0",
+    "styled-components": "^3.4.9",
     "url-search-params-polyfill": "^2.0.0",
     "whatwg-fetch": "^2.0.3"
   }
