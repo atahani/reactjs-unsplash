@@ -4,6 +4,7 @@ import React from 'react';
 import EventListener from 'react-event-listener';
 import Masonry, {ResponsiveMasonry} from 'react-responsive-masonry';
 import PhotoComponent from '../Photo';
+import { sizes } from '../../style/util';
 
 type Props = {
   items: Object,
@@ -34,7 +35,7 @@ const Photos = ({items, onScrollToLoad,...others}: Props) => {
         onScroll={handleResizeOrScroll}
         onResize={handleResizeOrScroll} 
       />
-      <ResponsiveMasonry columnsCountBreakPoints={{'350': 1, '750': 2, '900': 3}}>
+      <ResponsiveMasonry columnsCountBreakPoints={{[sizes.tablet - 34]: 1, [sizes.tablet - 33]: 2, '900': 3}}>
         <Masonry>
           {Object.keys(items).map(key => 
             (<PhotoComponent

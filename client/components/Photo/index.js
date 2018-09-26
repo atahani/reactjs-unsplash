@@ -1,6 +1,6 @@
 //@flow
 
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
@@ -16,51 +16,75 @@ import { screenLargerThan } from '../../style/util';
 import {primaryColor1, white, likeColor, greenColor} from '../../style/colors';
 import type { Photo } from '../../types/data';
 
-const Wrapper = styled.div`
-  margin-bottom: 12px;
-  ${screenLargerThan.tablet`
-    margin-left: 6px;
-    margin-right: 6px;
-  `};
-  ${props => props.overlay
-    ? `
-    background-color: ${lighten(0.25, primaryColor1)}
-    `
-    : ``};
-`;
-
 const ImageView = styled.img `
   width: 100%;
   height: auto;
   position: relative;
-  ${props => props.overlay
-  ? `opacity: 0.65`
-  : ``}
+`;
+
+const UserInfo = styled.a `
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 55px;
+  color: ${primaryColor1};
+  margin: 4px;
+  ${screenLargerThan.tablet`
+    align-items: center;
+    position: absolute;
+    z-index: 99;
+    top: 15px;
+    left: 15px;
+    height: 40px;
+    color: ${white};
+    display: none;
+  `};
+`;
+
+const Footer = styled.div `
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  ${screenLargerThan.tablet`
+    position: absolute;
+    bottom: 0;
+    z-index: 99;
+    display: none;
+    align-items: center;
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+    padding: 0px 8px;
+  `};
+`;
+
+const Wrapper = styled.div`
+  margin-bottom: 18px;
+  ${screenLargerThan.tablet`
+    margin-bottom: 12px;
+    margin-left: 6px;
+    margin-right: 6px;
+    &:hover {
+      background-color: ${lighten(0.25, primaryColor1)};
+      ${ImageView} {
+        opacity: 0.65;
+      }
+      ${UserInfo} {
+        display: flex;
+      }
+      ${Footer} {
+        display: flex;
+      }
+    }
+  `};
 `;
 
 const Overlay = styled.div `
   position: relative;
   width: 100%;
-`;
-
-const UserInfo = styled.a `
-  ${props => props.overlay
-  ? `
-    position: absolute;
-    z-index: 99;
-    top: 20px;
-    left: 20px;
-    height: 40px;
-    color: ${white};
-  `
-  : `
-    height: 55px;
-    color: ${primaryColor1};
-    margin: 4px;
-  `}
-  width: 100%;
-  display: flex;
-  align-items: center;
 `;
 
 const DisplayName = styled.div `
@@ -69,74 +93,55 @@ const DisplayName = styled.div `
   font-size: 16px;
 `;
 
-const ActionsBtns = styled.div `
-  position: absolute;
-  z-index: 99;
-  bottom: 22px;
-  left: 10px;
+const BtnDown = styled(Button)`
+  svg {
+    color: ${greenColor};
+    fill: ${greenColor};
+  }
+  ${screenLargerThan.tablet`
+    border: none;
+    background-color: transparent !important;
+    svg {
+      color: ${white};
+      fill: ${white};
+    }
+  `};
+`;
+
+const LikedBtn = styled(Button)`
   display: flex;
   align-items: center;
-`;
-
-const Btn = styled.button `
-  margin: 4px 8px;
-  cursor: pointer;
-`;
-
-const BtnDown = styled.a `
-  margin: 4px 8px;
-  cursor: pointer;
-`;
-
-const BtnLiked = styled.button `
-  cursor: pointer;
-  margin: 4px;
-  position: absolute;
-  z-index: 99;
-  color: ${white};
-  font-size: 13px;
-  font-weight: 600;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  bottom: 5px;
-  right: 10px;
-`;
-
-const LikesText = styled.div `
-  margin-top: 3px;
-`;
-
-const Row = styled.div `
-  margin-bottom: 18px;
-`;
-
-const RowImgWrapper = styled.div `
-  width: 100%;
-`;
-
-const RowFooter = styled.div `
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-`;
-
-const BtnLikedR = styled(Button)`
-  display: flex;
-  align-items: center;
+  margin: 0;
   ${props => props.likedByUser
-  ? `
+  && `
     background-color: ${likeColor};
     color: ${white};
     &:hover {
       color: ${white};
       border-color: transparent !important;
     }
-  `
-  : ``};
+  `};
+  ${screenLargerThan.tablet`
+    flex-direction: column;
+    height: auto;
+    border: none;
+    color: ${white} !important;
+    background-color: transparent !important;
+    svg {
+      fill: ${white};
+      color: ${white};
+    }
+    ${props => props.likedByUser
+      && `
+        svg {
+          fill: ${likeColor};
+          color: ${white};
+        }
+      `};
+    &:hover {
+      color: ${white};
+    }
+  `};
 `;
 
 const LikesCounter = styled.span `
@@ -149,158 +154,86 @@ const CollectBtn = styled(Button)`
   margin: 0;
   width: 95px;
   justify-content: space-between;
+  ${screenLargerThan.tablet`
+     background-color: transparent !important;
+     border: none;
+     span {
+       display: none;
+     }
+     svg {
+       fill: ${props => props.primaryColor === greenColor ? greenColor :  white};
+       color: ${props => props.primaryColor === greenColor ? greenColor : white};
+     }
+  `};
+`;
+
+const LeftBtnsWrapper = styled.div`
+  display: flex;
+  ${screenLargerThan.tablet`
+     height: 100%;
+  `};
 `;
 
 type Props = {
-  isRow: boolean,
   photo: Photo,
   handleLikePhoto: Function,
   handleUnLikePhoto: Function,
   onPush: Function
 }
 
-type State = {
-  showOverlay: boolean,
-}
+const userInfo = (userProfileLink, userName, userImage) => (
+  <UserInfo target="_blank" href={userProfileLink}>
+    <Avatar name={userName} imagePath={userImage} />
+    <DisplayName>{userName}</DisplayName>
+  </UserInfo>
+);
 
-class PhotoComponent extends Component<Props,State> {
-  static defualtProps = {
-    isRow: false,
-  };
-  state = {
-    showOverlay: false
-  };
-
-  handleMouseLeave = () => {
-    if (!this.props.isRow) {
-      this.setState({showOverlay: false});
-    }
-  }
-
-  handleMouseEnter = () => {
-    if (!this.props.isRow) {
-      this.setState({showOverlay: true});
-    }
-  }
-
-  render() {
-    const {
-      isRow,
-      photo,
-      handleLikePhoto,
-      handleUnLikePhoto,
-      onPush,
-      ...others
-    } = this.props;
-    const {showOverlay} = this.state;
-    const clickOnCollect = () => {
-      // push to add_to_collection with photo id to catch it in dialog
-      onPush(`?add_to_collection&id=${photo.id}`);
-    };
-    const userInfo = () => (
-      <UserInfo overlay={showOverlay} target="_blank" href={photo.user.links.html}>
-        <Avatar name={photo.user.name} imagePath={photo.user.profileImage.medium} />
-        <DisplayName>{photo.user.name}</DisplayName>
-      </UserInfo>
-    );
-    const columnView = () => {
-      if (showOverlay) {
-        return (
-          <Overlay>
-            {userInfo()}
-            <BtnLiked
-              onClick={() => photo.likedByUser
-              ? handleUnLikePhoto(photo.id)
-              : handleLikePhoto(photo.id)}
+const PhotoComponent = ({photo, handleLikePhoto, handleUnLikePhoto, onPush, ...others}: Props) => {
+  // push to add_to_collection with photo id to catch it in dialog
+  const clickOnCollect = () => onPush(`?add_to_collection&id=${photo.id}`);
+  return (
+    <Wrapper {...others}>
+      <Overlay>
+        {userInfo(photo.user.links.html, photo.user.name, photo.user.profileImage.medium)}
+        <ImageView  src={photo.urls.small} />
+        <Footer>
+          <LeftBtnsWrapper>
+            <BtnDown target="_blank" href={`${photo.links.download}?force=true`}>
+              <DownloadIcon />
+            </BtnDown>
+            <CollectBtn
+              primary
+              primaryColor={photo.currentUserCollections && photo.currentUserCollections.length > 0
+        ? greenColor
+        : primaryColor1}
+              onClick={() => clickOnCollect()}
             >
-              <LikeIcon
-                color={photo.likedByUser
-                ? likeColor
-                : white}
-                hoverColor={likeColor} 
-              />
-              <LikesText>{photo.likes}</LikesText>
-            </BtnLiked>
-            <ActionsBtns>
-              <BtnDown target="_blank" href={`${photo.links.download}?force=true`}>
-                <DownloadIcon color={white} />
-              </BtnDown>
-              <Btn onClick={() => clickOnCollect()}>
-                <AddIcon
-                  color={photo.currentUserCollections && photo.currentUserCollections.length > 0
-                  ? greenColor
-                  : white} 
-                />
-              </Btn>
-            </ActionsBtns>
-            <ImageView overlay={showOverlay} src={photo.urls.small} />
-          </Overlay>
-        );
-      }
-      return (<ImageView overlay={showOverlay} src={photo.urls.small} />);
-    };
-    const main = () => {
-      if (isRow) {
-        return (
-          <Row>
-            {userInfo()}
-            <RowImgWrapper {...others}>
-              <ImageView overlay={showOverlay} src={photo.urls.small} />
-            </RowImgWrapper>
-            <RowFooter>
-              <div style={{
-                display: 'flex'
-              }}
-              >
-                <BtnLikedR
-                  likedByUser={photo.likedByUser}
-                  onClick={() => photo.likedByUser
-                  ? handleUnLikePhoto(photo.id)
-                  : handleLikePhoto(photo.id)}
-                >
-                  <LikeIcon
-                    size={18}
-                    color={photo.likedByUser
-                    ? white
-                    : likeColor}
-                    hoverColor={photo.likedByUser
-                    ? white
-                    : likeColor} 
-                  />
-                  <LikesCounter>{photo.likes}</LikesCounter>
-                </BtnLikedR>
-                <Button target="_blank" href={`${photo.links.download}?force=true`}>
-                  <DownloadIcon color={greenColor} />
-                </Button>
-              </div>
-              <CollectBtn
-                primary
-                primaryColor={photo.currentUserCollections && photo.currentUserCollections.length > 0
-                ? greenColor
-                : primaryColor1}
-                onClick={() => clickOnCollect()}
-              >
-                <AddIcon size={18} color={white} />
-                Collect
-              </CollectBtn>
-            </RowFooter>
-          </Row>
-        );
-      }
-      return (
-        <Wrapper
-          {...others}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          overlay={showOverlay}
-        >
-          {columnView()}
-        </Wrapper>
-      );
-    };
-    return main();
-  }
-}
+              <AddIcon size={18} color={white} />
+              <span>Collect</span>
+            </CollectBtn>
+          </LeftBtnsWrapper>
+          <LikedBtn
+            likedByUser={photo.likedByUser}
+            onClick={() => photo.likedByUser
+          ? handleUnLikePhoto(photo.id)
+          : handleLikePhoto(photo.id)}
+          >
+            <LikeIcon
+              size={18}
+              color={photo.likedByUser
+            ? white
+            : likeColor}
+              hoverColor={photo.likedByUser
+            ? white
+            : likeColor}
+            />
+            <LikesCounter>{photo.likes}</LikesCounter>
+          </LikedBtn>
+        </Footer>
+      </Overlay>
+    </Wrapper>
+  );
+};
 
 export default connect(() => ({}), dispatch => bindActionCreators({
   handleLikePhoto: likePhoto,
