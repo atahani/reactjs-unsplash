@@ -73,7 +73,7 @@ export type UserProfile = {
   email: string,
   links: UserLinks,
   profileImage: ImageLinks,
-  tags: any,// since we don't use it
+  tags: any, // since we don't use it
 };
 
 export type User = {
@@ -106,9 +106,9 @@ export type Photo = {
   likes: number,
   likedByUser: boolean,
   description: string,
-  exif: Object,// since we don't use it
-  location: ?Object,// since we don't use it
-  currentUserCollections: Array<Object>,//TODO: change it
+  exif: Object, // since we don't use it
+  location: ?Object, // since we don't use it
+  currentUserCollections: Array<Object>, //TODO: change it
   user: User,
   urls: PhotoUrls,
   categories: Array<any>, // we don't use it
@@ -129,7 +129,7 @@ export type Collection = {
   shareKey?: string,
   coverPhoto?: Photo,
   user?: User,
-  links?: CollectionLinks
+  links?: CollectionLinks,
 };
 
 export type ErrorResponse = {
@@ -141,4 +141,4 @@ export type SuccessResponse = {
   attr: ?Object,
 };
 
-export type RESTAPIResponse = Promise<SuccessResponse | ErrorResponse>
+export type RESTAPIResponse = Promise<SuccessResponse | ErrorResponse>;

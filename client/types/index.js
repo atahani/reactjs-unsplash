@@ -5,7 +5,4 @@ import reducers from '../reducers';
 
 type Reducers = typeof reducers;
 
-export type {
-  Action,
-  Reducers,
-};
+export type { Action, Reducers };

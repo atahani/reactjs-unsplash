@@ -1,7 +1,7 @@
 //@flow
 
 import styled from 'styled-components';
-import { secondaryColor1, primaryColor1, } from '../../style/colors';
+import { secondaryColor1, primaryColor1 } from '../../style/colors';
 
 const ExtLink = styled.a`
   padding: 6px;

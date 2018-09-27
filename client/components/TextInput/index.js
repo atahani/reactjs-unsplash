@@ -2,92 +2,94 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {lighten, darken} from 'polished';
-import {inputBgColor, textColor2, errorColor, warnColor, successColor} from '../../style/colors';
+import { lighten, darken } from 'polished';
+import {
+  inputBgColor,
+  textColor2,
+  errorColor,
+  warnColor,
+  successColor,
+} from '../../style/colors';
 
-const Input = styled.input `
+const Input = styled.input`
   background-color: ${inputBgColor};
-  background-color: ${props => props.msgColor
-  ? lighten(0.27, props.msgColor)
-  : inputBgColor};
-  border: ${props => props.msgColor
-    ? `1px solid${darken(0.1, props.msgColor)}`
-    : '1px solid transparent'};
+  background-color: ${props =>
+    props.msgColor ? lighten(0.27, props.msgColor) : inputBgColor};
+  border: ${props =>
+    props.msgColor
+      ? `1px solid${darken(0.1, props.msgColor)}`
+      : '1px solid transparent'};
   box-shadow: none;
   position: relative;
   padding: 12px;
   height: 36px;
-  width: ${props => props.fullWidth
-      ? '100%'
-      : '200px'};
-  border-radius: ${props => props.rounded
-        ? '20px'
-        : '3px'};
+  width: ${props => (props.fullWidth ? '100%' : '200px')};
+  border-radius: ${props => (props.rounded ? '20px' : '3px')};
   box-sizing: border-box;
   font-family: inherit;
-  font-size: 14px;  
+  font-size: 14px;
   font-weight: normal;
   outline: none;
-  line-height: 16px;  
+  line-height: 16px;
   color: ${textColor2};
-  ${props => props.disabled
-          ? `
+  ${props =>
+    props.disabled
+      ? `
     opacity: 0.6;
   `
-          : ``}
-  &:focus {
+      : ``} &:focus {
     border-color: ${darken(0.1, inputBgColor)};
-    background-color: ${props => props.msgColor
-            ? lighten(0.27, props.msgColor)
-            : lighten(0.07, inputBgColor)};
-    -webkit-box-shadow: 0 0 0 1000px ${props => props.msgColor
-              ? lighten(0.27, props.msgColor)
-              : lighten(0.07, inputBgColor)} inset !important;
+    background-color: ${props =>
+      props.msgColor
+        ? lighten(0.27, props.msgColor)
+        : lighten(0.07, inputBgColor)};
+    -webkit-box-shadow: 0 0 0 1000px
+      ${props =>
+        props.msgColor
+          ? lighten(0.27, props.msgColor)
+          : lighten(0.07, inputBgColor)}
+      inset !important;
   }
   &:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px ${props => props.msgColor
-                ? lighten(0.27, props.msgColor)
-                : inputBgColor} inset;
+    -webkit-box-shadow: 0 0 0 1000px
+      ${props =>
+        props.msgColor ? lighten(0.27, props.msgColor) : inputBgColor}
+      inset;
   }
 `;
 
-const AreaInput = styled.textarea `
+const AreaInput = styled.textarea`
   resize: none;
-  background-color: ${props => props.msgColor
-  ? lighten(0.27, props.msgColor)
-  : inputBgColor};
-  width: ${props => props.fullWidth
-    ? '100%'
-    : 'none'};
-  border: ${props => props.msgColor
-      ? `1px solid${darken(0.1, props.msgColor)}`
-      : '0px'};
+  background-color: ${props =>
+    props.msgColor ? lighten(0.27, props.msgColor) : inputBgColor};
+  width: ${props => (props.fullWidth ? '100%' : 'none')};
+  border: ${props =>
+    props.msgColor ? `1px solid${darken(0.1, props.msgColor)}` : '0px'};
   box-shadow: none;
   position: relative;
   border-radius: 3px;
-  padding: ${props => props.multiLanguage
-        ? '10px 10px 24px 10px'
-        : '10px'};
+  padding: ${props => (props.multiLanguage ? '10px 10px 24px 10px' : '10px')};
   box-sizing: border-box;
   font-family: IRANSans, Helvetica, Verdana, sans-serif;
   font-size: 14px;
   font-weight: normal;
   outline: none;
   color: ${textColor2};
-  ${props => props.disabled
-          ? `
+  ${props =>
+    props.disabled
+      ? `
     opacity: 0.6;
   `
-          : ``}
-  &:focus {
-    outline: ${`${darken(0.35, inputBgColor)} auto 1px !important`} ;
-    background-color: ${props => props.msgColor
-            ? `${props.msgColor} !important`
-            : `${lighten(0.07, inputBgColor)} !important`};
+      : ``} &:focus {
+    outline: ${`${darken(0.35, inputBgColor)} auto 1px !important`};
+    background-color: ${props =>
+      props.msgColor
+        ? `${props.msgColor} !important`
+        : `${lighten(0.07, inputBgColor)} !important`};
   }
 `;
 
-const Messgae = styled.p `
+const Messgae = styled.p`
   color: ${props => props.color};
   font-size: 13px;
   padding: 6px 3px;
@@ -112,9 +114,9 @@ type Props = {
   hintText?: string,
   multiLine?: boolean,
   message?: ?string,
-  messageType?: "error" | "warn" | "success",
+  messageType?: 'error' | 'warn' | 'success',
   messageColor?: string,
-}
+};
 
 const TextInput = ({
   wrapperStyle,
@@ -126,43 +128,38 @@ const TextInput = ({
   messageType,
   messageColor,
   rounded,
-  ...others }: Props) => {
-  const msgColor = messageColor
-    ? messageColor
-    : getColorOfMessage(messageType);
+  ...others
+}: Props) => {
+  const msgColor = messageColor ? messageColor : getColorOfMessage(messageType);
   const input = () => {
     if (multiLine) {
-      return (<AreaInput
+      return (
+        <AreaInput
+          {...others}
+          disabled={disabled}
+          placeholder={hintText}
+          fullWidth={fullWidth}
+          msgColor={message ? msgColor : void 0}
+          {...others}
+        />
+      );
+    }
+    return (
+      <Input
         {...others}
+        type="text"
         disabled={disabled}
         placeholder={hintText}
+        rounded={rounded}
+        msgColor={message ? msgColor : void 0}
         fullWidth={fullWidth}
-        msgColor={message
-        ? msgColor
-        : void 0}
-        {...others} 
-      />);
-    }
-    return (<Input
-      {...others}
-      type="text"
-      disabled={disabled}
-      placeholder={hintText}
-      rounded={rounded}
-      msgColor={message
-      ? msgColor
-      : void 0}
-      fullWidth={fullWidth}
-      {...others} 
-    />);
+        {...others}
+      />
+    );
   };
   const msg = () => {
     if (message) {
-      return (
-        <Messgae>
-          {message}
-        </Messgae>
-      );
+      return <Messgae>{message}</Messgae>;
     }
   };
   return (

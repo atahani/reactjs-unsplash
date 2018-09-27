@@ -1,28 +1,33 @@
 //@flow
 
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {push} from 'react-router-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 import styled from 'styled-components';
-import {lighten} from 'polished';
+import { lighten } from 'polished';
 import Avatar from '../Avatar';
 import LikeIcon from '../svg-icons/like';
 import DownloadIcon from '../svg-icons/download';
 import AddIcon from '../svg-icons/add';
 import Button from '../Button';
-import {likePhoto, unLikePhoto} from '../../actions/photo';
+import { likePhoto, unLikePhoto } from '../../actions/photo';
 import { screenLargerThan } from '../../style/util';
-import {primaryColor1, white, likeColor, greenColor} from '../../style/colors';
+import {
+  primaryColor1,
+  white,
+  likeColor,
+  greenColor,
+} from '../../style/colors';
 import type { Photo } from '../../types/data';
 
-const ImageView = styled.img `
+const ImageView = styled.img`
   width: 100%;
   height: auto;
   position: relative;
 `;
 
-const UserInfo = styled.a `
+const UserInfo = styled.a`
   display: flex;
   align-items: center;
   width: 100%;
@@ -41,7 +46,7 @@ const UserInfo = styled.a `
   `};
 `;
 
-const Footer = styled.div `
+const Footer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -82,12 +87,12 @@ const Wrapper = styled.div`
   `};
 `;
 
-const Overlay = styled.div `
+const Overlay = styled.div`
   position: relative;
   width: 100%;
 `;
 
-const DisplayName = styled.div `
+const DisplayName = styled.div`
   margin-left: 8px;
   font-weight: 600;
   font-size: 16px;
@@ -112,8 +117,9 @@ const LikedBtn = styled(Button)`
   display: flex;
   align-items: center;
   margin: 0;
-  ${props => props.likedByUser
-  && `
+  ${props =>
+    props.likedByUser &&
+    `
     background-color: ${likeColor};
     color: ${white};
     &:hover {
@@ -131,8 +137,9 @@ const LikedBtn = styled(Button)`
       fill: ${white};
       color: ${white};
     }
-    ${props => props.likedByUser
-      && `
+    ${props =>
+      props.likedByUser &&
+      `
         svg {
           fill: ${likeColor};
           color: ${white};
@@ -144,7 +151,7 @@ const LikedBtn = styled(Button)`
   `};
 `;
 
-const LikesCounter = styled.span `
+const LikesCounter = styled.span`
   margin: 0px 6px;
 `;
 
@@ -161,8 +168,10 @@ const CollectBtn = styled(Button)`
        display: none;
      }
      svg {
-       fill: ${props => props.primaryColor === greenColor ? greenColor :  white};
-       color: ${props => props.primaryColor === greenColor ? greenColor : white};
+       fill: ${props =>
+         props.primaryColor === greenColor ? greenColor : white};
+       color: ${props =>
+         props.primaryColor === greenColor ? greenColor : white};
      }
   `};
 `;
@@ -178,8 +187,8 @@ type Props = {
   photo: Photo,
   handleLikePhoto: Function,
   handleUnLikePhoto: Function,
-  onPush: Function
-}
+  onPush: Function,
+};
 
 const userInfo = (userProfileLink, userName, userImage) => (
   <UserInfo target="_blank" href={userProfileLink}>
@@ -188,24 +197,40 @@ const userInfo = (userProfileLink, userName, userImage) => (
   </UserInfo>
 );
 
-const PhotoComponent = ({photo, handleLikePhoto, handleUnLikePhoto, onPush, ...others}: Props) => {
+const PhotoComponent = ({
+  photo,
+  handleLikePhoto,
+  handleUnLikePhoto,
+  onPush,
+  ...others
+}: Props) => {
   // push to add_to_collection with photo id to catch it in dialog
   const clickOnCollect = () => onPush(`?add_to_collection&id=${photo.id}`);
   return (
     <Wrapper {...others}>
       <Overlay>
-        {userInfo(photo.user.links.html, photo.user.name, photo.user.profileImage.medium)}
-        <ImageView  src={photo.urls.small} />
+        {userInfo(
+          photo.user.links.html,
+          photo.user.name,
+          photo.user.profileImage.medium
+        )}
+        <ImageView src={photo.urls.small} />
         <Footer>
           <LeftBtnsWrapper>
-            <BtnDown target="_blank" href={`${photo.links.download}?force=true`}>
+            <BtnDown
+              target="_blank"
+              href={`${photo.links.download}?force=true`}
+            >
               <DownloadIcon />
             </BtnDown>
             <CollectBtn
               primary
-              primaryColor={photo.currentUserCollections && photo.currentUserCollections.length > 0
-        ? greenColor
-        : primaryColor1}
+              primaryColor={
+                photo.currentUserCollections &&
+                photo.currentUserCollections.length > 0
+                  ? greenColor
+                  : primaryColor1
+              }
               onClick={() => clickOnCollect()}
             >
               <AddIcon size={18} color={white} />
@@ -214,18 +239,16 @@ const PhotoComponent = ({photo, handleLikePhoto, handleUnLikePhoto, onPush, ...o
           </LeftBtnsWrapper>
           <LikedBtn
             likedByUser={photo.likedByUser}
-            onClick={() => photo.likedByUser
-          ? handleUnLikePhoto(photo.id)
-          : handleLikePhoto(photo.id)}
+            onClick={() =>
+              photo.likedByUser
+                ? handleUnLikePhoto(photo.id)
+                : handleLikePhoto(photo.id)
+            }
           >
             <LikeIcon
               size={18}
-              color={photo.likedByUser
-            ? white
-            : likeColor}
-              hoverColor={photo.likedByUser
-            ? white
-            : likeColor}
+              color={photo.likedByUser ? white : likeColor}
+              hoverColor={photo.likedByUser ? white : likeColor}
             />
             <LikesCounter>{photo.likes}</LikesCounter>
           </LikedBtn>
@@ -235,8 +258,15 @@ const PhotoComponent = ({photo, handleLikePhoto, handleUnLikePhoto, onPush, ...o
   );
 };
 
-export default connect(() => ({}), dispatch => bindActionCreators({
-  handleLikePhoto: likePhoto,
-  handleUnLikePhoto: unLikePhoto,
-  onPush: push
-}, dispatch))(PhotoComponent);
+export default connect(
+  () => ({}),
+  dispatch =>
+    bindActionCreators(
+      {
+        handleLikePhoto: likePhoto,
+        handleUnLikePhoto: unLikePhoto,
+        onPush: push,
+      },
+      dispatch
+    )
+)(PhotoComponent);

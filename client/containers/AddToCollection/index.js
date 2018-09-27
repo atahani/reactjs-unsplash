@@ -1,23 +1,27 @@
 //@flow
 
-import React, {Component} from 'react';
-import {Helmet} from 'react-helmet';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {push} from 'react-router-redux';
-import styled, {keyframes} from 'styled-components';
-import {lighten} from 'polished';
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
+import styled, { keyframes } from 'styled-components';
+import { lighten } from 'polished';
 import CloseIcon from '../../components/svg-icons/close';
 import _CollectionSView from '../../components/CollectionSView';
 import _AddNewCollection from '../AddOrEditCollection';
-import {getPhoto} from '../../actions/photo';
-import {getUserCollections, addPhotoToCollection, removePhotoFromCollection} from '../../actions/collection';
-import {API_ROOT} from '../../constants/service-info';
-import {secondaryColor1, white} from '../../style/colors';
-import {media} from '../../style/util';
+import { getPhoto } from '../../actions/photo';
+import {
+  getUserCollections,
+  addPhotoToCollection,
+  removePhotoFromCollection,
+} from '../../actions/collection';
+import { API_ROOT } from '../../constants/service-info';
+import { secondaryColor1, white } from '../../style/colors';
+import { media } from '../../style/util';
 import type { Photo } from '../../types/data';
 
-const slideInRight = keyframes `
+const slideInRight = keyframes`
   from {
     transform: translate3d(100%, 0, 0);
     visibility: visible;
@@ -28,22 +32,21 @@ const slideInRight = keyframes `
   }
 `;
 
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   position: relative;
   display: flex;
   height: 560px;
   width: 900px;
   overflow: hidden;
-  ${media.desktop `
+  ${media.desktop`
     width: 740px; 
-  `}
-  ${media.tablet `
+  `} ${media.tablet`
       width: 100%;
       height: 100%;
-    `}
+    `};
 `;
 
-const CloseBtn = styled.button `
+const CloseBtn = styled.button`
   margin: 4px 8px;
   cursor: pointer;
   position: absolute;
@@ -52,31 +55,31 @@ const CloseBtn = styled.button `
   z-index: 9;
 `;
 
-const Image = styled.div `
+const Image = styled.div`
   width: 333px;
   background-image: ${props => `url(${props.imgUrl})`};
   background-size: cover;
   background-position: 50%;
-  ${media.tablet `
+  ${media.tablet`
       display: none;
-    `}
+    `};
 `;
 
-const Content = styled.div `
+const Content = styled.div`
   flex: 1 auto;
   padding: 30px 25px;
   overflow: scroll;
   position: relative;
 `;
 
-const Header = styled.h1 `
+const Header = styled.h1`
   font-size: 25px;
   font-weight: bold;
   margin-bottom: 25px;
   padding: 0px 4px;
 `;
 
-const NewCollection = styled.button `
+const NewCollection = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
@@ -119,17 +122,23 @@ type Props = {
   onGetUserCollections: Function,
   onAddPhotoToCollection: Function,
   onRemovePhotoFromCollection: Function,
-  onPush: Function
-}
+  onPush: Function,
+};
 
 class AddToCollection extends Component<Props> {
   static defaultProps = {
-    showCreateNewCollection: false
+    showCreateNewCollection: false,
   };
 
   componentDidMount() {
     // check if don't have this photo in state get this photo
-    const {onGetPhoto, onGetUserCollections, idFromUrl, photo, userCollectionsLink} = this.props;
+    const {
+      onGetPhoto,
+      onGetUserCollections,
+      idFromUrl,
+      photo,
+      userCollectionsLink,
+    } = this.props;
     if (!photo) {
       // get photo
       onGetPhoto(idFromUrl);
@@ -140,32 +149,42 @@ class AddToCollection extends Component<Props> {
 
   handleSelectCollection = (photoId, collectionId, selected) => {
     if (selected) {
-      this
-        .props
-        .onRemovePhotoFromCollection(collectionId, photoId);
+      this.props.onRemovePhotoFromCollection(collectionId, photoId);
     } else {
-      this
-        .props
-        .onAddPhotoToCollection(collectionId, photoId);
+      this.props.onAddPhotoToCollection(collectionId, photoId);
     }
-  }
+  };
 
   render() {
-    const {userCollections, photo, showCreateNewCollection, onRequestClose, onPush} = this.props;
+    const {
+      userCollections,
+      photo,
+      showCreateNewCollection,
+      onRequestClose,
+      onPush,
+    } = this.props;
     const item = col => {
-      const selectedItem = photo.currentUserCollections
-        .find(item => item.id === col.id);
-      return (<CollectionSView
-        key={col.id ? col.id : ''}
-        collection={col}
-        inRowSelection
-        selected={selectedItem !== void 0}
-        onClick={() => this.handleSelectCollection(photo.id, col.id, selectedItem !== void 0)} 
-      />);
+      const selectedItem = photo.currentUserCollections.find(
+        item => item.id === col.id
+      );
+      return (
+        <CollectionSView
+          key={col.id ? col.id : ''}
+          collection={col}
+          inRowSelection
+          selected={selectedItem !== void 0}
+          onClick={() =>
+            this.handleSelectCollection(
+              photo.id,
+              col.id,
+              selectedItem !== void 0
+            )
+          }
+        />
+      );
     };
-    const items = () => Object
-      .keys(userCollections)
-      .map(id => item(userCollections[id]));
+    const items = () =>
+      Object.keys(userCollections).map(id => item(userCollections[id]));
     const main = () => {
       if (photo) {
         return (
@@ -177,23 +196,29 @@ class AddToCollection extends Component<Props> {
               <CloseIcon />
             </CloseBtn>
             <Image
-              imgUrl={`${photo.urls.raw}?dpr=1&auto=compress,format&fit=max&w=720&q=80&cs=tinysrgb&crop=entropy`} 
+              imgUrl={`${
+                photo.urls.raw
+              }?dpr=1&auto=compress,format&fit=max&w=720&q=80&cs=tinysrgb&crop=entropy`}
             />
             <Content>
-              <Header>
-                Add To Collection
-              </Header>
+              <Header>Add To Collection</Header>
               <NewCollection
-                onClick={() => onPush(`?add_to_collection&id=${photo.id}&step=new_collection`)}
+                onClick={() =>
+                  onPush(
+                    `?add_to_collection&id=${photo.id}&step=new_collection`
+                  )
+                }
               >
                 Create a new collection
               </NewCollection>
               {items()}
-              {showCreateNewCollection
-                ? <AddNewCollection
-                  onRequestClose={() => onPush(`?add_to_collection&id=${photo.id}`)} 
+              {showCreateNewCollection ? (
+                <AddNewCollection
+                  onRequestClose={() =>
+                    onPush(`?add_to_collection&id=${photo.id}`)
+                  }
                 />
-                : null}
+              ) : null}
             </Content>
           </Wrapper>
         );
@@ -210,18 +235,27 @@ const mapStateToProps = state => {
   const showCreateNewCollection = searchParams.has('step');
   const photo = state.items.photos[photoId];
   return {
-    idFromUrl: photoId, 
-    photo, 
-    userCollections: state.items.userCollections, 
-    userCollectionsLink: `${API_ROOT}/users/${state.user.userProfile.username}/collections`, 
-    showCreateNewCollection
+    idFromUrl: photoId,
+    photo,
+    userCollections: state.items.userCollections,
+    userCollectionsLink: `${API_ROOT}/users/${
+      state.user.userProfile.username
+    }/collections`,
+    showCreateNewCollection,
   };
 };
 
-export default connect(mapStateToProps, dispatch => bindActionCreators({
-  onGetPhoto: getPhoto,
-  onGetUserCollections: getUserCollections,
-  onAddPhotoToCollection: addPhotoToCollection,
-  onRemovePhotoFromCollection: removePhotoFromCollection,
-  onPush: push
-}, dispatch))(AddToCollection);
+export default connect(
+  mapStateToProps,
+  dispatch =>
+    bindActionCreators(
+      {
+        onGetPhoto: getPhoto,
+        onGetUserCollections: getUserCollections,
+        onAddPhotoToCollection: addPhotoToCollection,
+        onRemovePhotoFromCollection: removePhotoFromCollection,
+        onPush: push,
+      },
+      dispatch
+    )
+)(AddToCollection);

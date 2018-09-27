@@ -5,9 +5,15 @@ import 'whatwg-fetch';
 import 'url-search-params-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {ConnectedRouter} from 'react-router-redux';
-import {configureStore, getHistory, setAsCurrentStore, getStore,storeHasBeenConfigured} from './store';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
+import {
+  configureStore,
+  getHistory,
+  setAsCurrentStore,
+  getStore,
+  storeHasBeenConfigured,
+} from './store';
 import MainApp from './containers/MainApp';
 import rootSaga from './sagas';
 import './style/global';
@@ -34,7 +40,7 @@ async function run() {
   }
   // get element with app id from public/index.html
   const app = document.getElementById('app');
-  if (app === null){
+  if (app === null) {
     throw new Error('no element with app id');
   }
   // check env
@@ -47,14 +53,18 @@ async function run() {
             <MainApp />
           </ConnectedRouter>
         </Provider>
-      </AppContainer>, app);
+      </AppContainer>,
+      app
+    );
   } else {
     ReactDOM.render(
       <Provider store={getStore()}>
         <ConnectedRouter history={history}>
           <MainApp />
         </ConnectedRouter>
-      </Provider>, app);
+      </Provider>,
+      app
+    );
   }
 }
 
@@ -66,17 +76,13 @@ run();
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   //$FlowFixMe
-  module
-    .hot
-    .accept('./containers/App', () => {
-      run();
-    });
+  module.hot.accept('./containers/App', () => {
+    run();
+  });
   // Enable Webpack hot module replacement for reducers
   //$FlowFixMe
-  module
-    .hot
-    .accept('./reducers', () => {
-      const nextRootReducer = require('./reducers').defualt;
-      getStore().replaceReducer(nextRootReducer);
-    });
+  module.hot.accept('./reducers', () => {
+    const nextRootReducer = require('./reducers').defualt;
+    getStore().replaceReducer(nextRootReducer);
+  });
 }

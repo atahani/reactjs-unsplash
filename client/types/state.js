@@ -23,5 +23,5 @@ export type ItemsState = {
 export type UserState = {
   isAuthorized: boolean,
   userProfile: Object,
-  token: Object
+  token: Object,
 };

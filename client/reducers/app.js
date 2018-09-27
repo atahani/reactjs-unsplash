@@ -12,8 +12,8 @@ const initialState = {
   searchValues: {
     query: '',
     title: '',
-    value: ''
-  }
+    value: '',
+  },
 };
 
 /**
@@ -23,11 +23,11 @@ const initialState = {
  */
 export default (state: AppState = initialState, action: Action): AppState => {
   switch (action.type) {
-      // action > setLastPathName
+    // action > setLastPathName
     case 'app/SE_LAST_PATH_NAME':
       // like > state.app.lastPathname
-      return Object.assign({}, state, {lastPathname: action.pathName});
-      // action > jobStatus
+      return Object.assign({}, state, { lastPathname: action.pathName });
+    // action > jobStatus
     case 'app/CH_JOB_ST':
       // like > state.app.jobRunning
       return Object.assign({}, state, {
@@ -35,36 +35,33 @@ export default (state: AppState = initialState, action: Action): AppState => {
           ? state.jobRunning + 1
           : state.jobRunning > 0
             ? state.jobRunning - 1
-            : 0
+            : 0,
       });
-      // action > setActionData
-    case 'app/SE_ACTION_DATA':
-      {
-        // change the state with custom attr obj as actionType
-        const obj = state.actionData
-          ? state.actionData
-          : {};
-        // assing new obj attr if not exist
-        if (obj[action.actionType]) {
-          obj[action.actionType] = action.data;
-        } else {
-          // define new property for object
-          Object.defineProperty(obj, action.actionType, {
-            value: action.data,
-            writable: true,
-            enumerable: false
-          });
-        }
-        // like > state.app.actionData.login
-        return Object.assign({}, state, {actionData: obj});
+    // action > setActionData
+    case 'app/SE_ACTION_DATA': {
+      // change the state with custom attr obj as actionType
+      const obj = state.actionData ? state.actionData : {};
+      // assing new obj attr if not exist
+      if (obj[action.actionType]) {
+        obj[action.actionType] = action.data;
+      } else {
+        // define new property for object
+        Object.defineProperty(obj, action.actionType, {
+          value: action.data,
+          writable: true,
+          enumerable: false,
+        });
       }
+      // like > state.app.actionData.login
+      return Object.assign({}, state, { actionData: obj });
+    }
     case 'app/SE_SEARCH_VALUES':
-      return Object.assign({},state,{
-        searchValues: Object.assign({},state.searchValues,{
+      return Object.assign({}, state, {
+        searchValues: Object.assign({}, state.searchValues, {
           query: action.query,
           title: action.title,
           value: action.value,
-        })
+        }),
       });
     default:
       return state;

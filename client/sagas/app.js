@@ -1,10 +1,10 @@
 //@flow
 
 /*eslint-disable no-constant-condition*/
-import {put} from 'redux-saga/effects';
-import {push} from 'react-router-redux';
-import {UN_AVAILABLE, NOT_FOUND} from '../constants/api-error-codes';
-import {NOTHING} from '../constants/action-types';
+import { put } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
+import { UN_AVAILABLE, NOT_FOUND } from '../constants/api-error-codes';
+import { NOTHING } from '../constants/action-types';
 import type { Action } from '../types';
 import APIError from '../api/api-error';
 
@@ -28,8 +28,13 @@ export function* runActionInSeq(actionObj: Action): any {
  * @param {string} taskAction
  * @param {object} taskPayload
  */
-/*eslint no-unused-vars: "off"*/ 
-export function* handleCommonErr(err: APIError, taskAction: string = NOTHING, taskPayload: Object = {}): any {
+/*eslint no-unused-vars: "off"*/
+
+export function* handleCommonErr(
+  err: APIError,
+  taskAction: string = NOTHING,
+  taskPayload: Object = {}
+): any {
   if (err.code === UN_AVAILABLE) {
     // check the internet connection by window.navigator.onLine
     if (window.navigator.onLine) {

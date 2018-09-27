@@ -1,31 +1,35 @@
 //@flow
 
 /*eslint-disable no-constant-condition*/
-import {take, put, call, all, fork} from 'redux-saga/effects';
-import {push} from 'react-router-redux';
-import {GE_ACCESS_TOKEN, LOGOUT, GE_USER_PROFILE} from '../constants/action-types';
-import {getAccessToken, getUserProfile} from '../api/user';
-import {setAccessToken, getProfile, setProfile} from '../actions/user';
-import {clearStore, jobStatus} from '../actions/app';
-import {handleCommonErr} from './app';
+import { take, put, call, all, fork } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
+import {
+  GE_ACCESS_TOKEN,
+  LOGOUT,
+  GE_USER_PROFILE,
+} from '../constants/action-types';
+import { getAccessToken, getUserProfile } from '../api/user';
+import { setAccessToken, getProfile, setProfile } from '../actions/user';
+import { clearStore, jobStatus } from '../actions/app';
+import { handleCommonErr } from './app';
 
 /**
  * get access token flow
  */
 export function* getAccessTokenF(): any {
   while (true) {
-    const {code} = yield take(GE_ACCESS_TOKEN);
+    const { code } = yield take(GE_ACCESS_TOKEN);
     // check code define or not
     if (!code) {
       yield put(push('/auth'));
       return;
     }
-    const {response, error} = yield call(getAccessToken, code);
+    const { response, error } = yield call(getAccessToken, code);
     if (response) {
       yield all([
         put(setAccessToken(response)),
         put(getProfile()),
-        put(push('/'))
+        put(push('/')),
       ]);
     } else if (error.code === 401) {
       // handle it when token is invalid
@@ -42,10 +46,7 @@ export function* getAccessTokenF(): any {
 export function* logOutF(): any {
   while (true) {
     yield take(LOGOUT);
-    yield all([
-      put(push('/auth')),
-      put(clearStore())
-    ]);
+    yield all([put(push('/auth')), put(clearStore())]);
   }
 }
 
@@ -56,7 +57,7 @@ export function* getMyProfileF(): any {
   while (true) {
     yield take(GE_USER_PROFILE);
     yield put(jobStatus(true));
-    const {response, error} = yield call(getUserProfile);
+    const { response, error } = yield call(getUserProfile);
     yield put(jobStatus(false));
     if (response) {
       yield put(setProfile(response));

@@ -2,12 +2,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CollectSmall from '../CollectionSView';
 import { screenLargerThan } from '../../style/util';
-import {dividerColor, secondaryColor1} from '../../style/colors';
+import { dividerColor, secondaryColor1 } from '../../style/colors';
 
-const ItemsWrapper = styled.div `
+const ItemsWrapper = styled.div`
   display: none;
   padding: 20px 0px;
   border-bottom: 1px solid ${dividerColor};
@@ -20,7 +20,7 @@ const ItemsWrapper = styled.div `
     flex-wrap: wrap;
     justify-content: space-between;
     flex-basis: 25%;
-  `}
+  `};
 `;
 
 const ViewAllWrapper = styled.div`
@@ -60,20 +60,18 @@ const ViewAll = styled(Link)`
 type Props = {
   items: Object,
   viewAllPath: string,
-}
+};
 
-const CollectionsSView = ({items, viewAllPath}: Props) => (
+const CollectionsSView = ({ items, viewAllPath }: Props) => (
   <ItemsWrapper>
-    {Object
-      .keys(items)
+    {Object.keys(items)
       .slice(0, 3)
-      .map(key => (<CollectSmall
-        key={items[key].id}
-        collection={items[key]}
-      />))}
+      .map(key => (
+        <CollectSmall key={items[key].id} collection={items[key]} />
+      ))}
     <ViewAllWrapper>
       <ViewAll key="view-all" to={viewAllPath}>
-       View All
+        View All
       </ViewAll>
     </ViewAllWrapper>
   </ItemsWrapper>

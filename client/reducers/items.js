@@ -15,43 +15,50 @@ const initialState = {
 };
 
 /**
- * items reducer 
+ * items reducer
  * this is object base on item id and entity
  * @param {object} state state current state
  * @param {*} action pure action object
  */
-export default (state: ItemsState = initialState, action: Action): ItemsState => {
+export default (
+  state: ItemsState = initialState,
+  action: Action
+): ItemsState => {
   switch (action.type) {
     // action > setItem
     case 'items/SE_ITEM': {
       // NOTE: in SE_ITEM added to first
       const element = camelCaseKeys(action.payload);
-      const newObj = Object.assign({},{
-        [action.payload.id]: {...element}
-      });
+      const newObj = Object.assign(
+        {},
+        {
+          [action.payload.id]: { ...element },
+        }
+      );
       return Object.assign({}, state, {
         [action.entity]: {
           ...newObj,
           ...state[action.entity],
-        }
+        },
       });
     }
     // action > setItems
     case 'items/SE_ITEMS': {
-      // the payload === array of entity items 
+      // the payload === array of entity items
       let newItems: Object = {};
       for (let i = 0; i < action.payload.length; i++) {
         let element = action.payload[i];
         element = camelCaseKeys(element);
-        newItems = Object.assign({},newItems,{
-          [element.id]:{...element}
+        newItems = Object.assign({}, newItems, {
+          [element.id]: { ...element },
         });
       }
       // like > state.items.photos
       return Object.assign({}, state, {
         [action.entity]: {
-          ...state[action.entity], ...newItems,
-        }
+          ...state[action.entity],
+          ...newItems,
+        },
       });
     }
     // action > updateItem(entity,payload)
@@ -60,8 +67,8 @@ export default (state: ItemsState = initialState, action: Action): ItemsState =>
       return Object.assign({}, state, {
         [action.entity]: {
           ...state[action.entity],
-          [action.payload.id]: camelCaseKeys(action.payload)
-        }
+          [action.payload.id]: camelCaseKeys(action.payload),
+        },
       });
     // action > updateFieldOfItem
     case 'items/UP_FIELD_OF_ITEM': {
@@ -81,7 +88,7 @@ export default (state: ItemsState = initialState, action: Action): ItemsState =>
         [action.entity]: {
           ...state[action.entity],
           [action.id]: obj,
-        }
+        },
       });
     }
     // action > deleteItem(entity,payload)

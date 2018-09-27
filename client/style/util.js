@@ -7,7 +7,7 @@ export const sizes = {
   giant: 1440,
   desktop: 1024,
   tablet: 668,
-  phone: 420
+  phone: 420,
 };
 
 export const screenLargerThan = Object.keys(sizes).reduce(
@@ -30,12 +30,10 @@ export const media = Object.keys(sizes).reduce((accumulator, label) => {
   const emSize = sizes[label] / 16;
   accumulator[label] = (...args: any) => css`
     @media (max-width: ${emSize}em) {
-      ${css(...args)}
+      ${css(...args)};
     }
   `;
   return accumulator;
 }, {});
-
-
 
 export const maxWidthContent = sizes.desktop;

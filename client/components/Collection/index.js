@@ -1,16 +1,21 @@
 //@flow
 
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {lighten} from 'polished';
+import { lighten } from 'polished';
 import Avatar from '../Avatar';
 import LockIcon from '../svg-icons/lock';
 import EditIcon from '../svg-icons/edit';
 import { screenLargerThan } from '../../style/util';
-import {secondaryColor1, dividerColor, primaryColor1, white} from '../../style/colors';
+import {
+  secondaryColor1,
+  dividerColor,
+  primaryColor1,
+  white,
+} from '../../style/colors';
 
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   display: flex;
   max-width: 100%;
   flex-basis: 100%;
@@ -25,13 +30,13 @@ const Wrapper = styled.div `
 const Card = styled.div`
   width: 100%;
   margin: 5px;
-  border: 1px solid  ${dividerColor};
+  border: 1px solid ${dividerColor};
   border-radius: 10px;
 `;
 
 const CoverLink = styled(Link)``;
 
-const Cover = styled.div `
+const Cover = styled.div`
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -42,16 +47,16 @@ const Cover = styled.div `
 `;
 
 const ImgCover = styled.img`
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: auto;
-    left: 50%;
-    top: 50%;
-    transform: translateY(-50%) translateX(-50%);
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
 `;
 
-const Overlay = styled.div `
+const Overlay = styled.div`
   width: 100%;
   background-color: ${lighten(0.15, primaryColor1)};
   opacity: 0.4;
@@ -59,7 +64,7 @@ const Overlay = styled.div `
   border-top-right-radius: 10px;
 `;
 
-const Title = styled.div `
+const Title = styled.div`
   font-size: 24px;
   font-weight: 400;
   position: absolute;
@@ -69,7 +74,7 @@ const Title = styled.div `
   color: ${white};
 `;
 
-const Counter = styled.div `
+const Counter = styled.div`
   font-size: 13px;
   position: absolute;
   z-index: 99;
@@ -87,7 +92,7 @@ const PrivateIcon = styled(LockIcon)`
   opacity: 0.7;
 `;
 
-const Footer = styled.div `
+const Footer = styled.div`
   height: 60px;
   display: flex;
   align-items: center;
@@ -95,13 +100,13 @@ const Footer = styled.div `
   justify-content: space-between;
 `;
 
-const UserLink = styled.a `
+const UserLink = styled.a`
   display: flex;
   align-items: center;
   color: ${lighten(0.35, primaryColor1)};
 `;
 
-const DisplayName = styled.div `
+const DisplayName = styled.div`
   margin-left: 8px;
   font-weight: 600;
   font-size: 16px;
@@ -118,14 +123,8 @@ type Props = {
   editable: boolean,
 };
 
-const Collection = ({
-  editable,
-  collection,
-  ...others
-}: Props) => (
-  <Wrapper
-    {...others}
-  >
+const Collection = ({ editable, collection, ...others }: Props) => (
+  <Wrapper {...others}>
     <Card>
       <CoverLink to={`/collections/${collection.id}`}>
         <Cover>
@@ -133,25 +132,31 @@ const Collection = ({
           <Title>{collection.title}</Title>
           <Counter>{`${collection.totalPhotos} Photos`}</Counter>
           <ImgCover
-            src={collection.coverPhoto ? 
-            `${collection.coverPhoto.urls.raw}?dpr=1&auto=compress,format&fit=crop&w=400&q=80&cs=tinysrgb` : void 0}
+            src={
+              collection.coverPhoto
+                ? `${
+                    collection.coverPhoto.urls.raw
+                  }?dpr=1&auto=compress,format&fit=crop&w=400&q=80&cs=tinysrgb`
+                : void 0
+            }
             alt={collection.name}
           />
-          {collection.is_private
-          ? <PrivateIcon size={16} />
-          : null}
+          {collection.is_private ? <PrivateIcon size={16} /> : null}
         </Cover>
       </CoverLink>
       <Footer>
         <UserLink target="_blank" href={collection.user.links.html}>
-          <Avatar imagePath={collection.user.profileImage.medium} name={collection.user.name} />
+          <Avatar
+            imagePath={collection.user.profileImage.medium}
+            name={collection.user.name}
+          />
           <DisplayName>{collection.user.name}</DisplayName>
         </UserLink>
-        {editable ? 
+        {editable ? (
           <EditBtn to={`/collections/edit/${collection.id}`}>
             <EditIcon />
           </EditBtn>
-        : null}
+        ) : null}
       </Footer>
     </Card>
   </Wrapper>

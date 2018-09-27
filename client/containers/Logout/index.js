@@ -1,10 +1,10 @@
 //@flow
 
-import {Component} from 'react';
-import {getStore} from '../../store';
-import {logout} from '../../actions/user';
+import { Component } from 'react';
+import { getStore } from '../../store';
+import { logout } from '../../actions/user';
 
-type Props = {}
+type Props = {};
 
 class Logout extends Component<Props> {
   componentDidMount() {

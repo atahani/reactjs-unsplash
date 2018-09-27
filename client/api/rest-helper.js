@@ -1,12 +1,19 @@
 //@flow
 
-import type { RESTAPIResponse, ErrorResponse, SuccessResponse } from '../types/data';
+import type {
+  RESTAPIResponse,
+  ErrorResponse,
+  SuccessResponse,
+} from '../types/data';
 import APIError from './api-error';
-import {getState} from '../store';
-import {UN_AVAILABLE,UNHANDLED} from '../constants/api-error-codes';
+import { getState } from '../store';
+import { UN_AVAILABLE, UNHANDLED } from '../constants/api-error-codes';
 
 // check status used in fetch promise
-function checkStatus(json: any, res: Response): ErrorResponse | SuccessResponse {
+function checkStatus(
+  json: any,
+  res: Response
+): ErrorResponse | SuccessResponse {
   // check response in ok 200 or not
   if (res.ok) {
     // get link header from response
@@ -17,13 +24,9 @@ function checkStatus(json: any, res: Response): ErrorResponse | SuccessResponse 
      * X-Ratelimit-Remaining: 999
      */
     const attr = {};
-    let linkHeader = res
-      .headers
-      .get('link');
+    let linkHeader = res.headers.get('link');
     if (linkHeader) {
-      linkHeader = linkHeader
-        .replace(/[<|>|"| ]/g, '')
-        .replace(/rel=/g, '');
+      linkHeader = linkHeader.replace(/[<|>|"| ]/g, '').replace(/rel=/g, '');
       const links = linkHeader.split(',');
       links.forEach(item => {
         const part = item.split(';');
@@ -31,19 +34,19 @@ function checkStatus(json: any, res: Response): ErrorResponse | SuccessResponse 
           Object.defineProperty(attr, part[1].trim(), {
             value: part[0].trim(),
             writable: false,
-            enumerable: false
+            enumerable: false,
           });
         }
       });
     }
-    return {response: json, attr};
+    return { response: json, attr };
   }
   // create error with status text, message, code
   const error = new APIError(res.status);
   error.code = res.status;
   error.errors = json.errors;
   error.description = json.error_description;
-  return {error};
+  return { error };
 }
 
 // handle failure error
@@ -53,12 +56,12 @@ function failure(err: Error): ErrorResponse {
     const error = new APIError('server unavailable');
     error.errors = 'server unavailable';
     error.code = UN_AVAILABLE;
-    return {error};
-  }else{
+    return { error };
+  } else {
     const error = new APIError('unhandled error happend');
     error.errors = 'unhandled error happend';
     error.code = UNHANDLED;
-    return {error};
+    return { error };
   }
 }
 
@@ -75,7 +78,10 @@ export const getHeaders = (jsonContentType?: boolean = true): Headers => {
   }
   headers.append('Accept', 'application/json');
   if (getState().user.isAuthorized) {
-    headers.append('Authorization', `Bearer ${getState().user.token.access_token}`);
+    headers.append(
+      'Authorization',
+      `Bearer ${getState().user.token.access_token}`
+    );
   }
   return headers;
 };
@@ -87,7 +93,10 @@ export const getHeaders = (jsonContentType?: boolean = true): Headers => {
 export const getHeadersForMultiPart = (): Headers => {
   const headers = new Headers();
   if (getState().user.isAuthorized) {
-    headers.append('Authorization', `Bearer ${getState().user.token.access_token}`);
+    headers.append(
+      'Authorization',
+      `Bearer ${getState().user.token.access_token}`
+    );
   }
   return headers;
 };
@@ -98,14 +107,18 @@ export const getHeadersForMultiPart = (): Headers => {
  * @param {Object} body
  * @param {Headers} headers default is getHeaders()
  */
-export const postReq = (endpoint: string, body: any, headers?: Headers = getHeaders()): RESTAPIResponse => 
+export const postReq = (
+  endpoint: string,
+  body: any,
+  headers?: Headers = getHeaders()
+): RESTAPIResponse =>
   fetch(endpoint, {
     method: 'POST',
     body: JSON.stringify(body),
-      headers
-    })
-    .then(res => res.json().then(json => ({json, res})))
-    .then(({json, res}) => checkStatus(json, res))
+    headers,
+  })
+    .then(res => res.json().then(json => ({ json, res })))
+    .then(({ json, res }) => checkStatus(json, res))
     .catch(failure);
 
 /**
@@ -114,14 +127,17 @@ export const postReq = (endpoint: string, body: any, headers?: Headers = getHead
  * @param {string} endpoint
  * @param {Object} formData
  */
-export const postReqFormData = (endpoint: string, formData: any): RESTAPIResponse => 
+export const postReqFormData = (
+  endpoint: string,
+  formData: any
+): RESTAPIResponse =>
   fetch(endpoint, {
-      method: 'POST',
-      body: formData,
-      headers: getHeadersForMultiPart()
-    })
-    .then(res => res.json().then(json => ({json, res})))
-    .then(({json, res}) => checkStatus(json, res))
+    method: 'POST',
+    body: formData,
+    headers: getHeadersForMultiPart(),
+  })
+    .then(res => res.json().then(json => ({ json, res })))
+    .then(({ json, res }) => checkStatus(json, res))
     .catch(failure);
 
 /**
@@ -129,13 +145,16 @@ export const postReqFormData = (endpoint: string, formData: any): RESTAPIRespons
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const getReq = (endpoint: string, headers?: Headers = getHeaders()): RESTAPIResponse => 
+export const getReq = (
+  endpoint: string,
+  headers?: Headers = getHeaders()
+): RESTAPIResponse =>
   fetch(endpoint, {
-      method: 'GET',
-      headers
-    })
-    .then(res => res.json().then(json => ({json, res})))
-    .then(({json, res}) => checkStatus(json, res))
+    method: 'GET',
+    headers,
+  })
+    .then(res => res.json().then(json => ({ json, res })))
+    .then(({ json, res }) => checkStatus(json, res))
     .catch(failure);
 
 /**
@@ -143,14 +162,18 @@ export const getReq = (endpoint: string, headers?: Headers = getHeaders()): REST
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const deleteReq = (endpoint: string, body: any = {}, headers?: Headers = getHeaders()): RESTAPIResponse => 
+export const deleteReq = (
+  endpoint: string,
+  body: any = {},
+  headers?: Headers = getHeaders()
+): RESTAPIResponse =>
   fetch(endpoint, {
     method: 'DELETE',
     body: JSON.stringify(body),
-      headers
-    })
-    .then(res => res.json().then(json => ({json, res})))
-    .then(({json, res}) => checkStatus(json, res))
+    headers,
+  })
+    .then(res => res.json().then(json => ({ json, res })))
+    .then(({ json, res }) => checkStatus(json, res))
     .catch(failure);
 
 /**
@@ -158,11 +181,16 @@ export const deleteReq = (endpoint: string, body: any = {}, headers?: Headers = 
  * @param {string} endpoint
  * @param {Headers} headers default is getHeaders()
  */
-export const deleteReqWithoutJSON = (endpoint: string , headers?: Headers = getHeaders()): RESTAPIResponse => 
+export const deleteReqWithoutJSON = (
+  endpoint: string,
+  headers?: Headers = getHeaders()
+): RESTAPIResponse =>
   fetch(endpoint, {
     method: 'DELETE',
-    headers
-  }).then(res => checkStatus({}, res)).catch(failure);
+    headers,
+  })
+    .then(res => checkStatus({}, res))
+    .catch(failure);
 
 /**
  * put request
@@ -171,12 +199,16 @@ export const deleteReqWithoutJSON = (endpoint: string , headers?: Headers = getH
  * @param {Object} body
  * @param {Headers} headers default is getHeaders()
  */
-export const putReq = (endpoint: string, body: any, headers?: Headers = getHeaders()): RESTAPIResponse => 
+export const putReq = (
+  endpoint: string,
+  body: any,
+  headers?: Headers = getHeaders()
+): RESTAPIResponse =>
   fetch(endpoint, {
     method: 'PUT',
     body: JSON.stringify(body),
-      headers
-    })
-    .then(res => res.json().then(json => ({json, res})))
-    .then(({json, res}) => checkStatus(json, res))
+    headers,
+  })
+    .then(res => res.json().then(json => ({ json, res })))
+    .then(({ json, res }) => checkStatus(json, res))
     .catch(failure);

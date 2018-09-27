@@ -1,11 +1,11 @@
 //@flow
 
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import EventListener from 'react-event-listener';
-import {bindActionCreators} from 'redux';
-import {push} from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 import debounce from 'lodash/debounce';
 import styled from 'styled-components';
 import _Logo from '../../components/svg-images/camera';
@@ -14,12 +14,11 @@ import TextInput from '../../components/TextInput';
 import Popover from '../../components/Popover';
 import Avatar from '../../components/Avatar';
 import NavOnAvatar from '../../components/NavOnAvatar';
-import {maxWidthContent} from '../../style/util';
-import {white, dividerColor} from '../../style/colors';
+import { maxWidthContent } from '../../style/util';
+import { white, dividerColor } from '../../style/colors';
 import type { UserProfile as UserProfileType } from '../../types/data';
 
-
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   background-color: ${white};
 `;
 
@@ -28,22 +27,23 @@ const Logo = styled(_Logo)`
   height: 28px;
 `;
 
-const TopBarWrapper = styled.div `
+const TopBarWrapper = styled.div`
   background-color: ${white};
   height: 65px;
   width: 100%;
-  ${props => props.fixed
-  ? `
+  ${props =>
+    props.fixed
+      ? `
     position: fixed;
     z-index: 9999;
     border-bottom: solid 1px ${dividerColor};
   `
-  : `
+      : `
     position: relative;
-  `}
+  `};
 `;
 
-const TopBar = styled.div `
+const TopBar = styled.div`
   max-width: ${`${maxWidthContent}px`};
   width: 100%;
   height: 100%;
@@ -60,12 +60,12 @@ const SearchTx = styled(TextInput)`
   margin: 0px 16px;
 `;
 
-const Controller = styled.div `
+const Controller = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const AButton = styled.button `
+const AButton = styled.button`
   cursor: pointer;
 `;
 
@@ -79,53 +79,49 @@ type Props = {
   queryValue: string,
   userProfile: UserProfileType,
   onPush: Function,
-}
+};
 
 type State = {
   lastScrollTop: number,
   topBarFixed: boolean,
   searchTxVal: string,
-}
+};
 
-class Header extends Component<Props,State> {
+class Header extends Component<Props, State> {
   static defaultProps = {
-    delayedCallback: () => {}
-  }
+    delayedCallback: () => {},
+  };
   state = {
     lastScrollTop: 0,
     topBarFixed: false,
-    searchTxVal:'',
+    searchTxVal: '',
   };
 
   componentWillMount() {
     // $FlowFixMe
     this.delayedCallback = debounce(e => {
       // `event.target` is accessible now
-      const val = e
-        .target
-        .value
-        .replace(' ', '-');
+      const val = e.target.value.replace(' ', '-');
       if (val.trim().length > 0) {
         // push it to search
-        this
-          .props
-          .onPush(`/search/${val}`);
+        this.props.onPush(`/search/${val}`);
       } else {
         // return to home
-        this
-          .props
-          .onPush('/');
+        this.props.onPush('/');
       }
     }, 700);
-    this.setState({searchTxVal: this.props.queryValue});
+    this.setState({ searchTxVal: this.props.queryValue });
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.queryValue !== this.props.queryValue && nextProps.queryValue !== this.state.searchTxVal && nextProps.queryValue === ''){
-      this.setState({searchTxVal: ''});
+    if (
+      nextProps.queryValue !== this.props.queryValue &&
+      nextProps.queryValue !== this.state.searchTxVal &&
+      nextProps.queryValue === ''
+    ) {
+      this.setState({ searchTxVal: '' });
     }
   }
-  
 
   shouldComponentUpdate(nextProps, nextState) {
     // prevent to re render view in update lastScrollTop state
@@ -137,26 +133,26 @@ class Header extends Component<Props,State> {
 
   onSearchTxChange = e => {
     e.persist();
-    this.setState({searchTxVal: e.target.value});
+    this.setState({ searchTxVal: e.target.value });
     // $FlowFixMe
     this.delayedCallback(e);
-  }
+  };
 
   handleScroll = e => {
-    const {lastScrollTop} = this.state;
+    const { lastScrollTop } = this.state;
     const scrollTop = e.target.body.scrollTop;
     if (scrollTop < lastScrollTop && scrollTop > 0) {
-      this.setState({topBarFixed: true});
+      this.setState({ topBarFixed: true });
     } else {
-      this.setState({topBarFixed: false});
+      this.setState({ topBarFixed: false });
     }
     // set this scrollTop as last
-    this.setState({lastScrollTop: scrollTop});
-  }
+    this.setState({ lastScrollTop: scrollTop });
+  };
 
   render() {
-    const {userProfile} = this.props;
-    const {topBarFixed, searchTxVal} = this.state;
+    const { userProfile } = this.props;
+    const { topBarFixed, searchTxVal } = this.state;
     const avatar = () => {
       if (userProfile.profileImage) {
         return (
@@ -165,8 +161,11 @@ class Header extends Component<Props,State> {
             autoCloseWhenOffScreen
             width={200}
             target={
-              <AButton > 
-                <Avatar imagePath={userProfile.profileImage.medium} name={userProfile.name} /> 
+              <AButton>
+                <Avatar
+                  imagePath={userProfile.profileImage.medium}
+                  name={userProfile.name}
+                />
               </AButton>
             }
           >
@@ -183,7 +182,13 @@ class Header extends Component<Props,State> {
           <TopBar>
             <Logo />
             <Controller>
-              <SearchTx value={searchTxVal} onChange={this.onSearchTxChange} hintText="Search photos" rounded /> {avatar()}
+              <SearchTx
+                value={searchTxVal}
+                onChange={this.onSearchTxChange}
+                hintText="Search photos"
+                rounded
+              />{' '}
+              {avatar()}
             </Controller>
           </TopBar>
         </TopBarWrapper>
@@ -199,11 +204,20 @@ class Header extends Component<Props,State> {
  * so we use Wrap component with withRouter
  * MORE_INFO: https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking
  */
-export default withRouter(connect(state => ({
-  // the getProfile fire after getAccessToken so the profileImage maybe undefined
-  // in load
-  queryValue: state.app.searchValues.value,
-  userProfile: state.user.userProfile,
-}), dispatch => bindActionCreators({
-  onPush: push
-}, dispatch))(Header));
+export default withRouter(
+  connect(
+    state => ({
+      // the getProfile fire after getAccessToken so the profileImage maybe undefined
+      // in load
+      queryValue: state.app.searchValues.value,
+      userProfile: state.user.userProfile,
+    }),
+    dispatch =>
+      bindActionCreators(
+        {
+          onPush: push,
+        },
+        dispatch
+      )
+  )(Header)
+);

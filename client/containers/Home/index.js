@@ -1,37 +1,40 @@
 //@flow
 
-import React, {Component} from 'react';
-import {Helmet} from 'react-helmet';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Photos from '../../components/Photos';
 import AddToCollectionDialog from '../AddToCollectionDialog';
-import {getPhotos} from '../../actions/photo';
-import {clearItems} from '../../actions/items';
-import {API_ROOT} from '../../constants/service-info';
+import { getPhotos } from '../../actions/photo';
+import { clearItems } from '../../actions/items';
+import { API_ROOT } from '../../constants/service-info';
 
 type Props = {
   photos: Object,
   nextPhotosLink: string,
   onGetPhotos: Function,
   onClearItems: Function,
-  onClearItems: Function
-}
+  onClearItems: Function,
+};
 
 class Home extends Component<Props> {
-
   componentDidMount() {
-    const {onGetPhotos, onClearItems} = this.props;
+    const { onGetPhotos, onClearItems } = this.props;
     // get photos in load of component used from '/photos' as URL request
     onClearItems('photos');
     onGetPhotos(`${API_ROOT}/photos`);
   }
 
   render() {
-    const {photos, nextPhotosLink, onGetPhotos} = this.props;
-    const main = () => (photos
-      ? <Photos items={photos} onScrollToLoad={() => onGetPhotos(nextPhotosLink)} />
-      : null);
+    const { photos, nextPhotosLink, onGetPhotos } = this.props;
+    const main = () =>
+      photos ? (
+        <Photos
+          items={photos}
+          onScrollToLoad={() => onGetPhotos(nextPhotosLink)}
+        />
+      ) : null;
     return (
       <div>
         <Helmet>
@@ -45,11 +48,18 @@ class Home extends Component<Props> {
 }
 
 const mapStateToProps = state => ({
-  photos: state.items.photos, 
-  nextPhotosLink: state.items.photosAttr.next
+  photos: state.items.photos,
+  nextPhotosLink: state.items.photosAttr.next,
 });
 
-export default connect(mapStateToProps, dispatch => bindActionCreators({
-  onGetPhotos: getPhotos,
-  onClearItems: clearItems
-}, dispatch))(Home);
+export default connect(
+  mapStateToProps,
+  dispatch =>
+    bindActionCreators(
+      {
+        onGetPhotos: getPhotos,
+        onClearItems: clearItems,
+      },
+      dispatch
+    )
+)(Home);

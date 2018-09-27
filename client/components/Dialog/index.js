@@ -1,15 +1,15 @@
 //@flow
 
 //$FlowFixMe we should import Node as type but the eslint doesn't happy
-import React, {Component,Node} from 'react';
+import React, { Component, Node } from 'react';
 import onClickOutside from 'react-onclickoutside';
 import styled from 'styled-components';
-import {rgba} from 'polished';
-import {media} from '../../style/util';
-import {white} from '../../style/colors';
+import { rgba } from 'polished';
+import { media } from '../../style/util';
+import { white } from '../../style/colors';
 
 // the dialog background
-const Overlay = styled.div `
+const Overlay = styled.div`
   background-color: ${rgba(0, 0, 0, 0.6)};
   position: fixed;
   overflow: auto;
@@ -28,16 +28,16 @@ const Overlay = styled.div `
   align-items: center;
 `;
 
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   background-color: ${white};
   border-radius: 3px;
-  box-shadow: 0 2px 6px 0 ${rgba(0, 0, 0, .44)};
+  box-shadow: 0 2px 6px 0 ${rgba(0, 0, 0, 0.44)};
   padding: 0;
-  ${media.tablet `
+  ${media.tablet`
       width: 100%;
       border-radius: 0px;
       box-shadow: none;
-  `}
+  `};
 `;
 
 type InnerDialogProps = {
@@ -51,17 +51,11 @@ type InnerDialogProps = {
  */
 class Inner extends Component<InnerDialogProps> {
   handleClickOutside() {
-    this
-      .props
-      .onRequestClose();
+    this.props.onRequestClose();
   }
 
   render() {
-    return (
-      <Wrapper>
-        {this.props.children}
-      </Wrapper>
-    );
+    return <Wrapper>{this.props.children}</Wrapper>;
   }
 }
 
@@ -76,17 +70,15 @@ type DialogProps = {
   children: Node,
   open: boolean,
   onRequestClose: Function,
-}
+};
 
 // the main component
-const Dialog = ({children, open, onRequestClose,...others}: DialogProps) => {
+const Dialog = ({ children, open, onRequestClose, ...others }: DialogProps) => {
   const main = () => {
     if (open) {
       return (
         <Overlay {...others}>
-          <InnerDialog onRequestClose={onRequestClose}>
-            {children}
-          </InnerDialog>
+          <InnerDialog onRequestClose={onRequestClose}>{children}</InnerDialog>
         </Overlay>
       );
     }
@@ -97,7 +89,7 @@ const Dialog = ({children, open, onRequestClose,...others}: DialogProps) => {
 
 Dialog.defaultProps = {
   open: false,
-  onRequestClose: () => {}
+  onRequestClose: () => {},
 };
 
 export default Dialog;

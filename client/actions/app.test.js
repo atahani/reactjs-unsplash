@@ -1,4 +1,4 @@
-import {clearStore, jobStatus, setActionData, setLastPathName} from './app';
+import { clearStore, jobStatus, setActionData, setLastPathName } from './app';
 
 describe('app actions', () => {
   describe('clearStore', () => {
@@ -21,16 +21,16 @@ describe('app actions', () => {
     it('should have actionType payload', () => {
       const actionType = 'ge_collection';
       expect(setActionData(actionType).actionType).toEqual(actionType);
-      expect(setActionData(actionType).actionType)
-        .not
-        .toBeNull();
+      expect(setActionData(actionType).actionType).not.toBeNull();
     });
     it('should have data payload, can be any type', () => {
       const collection = {
         id: '123',
-        name: 'Nice'
+        name: 'Nice',
       };
-      expect(setActionData('ge_collection', collection).data).toMatchObject(collection);
+      expect(setActionData('ge_collection', collection).data).toMatchObject(
+        collection
+      );
     });
   });
   describe('setLastPathName', () => {

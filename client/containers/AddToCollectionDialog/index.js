@@ -1,19 +1,19 @@
 //@flow
 
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {push} from 'react-router-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 import Dialog from '../../components/Dialog';
 import AddToCollection from '../AddToCollection';
 
 type Props = {
   searchPath: string,
   lastPathname: string,
-  onPush: Function
-}
+  onPush: Function,
+};
 
-const AddToCollectionDialog = ({searchPath, lastPathname, onPush}: Props) => (
+const AddToCollectionDialog = ({ searchPath, lastPathname, onPush }: Props) => (
   <Dialog
     open={searchPath.startsWith('?add_to_collection&id=')}
     onRequestClose={() => onPush(lastPathname)}
@@ -23,10 +23,17 @@ const AddToCollectionDialog = ({searchPath, lastPathname, onPush}: Props) => (
 );
 
 const mapStateToProps = state => ({
-  searchPath: state.router.location.search, 
-  lastPathname: state.app.lastPathname
+  searchPath: state.router.location.search,
+  lastPathname: state.app.lastPathname,
 });
 
-export default connect(mapStateToProps, dispatch => bindActionCreators({
-  onPush: push
-}, dispatch))(AddToCollectionDialog);
+export default connect(
+  mapStateToProps,
+  dispatch =>
+    bindActionCreators(
+      {
+        onPush: push,
+      },
+      dispatch
+    )
+)(AddToCollectionDialog);

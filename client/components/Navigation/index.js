@@ -1,12 +1,17 @@
 //@flow
 
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import {lighten} from 'polished';
-import {dividerColor, linkColor, activeLinkColor, primaryColor1} from '../../style/colors';
+import { lighten } from 'polished';
+import {
+  dividerColor,
+  linkColor,
+  activeLinkColor,
+  primaryColor1,
+} from '../../style/colors';
 
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   border-top: solid 1px ${dividerColor};
   display: flex;
   justify-content: space-between;
@@ -14,12 +19,12 @@ const Wrapper = styled.div `
   height: 36px;
 `;
 
-const List = styled.ul `
+const List = styled.ul`
   display: inline-block;
   height: 100%;
 `;
 
-const Item = styled.li `
+const Item = styled.li`
   display: inline-block;
   box-sizing: border-box;
   height: 100%;
@@ -36,35 +41,38 @@ const Link = styled(NavLink)`
   }
 `;
 
-type Props = {}
+type Props = {};
 
-const Navigation = ({...others}: Props) => (
+const Navigation = ({ ...others }: Props) => (
   <Wrapper {...others}>
     <List>
       <Item>
         <Link
           exact
           activeStyle={{
-          color: primaryColor1
-        }}
+            color: primaryColor1,
+          }}
           to="/"
-        >Home
+        >
+          Home
         </Link>
         <Link
           exact
           activeStyle={{
-          color: primaryColor1
-        }}
+            color: primaryColor1,
+          }}
           to="/collections"
-        >Your Collection
+        >
+          Your Collection
         </Link>
         <Link
           exact
           activeStyle={{
-          color: primaryColor1
-        }}
+            color: primaryColor1,
+          }}
           to="/liked-photos"
-        >Liked photos
+        >
+          Liked photos
         </Link>
       </Item>
     </List>

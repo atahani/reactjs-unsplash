@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { secondaryColor1, white, } from '../../style/colors';
+import { secondaryColor1, white } from '../../style/colors';
 
 const Image = styled.img`
   width: ${props => `${props.size}px`};
@@ -28,12 +28,14 @@ type Props = {
   size?: number,
 };
 
-const Avatar = ({className, name, imagePath, size}: Props) => (
-imagePath !== '' ?
-  <Image className={className} src={imagePath} alt={name} size={size} />
-  :
-  <NoImage className={className} size={size}>{name.substr(0, 1)}</NoImage>
-);
+const Avatar = ({ className, name, imagePath, size }: Props) =>
+  imagePath !== '' ? (
+    <Image className={className} src={imagePath} alt={name} size={size} />
+  ) : (
+    <NoImage className={className} size={size}>
+      {name.substr(0, 1)}
+    </NoImage>
+  );
 
 Avatar.defaultProps = {
   className: void 0,

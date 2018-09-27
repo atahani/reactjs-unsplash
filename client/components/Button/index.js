@@ -1,23 +1,23 @@
 //@flow
 
 //$FlowFixMe we should import Node as type but the eslint doesn't happy
-import React, {Node} from 'react';
+import React, { Node } from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
-import {primaryColor1, secondaryColor1, white, borderInAvtiveColor, borderAvtiveColor} from '../../style/colors';
+import { Link } from 'react-router-dom';
+import {
+  primaryColor1,
+  secondaryColor1,
+  white,
+  borderInAvtiveColor,
+  borderAvtiveColor,
+} from '../../style/colors';
 
-const Btn = styled.button `
+const Btn = styled.button`
   display: inline-block;
   margin-right: 8px;
-  color: ${props => props.primary
-  ? white
-  : secondaryColor1};
-  fill: ${props => props.primary
-    ? props.primaryColor
-    : secondaryColor1};
-  background-color: ${props => props.primary
-      ? props.primaryColor
-      : white};
+  color: ${props => (props.primary ? white : secondaryColor1)};
+  fill: ${props => (props.primary ? props.primaryColor : secondaryColor1)};
+  background-color: ${props => (props.primary ? props.primaryColor : white)};
   height: 32px;
   padding: 0 11px;
   font-family: inherit;
@@ -29,27 +29,28 @@ const Btn = styled.button `
   border: 1px solid transparent;
   border-color: ${borderInAvtiveColor};
   border-radius: 5px;
-  box-shadow: 0 1px 1px rgba(0,0,0,.04);
-  transition: all .2s ease-in-out;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease-in-out;
   text-align: center;
   user-select: none;
   text-decoration: none;
-  ${props => props.disabled
-        ? `
+  ${props =>
+    props.disabled
+      ? `
     opacity: 0.6;
     cursor: not-allowed;
   `
-        : ``}
-  ${props => props.primary
-          ? ``
-          : `
+      : ``} ${props =>
+    props.primary
+      ? ``
+      : `
     &:hover,
     &:focus {
       color: ${props.primaryColor};
       fill: ${props.primaryColor};
       border-color: ${`${borderAvtiveColor} !important`};
     }
-  `}
+  `};
 `;
 
 type Props = {
@@ -89,15 +90,15 @@ const Button = ({
       onClick={handleOnClick}
       {...others}
     >
-      {children
-        ? children
-        : label}
+      {children ? children : label}
     </Btn>
   );
   const main = () => {
     if (href) {
       return (
-        <Link {...others} to={href}>{btn()}</Link>
+        <Link {...others} to={href}>
+          {btn()}
+        </Link>
       );
     }
     return btn();

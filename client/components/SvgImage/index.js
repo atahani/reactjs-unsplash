@@ -1,21 +1,20 @@
 //@flow
 
 //$FlowFixMe we should import Node as type but the eslint doesn't happy
-import React,{Node} from 'react';
+import React, { Node } from 'react';
 import styled from 'styled-components';
-import {primaryColor1} from '../../style/colors';
+import { primaryColor1 } from '../../style/colors';
 
-const SvgImg = styled.svg `
+const SvgImg = styled.svg`
   display: inline-block;
   color: ${props => props.color};
   height: ${props => `${props.size}px`};
   width: ${props => `${props.size}px`};
   user-select: 'none';
-  ${props => props.fillFromParent
-  ? ``
-  : `fill: ${props.hovered
-    ? props.hoverColor
-    : props.color};`}
+  ${props =>
+    props.fillFromParent
+      ? ``
+      : `fill: ${props.hovered ? props.hoverColor : props.color};`};
 `;
 
 type Props = {
@@ -24,7 +23,7 @@ type Props = {
   size?: number,
   color?: string,
   fillFromParent?: boolean,
-}
+};
 
 const SvgImage = ({
   children,
@@ -48,7 +47,7 @@ const SvgImage = ({
 SvgImage.defaultProps = {
   size: 20,
   color: primaryColor1,
-  fillFromParent: false
+  fillFromParent: false,
 };
 
 export default SvgImage;

@@ -1,39 +1,43 @@
 //@flow
 
-import React, {Component} from 'react';
-import {Helmet} from 'react-helmet';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {reduxForm, Field, change as changeForm} from 'redux-form';
-import {withRouter} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { reduxForm, Field, change as changeForm } from 'redux-form';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import _RInput from '../../components/RTextInput';
 import Button from '../../components/Button';
 import CloseIcon from '../../components/svg-icons/close';
-import {updateCollection, deleteCollection, createCollection} from '../../actions/collection';
-import {setActionData} from '../../actions/app';
-import {CONFIRM_DELETE_COLLECTION} from '../../constants/action-types';
-import {media} from '../../style/util';
-import {errorColor} from '../../style/colors';
+import {
+  updateCollection,
+  deleteCollection,
+  createCollection,
+} from '../../actions/collection';
+import { setActionData } from '../../actions/app';
+import { CONFIRM_DELETE_COLLECTION } from '../../constants/action-types';
+import { media } from '../../style/util';
+import { errorColor } from '../../style/colors';
 import type { Collection } from '../../types/data';
 
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   position: relative;
   padding: 25px;
   width: 510px;
-  ${media.tablet `
+  ${media.tablet`
       width: 100%;
       height: 100%;
-    `}
+    `};
 `;
 
-const Title = styled.h1 `
+const Title = styled.h1`
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 10px;
 `;
 
-const CloseBtn = styled.button `
+const CloseBtn = styled.button`
   margin: 4px 8px;
   cursor: pointer;
   position: absolute;
@@ -41,13 +45,13 @@ const CloseBtn = styled.button `
   top: 16px;
 `;
 
-const Form = styled.form ``;
+const Form = styled.form``;
 
 const RInput = styled(_RInput)`
   margin-bottom: 10px;
 `;
 
-const Controller = styled.div `
+const Controller = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -57,24 +61,24 @@ const Controller = styled.div `
 
 const CheckboxCon = styled(Controller)`
   flex-direction: row;
-  align-items: center;  
+  align-items: center;
   margin-top: 10px;
 `;
 
-const ConHeader = styled.div `
+const ConHeader = styled.div`
   font-size: 14px;
   font-weight: 600;
   padding: 4px 2px;
 `;
 
-const Actions = styled.div `
+const Actions = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 6px;
 `;
 
-const CancelBtn = styled.div `
+const CancelBtn = styled.div`
   text-decoration: underline;
   font-size: 14.5px;
   cursor: pointer;
@@ -84,12 +88,12 @@ const DeleteBtn = styled(CancelBtn)`
   color: ${errorColor};
 `;
 
-const PrivateBtn = styled.button `
+const PrivateBtn = styled.button`
   user-select: none;
   margin-left: 12px;
 `;
 
-const Note = styled.div `
+const Note = styled.div`
   display: flex;
   width: 160px;
   justify-content: space-between;
@@ -121,15 +125,17 @@ let MainForm = ({
 }: FormProps) => (
   <Form onSubmit={handleSubmit}>
     <Controller>
-      <ConHeader>
-        Title
-      </ConHeader>
-      <Field name="title" label="Title" component={RInput} type="text" fullWidth />
+      <ConHeader>Title</ConHeader>
+      <Field
+        name="title"
+        label="Title"
+        component={RInput}
+        type="text"
+        fullWidth
+      />
     </Controller>
     <Controller>
-      <ConHeader>
-        Description
-      </ConHeader>
+      <ConHeader>Description</ConHeader>
       <Field
         name="description"
         label="Description"
@@ -137,48 +143,65 @@ let MainForm = ({
         type="text"
         rows="4"
         fullWidth
-        multiLine 
+        multiLine
       />
       <CheckboxCon>
         <Field name="private" component="input" type="checkbox" />
         <PrivateBtn
           type="button"
-          onClick={() => onChangeForm('add_or_edit_collection', 'private', !collection.private)}
-        >Make collection private
+          onClick={() =>
+            onChangeForm(
+              'add_or_edit_collection',
+              'private',
+              !collection.private
+            )
+          }
+        >
+          Make collection private
         </PrivateBtn>
       </CheckboxCon>
     </Controller>
     <Actions>
-      {editMode
-        ? confirmDeleteAction ? 
-          <Note>Are you sure ?
+      {editMode ? (
+        confirmDeleteAction ? (
+          <Note>
+            Are you sure ?
             <CancelBtn
-              onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), false)}
-            >Cancel
+              onClick={() =>
+                onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), false)
+              }
+            >
+              Cancel
             </CancelBtn>
           </Note>
-          : 
+        ) : (
           <DeleteBtn
-            onClick={() => onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), true)}
-          >Delete Collection
+            onClick={() =>
+              onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase(), true)
+            }
+          >
+            Delete Collection
           </DeleteBtn>
-        : <CancelBtn onClick={e => onRequestClose(e)}>Cancel</CancelBtn>}
-      {confirmDeleteAction
-        ? <Button
+        )
+      ) : (
+        <CancelBtn onClick={e => onRequestClose(e)}>Cancel</CancelBtn>
+      )}
+      {confirmDeleteAction ? (
+        <Button
           primary
           label="Delete"
           primaryColor={errorColor}
           onClick={() => onDeleteCollection(collection.id)}
-          type="button" 
+          type="button"
         />
-        : <Button
+      ) : (
+        <Button
           disabled={pristine || submitting}
           type="submit"
           primary
-          label={editMode
-          ? 'Save'
-          : 'Create Collection'} 
-        />}
+          label={editMode ? 'Save' : 'Create Collection'}
+        />
+      )}
     </Actions>
   </Form>
 );
@@ -189,7 +212,10 @@ MainForm.defaultProps = {
   pristine: true,
 };
 
-MainForm = reduxForm({form: 'add_or_edit_collection', enableReinitialize: true})(MainForm);
+MainForm = reduxForm({
+  form: 'add_or_edit_collection',
+  enableReinitialize: true,
+})(MainForm);
 
 type Props = {
   editMode: boolean,
@@ -201,21 +227,17 @@ type Props = {
   onSetActionData: Function,
   onChangeForm: Function,
   collection: Collection,
-}
+};
 
-type State = {
+type State = {};
 
-}
-
-class AddOrEditCollection extends Component<Props,State> {
+class AddOrEditCollection extends Component<Props, State> {
   static defaultProps = {
-    confirmDeleteAction: false
+    confirmDeleteAction: false,
   };
 
   componentDidMount() {
-    this
-      .props
-      .onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase());
+    this.props.onSetActionData(CONFIRM_DELETE_COLLECTION.toLowerCase());
   }
 
   render() {
@@ -235,7 +257,8 @@ class AddOrEditCollection extends Component<Props,State> {
     return (
       <Wrapper {...others}>
         <Helmet>
-          <title>{editMode
+          <title>
+            {editMode
               ? 'Edit Collection - unsplash clone'
               : 'Add New Collection - unsplash clone'}
           </title>
@@ -243,10 +266,7 @@ class AddOrEditCollection extends Component<Props,State> {
         <CloseBtn onClick={e => onRequestClose(e)}>
           <CloseIcon />
         </CloseBtn>
-        <Title>{editMode
-            ? 'Edit collection'
-            : 'Create new collection'}
-        </Title>
+        <Title>{editMode ? 'Edit collection' : 'Create new collection'}</Title>
         <MainForm
           onChangeForm={onChangeForm}
           editMode={editMode}
@@ -255,9 +275,9 @@ class AddOrEditCollection extends Component<Props,State> {
           onDeleteCollection={onDeleteCollection}
           collection={collection}
           initialValues={collection}
-          onSubmit={values => editMode
-          ? onUpdateCollection(values)
-          : onCreateCollection(values)}
+          onSubmit={values =>
+            editMode ? onUpdateCollection(values) : onCreateCollection(values)
+          }
           confirmDeleteAction={confirmDeleteAction}
         />
       </Wrapper>
@@ -273,20 +293,31 @@ class AddOrEditCollection extends Component<Props,State> {
  */
 const mapStateToProps = (state, props) => {
   const searchParams = new URLSearchParams(state.router.location.search);
-  const editMode: boolean = props.match.params.id && !searchParams.has('step') ? true : false;
+  const editMode: boolean =
+    props.match.params.id && !searchParams.has('step') ? true : false;
   const collection = editMode
     ? state.items.userCollections[props.match.params.id]
     : {};
   return {
     collection,
     editMode,
-    confirmDeleteAction: state.app.actionData[CONFIRM_DELETE_COLLECTION.toLowerCase()]
+    confirmDeleteAction:
+      state.app.actionData[CONFIRM_DELETE_COLLECTION.toLowerCase()],
   };
 };
-export default withRouter(connect(mapStateToProps, dispatch => bindActionCreators({
-  onUpdateCollection: updateCollection,
-  onDeleteCollection: deleteCollection,
-  onCreateCollection: createCollection,
-  onChangeForm: changeForm,
-  onSetActionData: setActionData
-}, dispatch))(AddOrEditCollection));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    dispatch =>
+      bindActionCreators(
+        {
+          onUpdateCollection: updateCollection,
+          onDeleteCollection: deleteCollection,
+          onCreateCollection: createCollection,
+          onChangeForm: changeForm,
+          onSetActionData: setActionData,
+        },
+        dispatch
+      )
+  )(AddOrEditCollection)
+);
