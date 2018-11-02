@@ -182,8 +182,8 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/osx,node,windows,intellij,visualstudiocode
 
 # since we put client information on environment variables file
-.env_development
-.env_production
+.env.development
+.env.production
 
-# bundle javascript file
-public/bundle.js
+# production
+/build

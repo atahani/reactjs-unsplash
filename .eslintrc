@@ -1,74 +1,9 @@
 {
   "extends": [
-    "airbnb",
-    "eslint",
-    "eslint:recommended",
-    "plugin:react/recommended",
+    "react-app",
     "plugin:flowtype/recommended"
   ],
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
-    "jest/globals": true
-  },
   "plugins": [
-    "react",
-    "jsx-a11y",
-    "import",
-    "jest",
     "flowtype"
-  ],
-  "parserOptions": {
-    "ecmaVersion": 7,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "rules": {
-    "max-len": [
-      "error",
-      120,
-      4,
-      {
-        "ignoreUrls": true,        
-        "ignoreComments": true,
-        "ignoreTrailingComments": true,
-        "ignoreRegExpLiterals": true,
-        "ignoreStrings": true
-      }
-    ],
-    "jsx-a11y/anchor-is-valid": [ "error", {
-        "components": [ "Link" ],
-        "specialLink": [ "to", "hrefLeft", "hrefRight" ],
-        "aspects": [ "noHref", "invalidHref", "preferButton" ]
-    }],
-    "import/no-extraneous-dependencies":[
-      "error",
-      {"devDependencies": true}
-    ],
-    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
-    "arrow-body-style": "error",
-    "arrow-parens": "error",
-    "arrow-spacing": "error",
-    "eqeqeq": "error",
-    "generator-star-spacing": "error",
-    "no-duplicate-imports": "error",
-    "no-eq-null": "error",
-    "no-undefined": "error",
-    "no-useless-computed-key": "error",
-    "no-useless-constructor": "error",
-    "no-useless-rename": "error",
-    "no-var": "error",
-    "object-shorthand": "error",
-    "prefer-arrow-callback": "error",
-    "prefer-const": "error",
-    "prefer-rest-params": "error",
-    "prefer-spread": "error",
-    "prefer-template": "error",
-    "rest-spread-spacing": "error",
-    "semi": "error",
-    "template-curly-spacing": "error",
-    "yield-star-spacing": "error"
-  }
+  ]
 }

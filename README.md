@@ -49,24 +49,26 @@ read_collections
 write_collections
 ```
 
-> NOTE: The `Redirect URI` is `http://localhost:3030/auth/callback` in development mode base on default settings.
+> NOTE: The `Redirect URI` is `http://localhost:3000/auth/callback` in development mode base on default settings.
 
-2. create a file with `.env_development` OR `.env_production` name to set environment variables like `.env_sample`
+2. create a file with `.env.development` OR `.env.production` name to set environment variables like `.env`.
+
+*For more information please see the [create-react-app documentation](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables).*
 
 ```
 NODE_ENV=development
 
-ROOT_URL=https://unsplash.com
+REACT_APP_ROOT_URL=https://unsplash.com
 
-API_ROOT=https://api.unsplash.com/
+REACT_APP_API_ROOT=https://api.unsplash.com/
 
-CLIENT_ID=XXXXXXXXXXXXX
+REACT_APP_CLIENT_ID=XXXXXXXXXXXXX
 
-CLIENT_SECRET=XXXXXXXXXXXXX
+REACT_APP_CLIENT_SECRET=XXXXXXXXXXXXX
 
-OAUTH_PATH=https://unsplash.com/oauth/authorize?client_id=XXXXXXXXXXXXX&redirect_uri=http%3A%2F%2Flocalhost%3A3030%2Fauth%2Fcallback&response_type=code&scope=public+read_photos+write_likes+read_collections+write_collections
+REACT_APP_OAUTH_PATH=https://unsplash.com/oauth/authorize?client_id=XXXXXXXXXXXXX&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&response_type=code&scope=public+read_photos+write_likes+read_collections+write_collections
 
-REDIRECT_URI=http://localhost:3030/auth/callback
+REACT_APP_REDIRECT_URI=http://localhost:3000/auth/callback
 ```
 
 ## Project Commands
